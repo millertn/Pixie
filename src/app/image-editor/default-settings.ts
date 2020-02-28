@@ -210,7 +210,7 @@ export const DEFAULT_CONFIG: PixieConfig  = {
                 {name: 'draw', icon: 'pencil-custom', action: DrawerName.DRAW},
                 {name: 'text', icon: 'text-box-custom', action: DrawerName.TEXT},
                 {name: 'shapes', icon: 'polygon-custom', action: DrawerName.SHAPES},
-                {name: 'projects', icon: 'pencil-custom', action: DrawerName.PROJECTS},
+                {name: 'images', icon: 'image-custom', action: DrawerName.PROJECTS},
                 {name: 'frame', icon: 'frame-custom', action: DrawerName.FRAME},
                 {type: 'separator'},
                 {name: 'corners', icon: 'rounded-corner-custom', action: DrawerName.CORNERS},
