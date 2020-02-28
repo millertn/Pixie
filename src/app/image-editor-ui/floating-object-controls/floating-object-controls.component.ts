@@ -54,6 +54,9 @@ export class FloatingObjectControlsComponent {
             case ObjectNames.text.name:
                 this.controls.openPanel(DrawerName.TEXT);
                 break;
+            case ObjectNames.projects.name:
+                this.controls.openPanel(DrawerName.PROJECTS);
+                break;
         }
     }
 

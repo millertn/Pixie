@@ -43,6 +43,7 @@ import {TransformState} from '../image-editor-ui/state/transform/transform.state
 import {DrawState} from '../image-editor-ui/state/draw/draw.state';
 import {ShapesState} from '../image-editor-ui/state/shapes/shapes.state';
 import {StickersState} from '../image-editor-ui/state/stickers/stickers.state';
+import {ProjectsState} from '../image-editor-ui/state/projects/projects.state';
 import {ObjectsState} from '../image-editor-ui/state/objects/objects.state';
 import {TextState} from '../image-editor-ui/state/text/text.state';
 import {FrameState} from '../image-editor-ui/state/frame/frame.state';
@@ -85,6 +86,7 @@ export function init_app(settings, mergedConfig) {
             DrawState,
             ShapesState,
             StickersState,
+            ProjectsState,
             ObjectsState,
             TextState,
             FrameState,

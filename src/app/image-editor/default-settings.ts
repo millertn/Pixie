@@ -144,7 +144,20 @@ export interface PixieConfig {
         },
         stickers?: {
             replaceDefault?: boolean,
-            items?: StickerCategory[],
+            items?: [StickerCategory[],]
+        },
+        projects?: {
+            replaceDefault?: boolean,
+            items?: [
+                {
+                    name:'Logos',
+                    url:'https://tset'
+                },
+                {
+                    name:'Test',
+                    url:'https://tset'
+                }
+            ],
         },
         import?: {
             validExtensions?: string[],
@@ -167,6 +180,7 @@ export interface PixieConfig {
         basicShape?: ObjectDefaults;
         sticker?: ObjectDefaults;
         text?: ObjectDefaults;
+        projects?: ObjectDefaults;
     };
 }
 
@@ -196,7 +210,7 @@ export const DEFAULT_CONFIG: PixieConfig  = {
                 {name: 'draw', icon: 'pencil-custom', action: DrawerName.DRAW},
                 {name: 'text', icon: 'text-box-custom', action: DrawerName.TEXT},
                 {name: 'shapes', icon: 'polygon-custom', action: DrawerName.SHAPES},
-                {name: 'stickers', icon: 'sticker-custom', action: DrawerName.STICKERS},
+                {name: 'projects', icon: 'pencil-custom', action: DrawerName.PROJECTS},
                 {name: 'frame', icon: 'frame-custom', action: DrawerName.FRAME},
                 {type: 'separator'},
                 {name: 'corners', icon: 'rounded-corner-custom', action: DrawerName.CORNERS},
@@ -318,6 +332,19 @@ export const DEFAULT_CONFIG: PixieConfig  = {
         stickers: {
             replaceDefault: false,
             items: defaultStickers,
+        },
+        projects:{
+            replaceDefault: false,
+            items: [
+                {
+                    name:'Logos',
+                    url:'https://tset'
+                },
+                {
+                    name:'Test',
+                    url:'https://tset'
+                }
+            ],
         },
         import: {
             validExtensions: ['png', 'jpg', 'jpeg', 'svg', 'json', 'gif'],

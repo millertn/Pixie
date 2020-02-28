@@ -16,6 +16,7 @@
             <text-drawer *ngSwitchCase="'text'" @controlsAnimation></text-drawer>
             <shapes-drawer *ngSwitchCase="'shapes'" @controlsAnimation></shapes-drawer>
             <stickers-drawer *ngSwitchCase="'stickers'" @controlsAnimation></stickers-drawer>
+            <projects-drawer *ngSwitchCase="'projects'" @controlsAnimation></projects-drawer>
             <round-drawer *ngSwitchCase="'corners'" @controlsAnimation></round-drawer>
             <frame-drawer *ngSwitchCase="'frame'" @controlsAnimation></frame-drawer>
             <canvas-background-drawer *ngSwitchCase="'background'" @controlsAnimation></canvas-background-drawer>
@@ -23,7 +24,7 @@
             <custom-drawer *ngSwitchDefault @controlsAnimation></custom-drawer>
         </div>
 
-        <button class="apply-button" mat-raised-button color="accent" (click)="imageEditor.applyChanges()" [disabled]="!(dirty$ | async)" trans>Apply</button>
+        <button class="apply-button" [class.hidden]="activePanel === 'projects'" mat-raised-button color="accent" (click)="imageEditor.applyChanges()" [disabled]="!(dirty$ | async)" trans>Apply</button>
     </div>
 
     <floating-object-controls *ngIf="(activeObjId$ | async) || (breakpoints.isMobile$ | async)"></floating-object-controls>

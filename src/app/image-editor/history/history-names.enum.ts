@@ -7,6 +7,7 @@ export class HistoryNames {
     static TEXT = {name: 'Added: text', icon: 'text-box-custom'};
     static SHAPES = {name: 'Added: shape', icon: 'polygon-custom'};
     static STICKERS = {name: 'Added: sticker', icon: 'sticker-custom'};
+    static PROJECTS = {name: 'Added: project', icon: 'pencil-custom'};
     static FRAME = {name: 'Added: frame', icon: 'frame-custom'};
     static MERGE = {name: 'Objects: merged', icon: 'merge-custom'};
     static CORNERS = {name: 'Applied: rounded corners', icon: 'rounder-corners-custom'};
