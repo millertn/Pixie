@@ -1,12 +1,8 @@
 <div class="content">
-    <button class="button-with-image" *ngFor="let project of projects" (click)="triggerProject(project.name, project.url);">
-        <!-- <svg *ngIf="shape.type === 'Path'" xmlns="http://www.w3.org/2000/svg" viewBox="0 -100 512 700">
-            <path [attr.d]="shape.options.path" [attr.stroke-width]="shape.options.strokeWidth || 10"></path>
-        </svg> -->
-        <mat-icon [svgIcon]="parts-custom"></mat-icon>
-        <span class="name bottom-label" trans>{{project.name}}</span>
-    </button>
-    <button>Test 1</button>
-    <button>Test 2</button>
-    <button>Test 3</button>
+    <button class ="projects-button" data-site="logos/index">Logos</button>
+    <button class ="projects-button" data-site="rebate-center/index">Rebates</button>
+    <button class ="projects-button" data-site="image-editor/readyposts">ReadyPosts</button>
+    <button class ="projects-button" data-site="vehicle-images">Vehicle Images</button>
+    <div class="separator ng-star-inserted"></div>
+    <button class ="projects-button" (click)="triggerUpload();">Upload Custom</button>
 </div>

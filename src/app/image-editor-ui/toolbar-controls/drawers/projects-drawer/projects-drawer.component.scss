@@ -3,62 +3,29 @@
 projects-drawer {
   display: block;
 
-  .content.stickers-visible {
-    justify-content: flex-start;
-  }
-
-  .button-with-image > svg path {
-    fill: transparent;
-    stroke: currentColor;
-    stroke-width: 25;
-  }
-
-  .basic-shape {
-    margin: 0 10px;
+  .projects-button {
+    border: 0;
+    border-radius: .25em;
+    background: initial;
+    background-color: #bd1e2c;
+    color: #fff;
+    font-size: 1.0625em;
+    margin: .3125em;
+    padding: .625em 2em;
+    box-shadow: none;
+    font-weight: 700;
     cursor: pointer;
-
-    .preview {
-      background-color: mat-color($app-accent, default);
-      height: 50px;
-    }
-
-    .rectangle {
-      width: 50px;
-    }
-
-    .circle {
-      width: 50px;
-      border-radius: 50%;
-    }
-
-    .triangle {
-      width: 50px;
-      background-color: transparent;
-      border-left: 18px solid transparent;
-      border-right: 18px solid transparent;
-      border-bottom: 33px solid mat-color($app-accent, default);
-    }
-
-    .ellipse {
-      width: 80px;
-      height: 50px;
-      border-radius: 50%;
-    }
   }
 
-  .stickers-drawer {
-    .content-wrapper > .shapes {
-      justify-content: initial;
-    }
+  .projects-button:hover {
+    background-color: #a9101d;
   }
 
-  .shape:first-of-type {
-    margin-left: 0;
-  }
-
-  @media only screen and (max-width: $mobile-mode-breakpoint) {
-    &.controls-drawer .content {
-      justify-content: flex-start;
-    }
+  .separator {
+    height: 75px;
+    width: 1px;
+    flex: 0 0 1px;
+    background-color: mat-color($app-foreground, divider-lighter);
+    margin: 0 20px;
   }
 }

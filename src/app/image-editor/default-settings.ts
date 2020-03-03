@@ -1,7 +1,7 @@
 import {InjectionToken} from '@angular/core';
 import {Frame} from './tools/frame/frame';
 import {BasicShape, defaultShapes} from './tools/shapes/default-shapes';
-import {defaultStickers, StickerCategory} from './tools/shapes/default-stickers';
+// import {defaultStickers, StickerCategory} from './tools/shapes/default-stickers';
 import {BrushSizes, BrushTypes} from './tools/draw/draw-defaults';
 import {FontItem} from '../image-editor-ui/toolbar-controls/widgets/google-fonts-panel/font-item';
 import {EditorMode} from './enums/editor-mode.enum';
@@ -10,6 +10,7 @@ import {NavPosition} from './enums/control-positions.enum';
 import {DrawerName} from '../image-editor-ui/toolbar-controls/drawers/drawer-name.enum';
 import {defaultObjectProps} from './objects/default-object-props';
 import {SampleImage} from '../image-editor-ui/panels/open-sample-image-panel/sample-image';
+import { HttpClient } from '@angular/common/http';
 
 export const MERGED_CONFIG = new InjectionToken<PixieConfig>('MERGED_CONFIG');
 
@@ -142,22 +143,15 @@ export interface PixieConfig {
             replaceDefault?: boolean,
             items?: BasicShape[],
         },
-        stickers?: {
-            replaceDefault?: boolean,
-            items?: [StickerCategory[],]
-        },
+        // stickers?: {
+        //     replaceDefault?: boolean,
+        //     items?: [StickerCategory[],]
+        // },
         projects?: {
             replaceDefault?: boolean,
-            items?: [
-                {
-                    name:'Logos',
-                    url:'https://tset'
-                },
-                {
-                    name:'Test',
-                    url:'https://tset'
-                }
-            ],
+        },
+        tools?: {
+            replaceDefault?: boolean,
         },
         import?: {
             validExtensions?: string[],
@@ -181,6 +175,7 @@ export interface PixieConfig {
         sticker?: ObjectDefaults;
         text?: ObjectDefaults;
         projects?: ObjectDefaults;
+        tools?: ObjectDefaults;
     };
 }
 
@@ -201,21 +196,21 @@ export const DEFAULT_CONFIG: PixieConfig  = {
             position: NavPosition.TOP,
             replaceDefault: false,
             items: [
-                {name: 'filter', icon: 'filter-custom', action: DrawerName.FILTER},
-                {type: 'separator'},
-                {name: 'resize', icon: 'resize-custom', action: DrawerName.RESIZE},
-                {name: 'crop', icon: 'crop-custom', action: DrawerName.CROP},
-                {name: 'transform', icon: 'transform-custom', action: DrawerName.TRANSFORM},
-                {type: 'separator'},
+                // {name: 'filter', icon: 'filter-custom', action: DrawerName.FILTER},
+                // {type: 'separator'},
+                // {name: 'resize', icon: 'resize-custom', action: DrawerName.RESIZE},
+                // {name: 'crop', icon: 'crop-custom', action: DrawerName.CROP},
+                // {name: 'transform', icon: 'transform-custom', action: DrawerName.TRANSFORM},
+                // {type: 'separator'},{name: 'settings', icon: 'image-custom', action: DrawerName.TOOLS},
+                {name: 'images', icon: 'image-custom', action: DrawerName.PROJECTS},
                 {name: 'draw', icon: 'pencil-custom', action: DrawerName.DRAW},
                 {name: 'text', icon: 'text-box-custom', action: DrawerName.TEXT},
                 {name: 'shapes', icon: 'polygon-custom', action: DrawerName.SHAPES},
-                {name: 'images', icon: 'image-custom', action: DrawerName.PROJECTS},
-                {name: 'frame', icon: 'frame-custom', action: DrawerName.FRAME},
-                {type: 'separator'},
-                {name: 'corners', icon: 'rounded-corner-custom', action: DrawerName.CORNERS},
-                {name: 'background', icon: 'background-custom', action: DrawerName.BACKGROUND},
-                {name: 'merge', icon: 'merge-custom', action: DrawerName.MERGE},
+                // {name: 'frame', icon: 'frame-custom', action: DrawerName.FRAME},
+                // {type: 'separator'},
+                // {name: 'corners', icon: 'rounded-corner-custom', action: DrawerName.CORNERS},
+                // {name: 'background', icon: 'background-custom', action: DrawerName.BACKGROUND},
+                // {name: 'merge', icon: 'merge-custom', action: DrawerName.MERGE},
             ]
         },
         openImageDialog: {
@@ -329,22 +324,15 @@ export const DEFAULT_CONFIG: PixieConfig  = {
             replaceDefault: false,
             items: defaultShapes.slice(),
         },
-        stickers: {
-            replaceDefault: false,
-            items: defaultStickers,
-        },
+        // stickers: {
+        //     replaceDefault: false,
+        //     items: defaultStickers,
+        // },
         projects:{
             replaceDefault: false,
-            items: [
-                {
-                    name:'Logos',
-                    url:'https://tset'
-                },
-                {
-                    name:'Test',
-                    url:'https://tset'
-                }
-            ],
+        },
+        tools:{
+            replaceDefault: false,
         },
         import: {
             validExtensions: ['png', 'jpg', 'jpeg', 'svg', 'json', 'gif'],

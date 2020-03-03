@@ -45,12 +45,8 @@
         window['Pixie'] = new Pixie({
             image: 'https://i.imgur.com/I0V5WHJ.jpg',
             crossOrigin: true,
-           // baseUrl: 'http://localhost:4200',
-            // blankCanvasSize: {
-            //     width: 800,
-            //     height: 600,
-            // },
             onLoad: () => {
+                //set up the initial sweetalert garbo here
                 // Pixie.loadStateFromUrl('assets/images/samples/image.json');
             },
             objectDefaults: {
@@ -68,37 +64,24 @@
                 }
             },
             ui: {
-                themes: [
-                    {
-                        name: 'My Custom Theme',
-                        colors: {
-                            '--be-primary-default': '#3F51B5',
-                            '--be-accent-default': '#8BC34A',
-                            '--be-accent-lighter': '#AED581',
-                        }
-                    }
-                ],
                 mode: 'inline',
-                defaultTheme: 'dark',
+                defaultTheme: 'light',
                 showExportPanel: true,
-                toolbar: {
-                    //hideOpenButton: true,
-                    //hideSaveButton: true,
-                    //hideCloseButton: true,
-                    //hideHistoryButtons: true,
-                    //hideObjectsButton: true,
+                nav: {
+                    position: 'top',
+                    replaceDefault:true,
+                    items: [
+                    {name: 'settings', icon: 'image-custom', action: 'tools'},
+                    {name: 'images', icon: 'image-custom', action: 'projects'},
+                    {name: 'products', icon: 'parts-custom', action: function() {
+                    }},
+                    {name: 'toolbox', icon: 'image-custom', action: function() {
+                    }},
+                    {name: 'draw', icon: 'pencil-custom', action: 'draw'},
+                    {name: 'text', icon: 'text-box-custom', action: 'text'},
+                    {name: 'shapes', icon: 'polygon-custom', action: 'shapes'},
+                    ],
                 },
-                // nav: {
-                //     position: 'top',
-                //     // items: [
-                //     //     {name: 'test', icon: 'https://img.icons8.com/flat_round/2x/delete-sign.png', action: 'overlays'},
-                //     // ],
-                //     // customPanels: {
-                //     //     overlays: [
-                //     //         { name: 'overlay #1', action: function() {},  }
-                //     //     ]
-                //     // },
-                // },
                 openImageDialog: {
                     show: true,
                     replaceDefaultSampleImages: false,

@@ -1,0 +1,44 @@
+@import "../../../../../scss/variables";
+
+tools-drawer {
+  display: block;
+
+  .content.stickers-visible {
+    justify-content: flex-start;
+  }
+
+  .button-with-image > svg path {
+    fill: transparent;
+    stroke: currentColor;
+    stroke-width: 25;
+  }
+
+  .button-with-image > svg path {
+    fill: transparent;
+    stroke: currentColor;
+    stroke-width: 25;
+  }
+  .tool-button {
+    border:none;
+    width: initial;
+
+    &:hover {
+      @include mat-elevation(0);
+    }
+  }
+
+  .separator {
+    height: 75px;
+    width: 1px;
+    flex: 0 0 1px;
+    background-color: mat-color($app-foreground, divider-lighter);
+    margin: 0 20px;
+  }
+  
+
+  @media only screen and (max-width: $mobile-mode-breakpoint) {
+    &.controls-drawer .content {
+      justify-content: flex-start;
+    }
+  }
+}
