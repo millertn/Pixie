@@ -16,6 +16,7 @@ import {ColorWidgetComponent} from './widgets/color-widget/color-widget.componen
 import {ShapesDrawerComponent} from './drawers/shapes-drawer/shapes-drawer.component';
 import {ProjectsDrawerComponent} from './drawers/projects-drawer/projects-drawer.component';
 import {ToolsDrawerComponent} from './drawers/tools-drawer/tools-drawer.component';
+import {WarningsDrawerComponent} from './drawers/warnings-drawer/warnings-drawer.component';
 import {TextControlsDrawerComponent} from './drawers/text-controls-drawer/text-controls-drawer.component';
 import {ObjectSettingsDrawerComponent} from './object-settings/object-settings-drawer.component';
 import {StickersDrawerComponent} from './drawers/stickers-drawer/stickers-drawer.component';
@@ -85,6 +86,7 @@ import { CustomDrawerComponent } from './drawers/custom-drawer/custom-drawer.com
         ShapesDrawerComponent,
         ProjectsDrawerComponent,
         ToolsDrawerComponent,
+        WarningsDrawerComponent,
         StickersDrawerComponent,
         ObjectSettingsDrawerComponent,
         ShadowControlsDrawer,
@@ -115,6 +117,7 @@ import { CustomDrawerComponent } from './drawers/custom-drawer/custom-drawer.com
         TextControlsDrawerComponent,
         ShapesDrawerComponent,
         ProjectsDrawerComponent,
+        WarningsDrawerComponent,
         ToolsDrawerComponent,
         StickersDrawerComponent,
         ObjectSettingsDrawerComponent,

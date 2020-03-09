@@ -23,6 +23,7 @@ import {FrameState} from '../../image-editor-ui/state/frame/frame.state';
 import {DrawState} from '../../image-editor-ui/state/draw/draw.state';
 import {StickersState} from '../../image-editor-ui/state/stickers/stickers.state';
 import {ProjectsState} from '../../image-editor-ui/state/projects/projects.state';
+import {WarningsState} from '../../image-editor-ui/state/warnings/warnings.state';
 import {ToolsState} from '../../image-editor-ui/state/tools/tools.state';
 import {CornersState} from '../../image-editor-ui/state/corners/corners.state';
 import {BackgroundState} from '../../image-editor-ui/state/background/background.state';
@@ -73,6 +74,7 @@ interface EditorStateModel {
         ShapesState,
         StickersState,
         ProjectsState,
+        WarningsState,
         ToolsState,
         FrameState,
         CornersState,

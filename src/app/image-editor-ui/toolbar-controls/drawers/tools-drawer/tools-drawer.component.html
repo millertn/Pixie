@@ -1,9 +1,4 @@
 <div class="content">
-     <button class="button-with-image tool-button" (click)="openPanel('filter')">
-        <mat-icon [svgIcon]="'filter-custom'"></mat-icon>
-        <span class="name bottom-label" trans>Filter</span>
-    </button>
-
     <button class="button-with-image tool-button" (click)="openPanel('resize')">
         <mat-icon [svgIcon]="'resize-custom'"></mat-icon>
         <span class="name bottom-label" trans>Resize</span>
@@ -21,12 +16,17 @@
 
     <div class="separator ng-star-inserted"></div>
 
-    <button class="button-with-image tool-button" (click)="openPanel('draw')">
-        <mat-icon [svgIcon]="'pencil-custom'"></mat-icon>
-        <span class="name bottom-label" trans>Draw</span>
+    <button class="button-with-image tool-button" (click)="openPanel('filter')">
+        <mat-icon [svgIcon]="'filter-custom'"></mat-icon>
+        <span class="name bottom-label" trans>Filter</span>
     </button>
 
-    <button class="button-with-image tool-button" (click)="openPanel('text')">
+    <button class="button-with-image tool-button" (click)="openPanel('warnings')">
+        <mat-icon [svgIcon]="'pencil-custom'"></mat-icon>
+        <span class="name bottom-label" trans>Warnings</span>
+    </button>
+
+    <!-- <button class="button-with-image tool-button" (click)="openPanel('text')">
         <mat-icon [svgIcon]="'text-box-custom'"></mat-icon>
         <span class="name bottom-label" trans>Text</span>
     </button>
@@ -34,9 +34,9 @@
     <button class="button-with-image tool-button" (click)="openPanel('shapes')">
         <mat-icon [svgIcon]="'polygon-custom'"></mat-icon>
         <span class="name bottom-label" trans>Shapes</span>
-    </button>
+    </button> -->
 
-    <button class="button-with-image tool-button" (click)="openPanel('frames')">
+    <button class="button-with-image tool-button" (click)="openPanel('frame')">
         <mat-icon [svgIcon]="'frame-custom'"></mat-icon>
         <span class="name bottom-label" trans>Frames</span>
     </button>

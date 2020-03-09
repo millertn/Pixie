@@ -150,6 +150,9 @@ export interface PixieConfig {
         projects?: {
             replaceDefault?: boolean,
         },
+        warnings?: {
+            replaceDefault?: boolean,
+        },
         tools?: {
             replaceDefault?: boolean,
         },
@@ -175,6 +178,7 @@ export interface PixieConfig {
         sticker?: ObjectDefaults;
         text?: ObjectDefaults;
         projects?: ObjectDefaults;
+        warnings?: ObjectDefaults;
         tools?: ObjectDefaults;
     };
 }
@@ -329,6 +333,9 @@ export const DEFAULT_CONFIG: PixieConfig  = {
         //     items: defaultStickers,
         // },
         projects:{
+            replaceDefault: false,
+        },
+        warnings:{
             replaceDefault: false,
         },
         tools:{

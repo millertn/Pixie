@@ -53,28 +53,28 @@ export class TextToolService {
         text.scaleToWidth(Math.max(canvasWidth / 3, minWidth));
 
         // make sure text is not scaled outside canvas
-        if (text.getScaledHeight() > canvasHeight) {
-            text.scaleToHeight(canvasHeight - text.getScaledHeight() - 20);
-        }
+        // if (text.getScaledHeight() > canvasHeight) {
+        //     text.scaleToHeight(canvasHeight - text.getScaledHeight() - 20);
+        // }
 
         text.viewportCenter();
 
-        // push text down, if it intersects with another text object
-        this.canvas.fabric().getObjects('i-text').forEach(obj => {
-            if (obj === text) return;
-            if (obj.intersectsWithObject(text)) {
-                const offset = (obj.top - text.top) + obj.getScaledHeight();
-                let newTop = text.top + offset;
+        // // push text down, if it intersects with another text object
+        // this.canvas.fabric().getObjects('i-text').forEach(obj => {
+        //     if (obj === text) return;
+        //     if (obj.intersectsWithObject(text)) {
+        //         const offset = (obj.top - text.top) + obj.getScaledHeight();
+        //         let newTop = text.top + offset;
 
-                // if pushing object down would push it outside canvas, position text at top of canvas
-                if (newTop > this.canvas.state.original.height - obj.getScaledHeight()) {
-                    newTop = 0;
-                }
+        //         // if pushing object down would push it outside canvas, position text at top of canvas
+        //         if (newTop > this.canvas.state.original.height - obj.getScaledHeight()) {
+        //             newTop = 0;
+        //         }
 
-                text.set('top', newTop);
-                text.setCoords();
-            }
-        });
+        //         text.set('top', newTop);
+        //         text.setCoords();
+        //     }
+        // });
     }
 
     /**

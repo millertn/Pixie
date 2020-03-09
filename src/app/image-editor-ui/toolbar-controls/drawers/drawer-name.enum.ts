@@ -14,5 +14,6 @@ export enum DrawerName {
     MERGE = 'merge',
     PROJECTS = 'projects',
     TOOLS = 'tools',
+    WARNINGS = 'warnings',
     OBJECT_SETTINGS = 'objectSettings',
 }

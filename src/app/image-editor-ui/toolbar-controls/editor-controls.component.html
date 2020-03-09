@@ -22,11 +22,12 @@
             <round-drawer *ngSwitchCase="'corners'" @controlsAnimation></round-drawer>
             <frame-drawer *ngSwitchCase="'frame'" @controlsAnimation></frame-drawer>
             <canvas-background-drawer *ngSwitchCase="'background'" @controlsAnimation></canvas-background-drawer>
+            <warnings-drawer *ngSwitchCase="'warnings'" @controlsAnimation></warnings-drawer>
             <object-settings-drawer *ngSwitchCase="'objectSettings'" @controlsAnimation></object-settings-drawer>
             <custom-drawer *ngSwitchDefault @controlsAnimation></custom-drawer>
         </div>
 
-        <button class="apply-button" [class.hidden]="activePanel === 'projects' || activePanel === 'tools'" mat-raised-button color="accent" (click)="imageEditor.applyChanges()" [disabled]="!(dirty$ | async)" trans>Apply</button>
+        <button class="apply-button" [class.hidden]="activePanel === 'projects' || activePanel === 'tools' || activePanel === 'warnings'" mat-raised-button color="accent" (click)="imageEditor.applyChanges()" [disabled]="!(dirty$ | async)" trans>Apply</button>
     </div>
 
     <floating-object-controls *ngIf="(activeObjId$ | async) || (breakpoints.isMobile$ | async)"></floating-object-controls>
