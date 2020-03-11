@@ -98,13 +98,13 @@ export class CanvasService {
     /**
      * Open image at given url in canvas.
      */
-    public openImage(url, fitToScreen = true): Promise<Image> {
+    public openImage(url, fitToScreen = true, name): Promise<Image> {
         return new Promise(resolve => {
             fabric.util.loadImage(url, image => {
                 if ( ! image) return;
 
                 const object = new fabric.Image(image);
-                object.name = ObjectNames.image.name;
+                object.name = name;
 
                 // use either main image or canvas dimensions as outer boundaries for scaling new image
                 const maxWidth  = this.state.original.width,

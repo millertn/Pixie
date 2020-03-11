@@ -38,6 +38,8 @@
     }, 50);</script>
 </pixie-editor>
 
+<button onClick="execute()"> test </button>
+
 <script>
     var i = setInterval(function() {
        if (window['Pixie'] == null) return;
@@ -126,6 +128,10 @@
         });
         clearInterval(i);
     }, 50);
+
+    function execute() {
+        window['Pixie'].openFile('https://aam5.imgix.net/3/logos/manufacturer/BGPQ.png?fit=max&w=192&auto=compress%2Cformat', 'png', false, 'Test Image');
+    }
 </script>
 </body>
 </html>

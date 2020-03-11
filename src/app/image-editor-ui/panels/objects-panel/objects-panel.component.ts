@@ -31,7 +31,12 @@ export class ObjectsPanelComponent {
     ) {}
 
     public getIcon(object: Object): string {
-        return ObjectNames[object.name].icon;
+        if (typeof ObjectNames[object.name] === "undefined") {
+            return 'photo-library';
+        } else {
+            return ObjectNames[object.name].icon;
+        }
+            
     }
 
     public selectObject(object: Object) {

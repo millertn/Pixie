@@ -56,10 +56,10 @@ export class ImageEditorService {
         this.openFile(data, 'png', true);
     }
 
-    public openFile(data: string|HTMLImageElement, extension: string = 'png', asMainImage: boolean = false) {
+    public openFile(data: string|HTMLImageElement, extension: string = 'png', asMainImage: boolean = false, name: string = "") {
         return asMainImage ?
             this.importTool.openBackgroundImage(data) :
-            this.importTool.openFile(data, extension);
+            this.importTool.openFile(data, extension, false, name);
     }
 
     public newCanvas(width: number, height: number) {

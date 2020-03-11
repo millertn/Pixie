@@ -47,13 +47,13 @@ export class ImportToolService {
         });
     }
 
-    public loadFile(uploadedFile: UploadedFile, options: OpenUploadDialogOptions = {type: 'image'}): Promise<Image|void> {
+    public loadFile(uploadedFile: UploadedFile, options: OpenUploadDialogOptions = {type: 'image'}, name:string = ""): Promise<Image|void> {
         return this.validateAndGetData(uploadedFile).then(file => {
             this.executeOnFileOpenCallback(uploadedFile, options);
             if (options.openAsBackground && file.extension !== 'json') {
                 return this.openBackgroundImage(file.data);
             } else {
-                return this.openFile(file.data, file.extension);
+                return this.openFile(file.data, file.extension, name);
             }
         }, () => {});
     }
@@ -100,14 +100,14 @@ export class ImportToolService {
         return new Promise(resolve => setTimeout(() => resolve()));
     }
 
-    public openFile(data: string|HTMLImageElement, extension: string = 'png', fitToScreen = this.config.get('pixie.tools.import.fitOverlayToScreen')): Promise<Image|void> {
+    public openFile(data: string|HTMLImageElement, extension: string = 'png',  fitToScreen = this.config.get('pixie.tools.import.fitOverlayToScreen'), name : string = ""): Promise<Image|void> {
         if (data instanceof HTMLImageElement) data = data.src;
         if (extension === 'json') {
             return this.loadState(data);
         } else if (extension === 'svg') {
             return this.shapeTool.addSvgSticker(data, ObjectNames.image, fitToScreen);
         } else {
-            return this.canvas.openImage(data, fitToScreen);
+            return this.canvas.openImage(data, fitToScreen, name);
         }
     }
 
