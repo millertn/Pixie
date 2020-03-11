@@ -12,14 +12,22 @@
             <mat-icon svgIcon="flip-to-front"></mat-icon>
         </button>
 
+        <button mat-icon-button (click)="bringActiveObjectFoward()" [disabled]="dirty$ | async" [matTooltip]="'Bring foward' | trans">
+            <mat-icon svgIcon="settings-custom"></mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="sendActiveObjectBackward()" [disabled]="dirty$ | async" [matTooltip]="'Send Backward' | trans">
+            <mat-icon svgIcon="settings-custom"></mat-icon>
+        </button>
+
         <button mat-icon-button (click)="deleteObject()" [matTooltip]="'Delete' | trans">
             <mat-icon svgIcon="delete-custom"></mat-icon>
         </button>
 
 
-        <button mat-icon-button (click)="openObjSettingsPanel()" [disabled]="dirty$ | async" [matTooltip]="'Customize' | trans">
+        <!-- <button mat-icon-button (click)="openObjSettingsPanel()" [disabled]="dirty$ | async" [matTooltip]="'Customize' | trans">
             <mat-icon svgIcon="settings-custom"></mat-icon>
-        </button>
+        </button> -->
     </ng-container>
 </div>
 

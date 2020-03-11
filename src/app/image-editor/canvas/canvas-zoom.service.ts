@@ -8,7 +8,7 @@ import {SetZoom} from '../state/editor-state-actions';
 @Injectable()
 export class CanvasZoomService {
     protected maxZoom = 200;
-    protected minZoom = 10;
+    protected minZoom = 0;
     protected zoomStep = 5;
     protected currentZoom = 1;
 
@@ -36,7 +36,7 @@ export class CanvasZoomService {
     }
 
     public canZoomOut(amount = this.zoomStep): boolean {
-        return (this.currentZoom - amount) >= this.minZoom;
+        return true;
     }
 
     public zoomOut(amount = this.zoomStep) {
@@ -77,7 +77,7 @@ export class CanvasZoomService {
         if (this.state.original.height > maxHeight || this.state.original.width > maxWidth) {
             const scale = Math.min(maxHeight / this.state.original.height, maxWidth / this.state.original.width);
             // no need to allow zooming out beyond maximum size that fits into canvas
-            this.minZoom = Math.trunc(scale * 100);
+            // this.minZoom = Math.trunc(scale * 100);
             this.set(scale * 100);
         }
     }

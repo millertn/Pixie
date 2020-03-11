@@ -39,6 +39,8 @@
 </pixie-editor>
 
 <button onClick="execute()"> test </button>
+<button onClick="execute2()"> test2 </button>
+<button onClick="execute3()"> test3 </button>
 
 <script>
     var i = setInterval(function() {
@@ -132,6 +134,14 @@
 
     function execute() {
         window['Pixie'].openFile('https://aam5.imgix.net/3/logos/manufacturer/BGPQ.png?fit=max&w=192&auto=compress%2Cformat', 'png', false, 'Test Image');
+    }
+
+    function execute2() {
+        window['Pixie'].openFile('https://aam5.imgix.net/3/logos/manufacturer/BBCG.png?fit=max&w=192&auto=compress%2Cformat', 'png', false, 'Another Test Image');
+    }
+
+    function execute3() {
+        window['Pixie'].openFile('https://aam5.imgix.net/3/logos/manufacturer/BBFF.png?fit=max&w=192&auto=compress%2Cformat', 'png', false, "It's an Image");
     }
 </script>
 </body>

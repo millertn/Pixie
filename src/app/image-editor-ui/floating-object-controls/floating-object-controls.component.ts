@@ -74,4 +74,16 @@ export class FloatingObjectControlsComponent {
         this.activeObject.bringToFront();
         this.objects.syncObjects();
     }
+
+    public bringActiveObjectFoward() {
+        this.activeObject.bringFoward();
+        this.objects.syncObjects();
+    }
+
+    public sendActiveObjectBackward() {
+        this.activeObject.sendBackwards();
+        this.objects.syncObjects();
+    }
+
+
 }

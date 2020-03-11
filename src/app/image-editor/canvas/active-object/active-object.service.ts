@@ -97,12 +97,25 @@ export class ActiveObjectService {
         this.canvasState.fabric.requestRenderAll();
     }
 
+
+    public bringFoward() {
+        const obj = this.get(); if ( ! obj) return;
+        obj.bringForward();
+        this.canvasState.fabric.requestRenderAll();
+    }
+
     /**
      * Send active object to the back of canvas.
      */
     public sendToBack() {
         const obj = this.get(); if ( ! obj) return;
         obj.sendToBack();
+        this.canvasState.fabric.requestRenderAll();
+    }
+
+    public sendBackwards() {
+        const obj = this.get(); if ( ! obj) return;
+        obj.sendBackwards();
         this.canvasState.fabric.requestRenderAll();
     }
 
