@@ -150,6 +150,9 @@ export interface PixieConfig {
         projects?: {
             replaceDefault?: boolean,
         },
+        pages?: {
+            replaceDefault?: boolean,
+        },
         warnings?: {
             replaceDefault?: boolean,
         },
@@ -178,6 +181,7 @@ export interface PixieConfig {
         sticker?: ObjectDefaults;
         text?: ObjectDefaults;
         projects?: ObjectDefaults;
+        pages?: ObjectDefaults;
         warnings?: ObjectDefaults;
         tools?: ObjectDefaults;
     };
@@ -207,6 +211,7 @@ export const DEFAULT_CONFIG: PixieConfig  = {
                 // {name: 'transform', icon: 'transform-custom', action: DrawerName.TRANSFORM},
                 // {type: 'separator'},{name: 'settings', icon: 'image-custom', action: DrawerName.TOOLS},
                 {name: 'images', icon: 'image-custom', action: DrawerName.PROJECTS},
+                {name: 'pages', icon: 'image-custom', action: DrawerName.PAGES},
                 {name: 'draw', icon: 'pencil-custom', action: DrawerName.DRAW},
                 {name: 'text', icon: 'text-box-custom', action: DrawerName.TEXT},
                 {name: 'shapes', icon: 'polygon-custom', action: DrawerName.SHAPES},
@@ -333,6 +338,9 @@ export const DEFAULT_CONFIG: PixieConfig  = {
         //     items: defaultStickers,
         // },
         projects:{
+            replaceDefault: false,
+        },
+        pages:{
             replaceDefault: false,
         },
         warnings:{

@@ -13,6 +13,7 @@ export enum DrawerName {
     BACKGROUND = 'background',
     MERGE = 'merge',
     PROJECTS = 'projects',
+    PAGES = 'pages',
     TOOLS = 'tools',
     WARNINGS = 'warnings',
     OBJECT_SETTINGS = 'objectSettings',

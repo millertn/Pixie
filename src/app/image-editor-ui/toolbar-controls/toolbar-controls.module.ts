@@ -48,6 +48,7 @@ import {OpacityControlsDrawer} from './drawers/opacity-controls-drawer/opacity-c
 import { TextFontSelectorComponent } from './widgets/text-font-selector/text-font-selector.component';
 import {ImageOrIconModule} from '@common/core/ui/image-or-icon/image-or-icon.module';
 import { CustomDrawerComponent } from './drawers/custom-drawer/custom-drawer.component';
+import { PagesDrawerComponent } from './drawers/pages-drawer/pages-drawer-component';
 
 @NgModule({
     imports: [
@@ -85,6 +86,7 @@ import { CustomDrawerComponent } from './drawers/custom-drawer/custom-drawer.com
         TextControlsDrawerComponent,
         ShapesDrawerComponent,
         ProjectsDrawerComponent,
+        PagesDrawerComponent,
         ToolsDrawerComponent,
         WarningsDrawerComponent,
         StickersDrawerComponent,
@@ -117,6 +119,7 @@ import { CustomDrawerComponent } from './drawers/custom-drawer/custom-drawer.com
         TextControlsDrawerComponent,
         ShapesDrawerComponent,
         ProjectsDrawerComponent,
+        PagesDrawerComponent,
         WarningsDrawerComponent,
         ToolsDrawerComponent,
         StickersDrawerComponent,
