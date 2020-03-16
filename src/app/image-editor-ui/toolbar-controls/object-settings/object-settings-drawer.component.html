@@ -4,7 +4,7 @@
         <div class="bottom-label" trans>Text Style</div>
     </div>
 
-    <div class="button-with-image" (click)="openPanel('color')">
+    <div class="button-with-image" (click)="openPanel('color')" *ngIf="activeObjIsText$ | async">
         <mat-icon svgIcon="color-custom"></mat-icon>
         <div class="bottom-label" trans>Color</div>
     </div>
@@ -15,6 +15,12 @@
     </div>
 
     <ng-container *ngIf="!(activeObjIsSvg$ | async)">
+
+        <div class="button-with-image crop-image">
+            <mat-icon svgIcon="parts-custom"></mat-icon>
+            <div class="bottom-label" trans>Crop Image</div>
+        </div>
+
         <div class="button-with-image" (click)="openPanel('outline')">
             <mat-icon svgIcon="outline-custom"></mat-icon>
             <div class="bottom-label" trans>Outline</div>
@@ -26,12 +32,12 @@
         </div>
     </ng-container>
 
-    <div class="button-with-image" (click)="openPanel('texture')">
+    <div class="button-with-image" (click)="openPanel('texture')" *ngIf="activeObjIsText$ | async">
         <mat-icon svgIcon="texture-custom"></mat-icon>
         <div class="bottom-label" trans>Texture</div>
     </div>
 
-    <div class="button-with-image" (click)="openPanel('gradient')" *ngIf="!(activeObjIsSvg$ | async)">
+    <div class="button-with-image" (click)="openPanel('gradient')" *ngIf="!(activeObjIsSvg$ | async) || (activeObjIsText$ | async)">
         <mat-icon svgIcon="gradient-custom"></mat-icon>
         <div class="bottom-label" trans>Gradient</div>
     </div>
@@ -41,7 +47,7 @@
         <div class="bottom-label" trans>Opacity</div>
     </div>
 
-    <div class="button-with-image" (click)="replaceImage()" *ngIf="activeObjIsImage$ | async">
+    <div class="button-with-image" (click)="replaceImage()" *ngIf="(activeObjIsImage$ | async) || (activeObjIsSvg$ | async)">
         <mat-icon svgIcon="switch-camera"></mat-icon>
         <div class="bottom-label" trans>Replace</div>
     </div>

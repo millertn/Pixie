@@ -8,7 +8,7 @@ import {SetZoom} from '../state/editor-state-actions';
 @Injectable()
 export class CanvasZoomService {
     protected maxZoom = 200;
-    protected minZoom = 0;
+    protected minZoom = 2;
     protected zoomStep = 5;
     protected currentZoom = 1;
 

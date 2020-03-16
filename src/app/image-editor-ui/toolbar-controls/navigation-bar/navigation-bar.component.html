@@ -5,7 +5,8 @@
         <button *ngIf="item.type !== 'separator'"
                 class="no-style control-button"
                 (click)="executeNavItemAction(item)"
-                [disabled]="navItemIsDisabled(item)">
+                [disabled]="navItemIsDisabled(item)"
+                [class.page-drawer]="item.name==='pages'">
             <image-or-icon class="control-icon inherit-size" [src]="item.icon"></image-or-icon>
             <span class="name" trans>{{item.display_name || item.name}}</span>
         </button>
