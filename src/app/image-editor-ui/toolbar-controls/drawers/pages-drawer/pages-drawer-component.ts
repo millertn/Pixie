@@ -15,7 +15,20 @@ import { ImportToolService } from 'app/image-editor/tools/import/import-tool.ser
     host: {'class': 'controls-drawer'},
 })
 export class PagesDrawerComponent {
+    public pages:[Object];
     constructor(
+        private http:HttpClient,
+
     ) {
+        this.http.get("https://theaamgroup.com/image-editor/test", {
+            headers: {'Access-Control-Allow-Origin': "*"}
+        }).subscribe(data => {
+            for (let page in data) {
+                console.log(data[page]);
+            }
+            console.log(data);
+        }, err => {
+            console.log(err);
+        });
     }
 }

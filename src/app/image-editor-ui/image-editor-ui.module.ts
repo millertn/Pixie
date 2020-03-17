@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ImageEditorComponent} from './image-editor.component';
 import {HistoryPanelComponent} from './panels/history-panel/history-panel.component';
 import {ObjectsPanelComponent} from './panels/objects-panel/objects-panel.component';
+import {LibraryPanelComponent} from './panels/library-panel/library-panel.component';
 import {ImageEditorModule} from '../image-editor/image-editor.module';
 import {ToolbarControlsModule} from './toolbar-controls/toolbar-controls.module';
 import {EditorControlsService} from './toolbar-controls/editor-controls.service';
@@ -87,6 +88,7 @@ export function init_icons(config: Settings, icons: MatIconRegistry, sanitizer: 
         ImageEditorComponent,
         HistoryPanelComponent,
         ObjectsPanelComponent,
+        LibraryPanelComponent,
         OpenSampleImagePanelComponent,
         BackgroundImageDirective,
         ExportPanelComponent,
@@ -95,6 +97,7 @@ export function init_icons(config: Settings, icons: MatIconRegistry, sanitizer: 
         OpenSampleImagePanelComponent,
         HistoryPanelComponent,
         ObjectsPanelComponent,
+        LibraryPanelComponent,
         ExportPanelComponent,
     ],
     exports: [

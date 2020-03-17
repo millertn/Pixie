@@ -3,6 +3,7 @@ import {ColorpickerPanelComponent} from 'common/core/ui/color-picker/colorpicker
 import {OverlayPanel} from 'common/core/ui/overlay-panel/overlay-panel.service';
 import {ActiveObjectService} from '../../../image-editor/canvas/active-object/active-object.service';
 import {BOTTOM_POSITION} from '@common/core/ui/overlay-panel/positions/bottom-position';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'shadow-controls-drawer',
@@ -11,6 +12,7 @@ import {BOTTOM_POSITION} from '@common/core/ui/overlay-panel/positions/bottom-po
     encapsulation: ViewEncapsulation.None,
 })
 export class ShadowControlsDrawer {
+    faQuestionCircle = faQuestionCircle;
     @ViewChild('colorPickerButton', {read: ElementRef, static: false}) colorPickerButton: ElementRef;
 
     constructor(

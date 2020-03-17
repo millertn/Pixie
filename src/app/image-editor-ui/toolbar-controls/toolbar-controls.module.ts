@@ -5,6 +5,7 @@ import {ColorPickerModule} from 'common/core/ui/color-picker/color-picker.module
 import {GoogleFontsModule} from './widgets/google-fonts-panel/google-fonts.module';
 import {CustomScrollbarModule} from 'common/core/ui/custom-scrollbar/custom-scrollbar.module';
 import {HttpModule} from 'common/core/http/http.module';
+import {HttpClientModule} from '@angular/common/http';
 import {EditorControlsComponent} from './editor-controls.component';
 import {FilterDrawerComponent} from './drawers/filter-drawer/filter-drawer.component';
 import {ResizeDrawerComponent} from './drawers/resize-drawer/resize-drawer.component';
@@ -49,6 +50,8 @@ import { TextFontSelectorComponent } from './widgets/text-font-selector/text-fon
 import {ImageOrIconModule} from '@common/core/ui/image-or-icon/image-or-icon.module';
 import { CustomDrawerComponent } from './drawers/custom-drawer/custom-drawer.component';
 import { PagesDrawerComponent } from './drawers/pages-drawer/pages-drawer-component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 @NgModule({
     imports: [
@@ -61,6 +64,8 @@ import { PagesDrawerComponent } from './drawers/pages-drawer/pages-drawer-compon
         HttpModule,
         ImageEditorModule,
         ImageOrIconModule,
+        FontAwesomeModule,
+        HttpClientModule,
 
         // material
         MatSliderModule,

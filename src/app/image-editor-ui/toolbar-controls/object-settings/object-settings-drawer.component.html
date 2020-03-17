@@ -15,12 +15,6 @@
     </div>
 
     <ng-container *ngIf="!(activeObjIsSvg$ | async)">
-
-        <div class="button-with-image crop-image">
-            <mat-icon svgIcon="parts-custom"></mat-icon>
-            <div class="bottom-label" trans>Crop Image</div>
-        </div>
-
         <div class="button-with-image" (click)="openPanel('outline')">
             <mat-icon svgIcon="outline-custom"></mat-icon>
             <div class="bottom-label" trans>Outline</div>
@@ -37,7 +31,7 @@
         <div class="bottom-label" trans>Texture</div>
     </div>
 
-    <div class="button-with-image" (click)="openPanel('gradient')" *ngIf="!(activeObjIsSvg$ | async) || (activeObjIsText$ | async)">
+    <div class="button-with-image" (click)="openPanel('gradient')" *ngIf="(activeObjIsText$ | async)">
         <mat-icon svgIcon="gradient-custom"></mat-icon>
         <div class="bottom-label" trans>Gradient</div>
     </div>

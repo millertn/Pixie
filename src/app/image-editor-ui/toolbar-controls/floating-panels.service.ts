@@ -2,6 +2,7 @@ import {ElementRef, Injectable} from '@angular/core';
 import {OverlayPanel} from 'common/core/ui/overlay-panel/overlay-panel.service';
 import {OverlayPanelRef} from 'common/core/ui/overlay-panel/overlay-panel-ref';
 import {ObjectsPanelComponent} from '../panels/objects-panel/objects-panel.component';
+import {LibraryPanelComponent} from '../panels/library-panel/library-panel.component';
 import {CanvasStateService} from '../../image-editor/canvas/canvas-state.service';
 import {OpenSampleImagePanelService} from '../panels/open-sample-image-panel/open-sample-image-panel.service';
 import {HistoryPanelComponent} from '../panels/history-panel/history-panel.component';
@@ -14,6 +15,7 @@ import {Modal} from '@common/core/ui/dialogs/modal.service';
 export class FloatingPanelsService {
     private historyPanelRef: OverlayPanelRef;
     private objectsPanelRef: OverlayPanelRef;
+    private libraryPanelRef: OverlayPanelRef;
 
     constructor(
         private overlayPanel: OverlayPanel,
@@ -33,6 +35,7 @@ export class FloatingPanelsService {
 
     public toggleHistory() {
         this.closePanel('objects');
+        this.closePanel('library');
 
         if (this.panelIsOpen('history')) {
             this.historyPanelRef.close();
@@ -43,11 +46,23 @@ export class FloatingPanelsService {
 
     public toggleObjects() {
         this.closePanel('history');
+        this.closePanel('library');
 
         if (this.panelIsOpen('objects')) {
             this.objectsPanelRef.close();
         } else {
             this.openObjectsPanel();
+        }
+    }
+
+    public toggleLibrary() {
+        this.closePanel('objects');
+        this.closePanel('history');
+
+        if (this.panelIsOpen('library')) {
+            this.libraryPanelRef.close();
+        } else {
+            this.openLibraryPanel();
         }
     }
 
@@ -65,7 +80,14 @@ export class FloatingPanelsService {
         );
     }
 
-    public closePanel(name: 'history' | 'objects' | 'objectOptions') {
+    public openLibraryPanel() {
+        this.objectsPanelRef = this.overlayPanel.open(
+            LibraryPanelComponent,
+            this.getPanelConfig(),
+        );
+    }
+
+    public closePanel(name: 'history' | 'objects' | 'objectOptions' | 'library') {
         switch (name) {
             case 'history':
                 this.historyPanelRef && this.historyPanelRef.close();
@@ -73,11 +95,22 @@ export class FloatingPanelsService {
             case 'objects':
                 this.objectsPanelRef && this.objectsPanelRef.close();
                 break;
+            case 'library':
+                this.libraryPanelRef && this.libraryPanelRef.close();
+                break;
         }
     }
 
-    public panelIsOpen(name: 'history' | 'objects'): boolean {
-        const ref = (name === 'history' ? this.historyPanelRef : this.objectsPanelRef);
+    public panelIsOpen(name : 'history' | 'objects' | 'library'): boolean {
+        let ref = null;
+        switch (name) {
+            case 'history' : ref = this.historyPanelRef;
+                break;
+            case 'objects': ref = this.objectsPanelRef;
+                break;
+            case 'library': ref = this.libraryPanelRef;
+                break;
+        }
         return ref && ref.isOpen();
     }
 

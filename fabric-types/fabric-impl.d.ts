@@ -1948,6 +1948,24 @@ export class Line {
 	static fromObject(object: any): Line;
 }
 
+export interface ILibraryObjectOptions {
+	type?:string;
+	name?:string;
+	data?:any;
+}
+
+export interface LibraryObject extends ILibraryObjectOptions {}
+export class LibraryObject {
+	getType():string;
+	setType(value: string);
+
+	getName():string;
+	setName(value:string);
+
+	getData():any;
+	setData(value:any);
+}
+
 export interface IObjectOptions {
 	/**
 	 * Type of an object (rect, circle, path, etc.).

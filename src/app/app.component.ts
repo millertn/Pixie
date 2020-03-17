@@ -5,6 +5,7 @@ import {EditorState} from './image-editor/state/editor-state';
 import {EditorMode} from './image-editor/enums/editor-mode.enum';
 import {CloseEditor} from './image-editor/state/editor-state-actions';
 import {Settings} from '@common/core/config/settings.service';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'pixie-editor',
@@ -27,6 +28,7 @@ import {Settings} from '@common/core/config/settings.service';
     ]
 })
 export class AppComponent implements OnInit {
+    faQuestionCircle = faQuestionCircle;
     @ViewChild('overlay', {static: true}) overlay: ElementRef;
 
     @HostBinding('@editorVisible') get animate() {
