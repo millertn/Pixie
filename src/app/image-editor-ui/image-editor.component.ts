@@ -27,6 +27,7 @@ import {randomString} from '@common/core/utils/random-string';
 import {CanvasZoomService} from '../image-editor/canvas/canvas-zoom.service';
 import {CanvasPanService} from '../image-editor/canvas/canvas-pan.service';
 import {ImageEditorService} from '../image-editor/image-editor.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'image-editor',
@@ -65,11 +66,17 @@ export class ImageEditorComponent implements OnInit {
         private zoom: CanvasZoomService,
         private pan: CanvasPanService,
         private imageEditor: ImageEditorService,
+        public http:HttpClient
     ) {}
 
     ngOnInit() {
         this.state.wrapperEl = this.canvasWrapper.nativeElement;
         this.state.maskWrapperEl = this.canvasMaskWrapper.nativeElement;
+        //  this.loadPages().map(page => {
+        //     this.state.pages.push(page);
+        // });
+        // this.state.pages = this.loadPages();
+        // this.state.library = this.loadLibrary();
 
         // update editor language on settings change
         this.setLocalization();
@@ -135,6 +142,34 @@ export class ImageEditorComponent implements OnInit {
             this.store.dispatch(new OpenPanel(DrawerName.OBJECT_SETTINGS));
         });
     }
+
+    // public loadLibrary() {
+    //     let url = "https://theaamgroup.com/image-editor/getLibrary?userId=" + this.state.userId;
+    //     let temp = [];
+    //     this.http.get(url, {
+    //         headers: {'Access-Control-Allow-Origin': "*"}
+    //     }).subscribe(data => {
+    //         for (let page in data) {
+    //             this.state.library.push(data[page]);
+    //         }
+    //     }, err => {
+    //         throw new Error('Something went wrong =(');
+    //     });
+    // }
+
+    // public loadPages() {
+        
+    //     let temp = [];
+    //    this.http.get("https://theaamgroup.com/image-editor/test", {
+    //         headers: {'Access-Control-Allow-Origin': "*"}
+    //     }).subscribe(data => {
+    //         for (let page in data) {
+    //             this.state.library.push(data[page]);
+    //         }
+    //     }, err => {
+    //         throw new Error('Something went wrong =(');
+    //     });
+    // }
 
     /**
      * Replace current history item, so object position is

@@ -27,6 +27,14 @@ export class CanvasStateService {
 
     public fabric: fabric.Canvas;
 
+    public pages:Object[];
+
+    public library:Object[];
+
+    public userId:number;
+
+    public canvasId:number;
+
     constructor(private config: Settings) {}
 
     /**

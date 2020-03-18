@@ -47,11 +47,11 @@
        if (window['Pixie'] == null) return;
 
         window['Pixie'] = new Pixie({
-            image: 'https://i.imgur.com/I0V5WHJ.jpg',
             crossOrigin: true,
             onLoad: () => {
+                // loadCanvas();
                 //set up the initial sweetalert garbo here
-                // Pixie.loadStateFromUrl('assets/images/samples/image.json');
+                // Pixie.newCanvas(600, 800, 12, 3355);
             },
             objectDefaults: {
                 basicShape: {
@@ -87,16 +87,16 @@
                     {name: 'shapes', icon: 'polygon-custom', action: 'shapes'},
                     ],
                 },
-                openImageDialog: {
-                    show: true,
-                    replaceDefaultSampleImages: false,
-                    sampleImages: [
-                        {
-                            url: 'images/samples/sample22.jpg',
-                            thumbnail: 'images/samples/sample1_thumbnailq.jpg',
-                        },
-                    ]
-                },
+                // openImageDialog: {
+                //     show: true,
+                //     replaceDefaultSampleImages: false,
+                //     sampleImages: [
+                //         {
+                //             url: 'images/samples/sample22.jpg',
+                //             thumbnail: 'images/samples/sample1_thumbnailq.jpg',
+                //         },
+                //     ]
+                // },
             },
             tools: {
                 export: {
@@ -132,6 +132,10 @@
         clearInterval(i);
     }, 50);
 
+    function loadCanvas() {
+        // window['Pixie'].newCanvas(600, 800, 12, 3355);
+    }
+
     function execute() {
         window['Pixie'].openFile('https://aam5.imgix.net/3/logos/manufacturer/BGPQ.png?fit=max&w=192&auto=compress%2Cformat', 'png', false, 'Test Image');
     }
@@ -143,6 +147,15 @@
     function execute3() {
         window['Pixie'].openFile('https://aam5.imgix.net/3/logos/manufacturer/BBFF.png?fit=max&w=192&auto=compress%2Cformat', 'png', false, "It's an Image");
     }
+
+    document.addEventListener('DOMContentLoaded', function(){ 
+        window['Pixie'].newCanvas(600, 800, 12, 3355);
+    // your code goes here
+    }, false);
+
+    // document.ready(function() {
+       
+    // })
 </script>
 </body>
 </html>

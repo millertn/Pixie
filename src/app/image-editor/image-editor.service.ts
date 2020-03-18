@@ -20,6 +20,7 @@ import {HttpClient} from '@angular/common/http';
 import {lowerFirst} from '@common/core/utils/lower-first';
 import {ToolsService} from './tools/tools.service';
 import {ThemeService} from '@common/core/theme.service';
+import { CanvasStateService } from './canvas/canvas-state.service';
 
 /**
  * This class should not be imported into any other tools or services.
@@ -33,6 +34,7 @@ export class ImageEditorService {
         protected canvas: CanvasService,
         protected history: HistoryToolService,
         protected store: Store,
+        protected state: CanvasStateService,
         protected openSampleImagePanel: OpenSampleImagePanelService,
         protected toast: Toast,
         protected editorControls: EditorControlsService,
@@ -62,14 +64,23 @@ export class ImageEditorService {
             this.importTool.openFile(data, extension, false, name);
     }
 
-    public newCanvas(width: number, height: number) {
+    public newCanvas(width: number, height: number, projectId:number, userId:number) {
+        this.state.canvasId = projectId;
+        this.state.userId = userId;
+        this.state.pages = this.canvas.loadPages();
+        this.state.library = this.canvas.loadLibrary();
         return this.canvas.openNew(width, height);
     }
 
     /**
      * Load canvas state from specified json data or url.
      */
-    public loadState(stateOrUrl: string|SerializedCanvas) {
+    public loadState(stateOrUrl: string|SerializedCanvas, projectId:number, userId:number) {
+        this.state.canvasId = projectId;
+        this.state.userId = userId;
+        this.state.pages = this.canvas.loadPages();
+        this.state.library = this.canvas.loadLibrary();
+
         if (typeof stateOrUrl === 'string' && (stateOrUrl.endsWith('.json') || stateOrUrl.startsWith('http'))) {
             return this.importTool.loadStateFromUrl(stateOrUrl);
         } else {
@@ -247,12 +258,12 @@ export class ImageEditorService {
             state = this.settings.get('pixie.state');
         if (image) {
             if (image.endsWith('.json')) {
-                return this.loadState(image);
+                return this.loadState(image, 0, 0);
             } else {
                 return this.canvas.loadMainImage(image);
             }
         } else if (state) {
-            return this.loadState(state);
+            return this.loadState(state, 0, 0);
         } else if (size) {
             return this.canvas.openNew(size.width, size.height);
         }

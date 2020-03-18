@@ -1,10 +1,13 @@
 <div class="header">
-    <div class="name" trans>Library</div>
+    <div class="name" trans>Saved Images</div>
     <button class="close-button" mat-icon-button (click)="panelRef.close()">
         <mat-icon svgIcon="close"></mat-icon>
     </button>
 </div>
 <div class="items-list" customScrollbar cdkDropList (cdkDropListDropped)="reorderObjects($event)">
+    <button class="addImage">
+        Add Image
+    </button>
     <!-- <div
             class="reorder-item-wrapper drag-item"
             *ngFor="let object of library.getAll()"

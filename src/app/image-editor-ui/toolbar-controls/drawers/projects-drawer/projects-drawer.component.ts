@@ -5,6 +5,7 @@ import {ProjectsState} from '../../../state/projects/projects.state';
 import {Observable} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ImportToolService } from 'app/image-editor/tools/import/import-tool.service';
+import {FloatingPanelsService} from '../../floating-panels.service';
 
 @Component({
     selector: 'projects-drawer',
@@ -17,7 +18,9 @@ import { ImportToolService } from 'app/image-editor/tools/import/import-tool.ser
 export class ProjectsDrawerComponent {
     @Select(ProjectsState.dirty) dirty$: Observable<boolean>;
     constructor(
+        public panels: FloatingPanelsService,
         private importTool:ImportToolService
+
     ) {
     }
 

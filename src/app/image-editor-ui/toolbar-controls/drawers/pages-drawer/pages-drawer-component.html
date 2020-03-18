@@ -1,9 +1,11 @@
 <div class="content">
-    <button class ="addPage" data-site="logos/index">Add Page</button>
+    <button class ="addPage">Add Page</button>
     <div class="separator ng-star-inserted"></div>
     <div class='pageContainer'> 
         <div *ngFor="let page of pages">
-            <div>Page</div>
+            <div [class.currentProject]="page.RowID == currentPage" [class.projectPage]="page.RowID != currentPage" (click)="switchPage(page.RowID)">
+                <img class ="page-image" [src]="page.ProjectImage">
+            </div>
         </div>
     </div>
 </div>

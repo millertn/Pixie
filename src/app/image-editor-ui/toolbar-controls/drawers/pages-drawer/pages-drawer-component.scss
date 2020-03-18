@@ -28,4 +28,28 @@ pages-drawer {
     background-color: mat-color($app-foreground, divider-lighter);
     margin: 0 20px;
   }
+
+  .currentProject {
+    box-shadow:#94e09a 0px 0px 3px 3px !important;
+    margin: 0 5px;
+  }
+
+  .page-image {
+      height:95px;
+      border:1px solid #e0e0e0;
+  }
+
+  .projectPage {
+      margin: 0 5px; 
+      cursor:pointer;
+
+      &:hover {
+        box-shadow:#94dbe0 0px 0px 3px 3px;
+      }
+  }
+
+  .pageContainer {
+      display:flex;
+}
+
 }

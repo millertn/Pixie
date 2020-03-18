@@ -10,6 +10,7 @@ import {CanvasStateService} from './canvas-state.service';
 import {Store} from '@ngxs/store';
 import {ContentLoaded} from '../state/editor-state-actions';
 import {ObjectNames} from '../objects/object-names.enum';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class CanvasService {
@@ -23,6 +24,7 @@ export class CanvasService {
         public activeObject: ActiveObjectService,
         private config: Settings,
         private store: Store,
+        private http: HttpClient
     ) {}
 
     public render() {
@@ -147,5 +149,36 @@ export class CanvasService {
      */
     public on(eventName: string, handler: (e: IEvent) => void) {
         this.fabric().on(eventName, handler);
+    }
+
+    public loadLibrary() {
+        let url = "https://theaamgroup.com/image-editor/getLibrary?userId=" + this.state.userId;
+        let temp = [];
+        this.http.get(url, {
+            headers: {'Access-Control-Allow-Origin': "*"}
+        }).subscribe(data => {
+            for (let page in data) {
+                temp.push(data[page]);
+            }
+        }, err => {
+            throw new Error('Something went wrong =(');
+        });
+        return temp;
+    }
+
+    public loadPages() {
+        let url = "https://theaamgroup.com/image-editor/getGroupProjects?userId=" + this.state.userId + "&projectId=" + this.state.canvasId;
+        // let url = "https://theaamgroup.com/image-editor/getGroupProjects?userId=" + 3355 + "&projectId=" + 9;
+        let temp = [];
+        this.http.get(url, {
+            headers: {'Access-Control-Allow-Origin': "*"}
+        }).subscribe(data => {
+            for (let page in data) {
+                temp.push(data[page]);
+            }
+        }, err => {
+            throw new Error('Something went wrong =(');
+        });
+        return temp;
     }
 }

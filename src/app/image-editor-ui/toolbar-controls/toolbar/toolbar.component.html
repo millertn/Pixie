@@ -63,9 +63,9 @@
         <button mat-icon-button (click)="panels.toggleObjects()" [class.invisible]="config.get('pixie.ui.toolbar.hideObjectsButton')">
             <mat-icon svgIcon="layers"></mat-icon>
         </button>
-        <button mat-icon-button (click)="panels.toggleLibrary()">
+        <!-- <button mat-icon-button (click)="panels.toggleLibrary()">
             <mat-icon svgIcon="parts-custom"></mat-icon>
-        </button>
+        </button> -->
         <button mat-icon-button class="close-button" (click)="closeEditor()" *ngIf="(mode$ | async) === 'overlay' && !config.get('pixie.ui.toolbar.hideCloseButton')">
             <mat-icon svgIcon="close"></mat-icon>
         </button>

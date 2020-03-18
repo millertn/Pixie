@@ -28,19 +28,13 @@ export class LibraryPanelComponent {
         // public library: LibraryListService,
         public panelRef: OverlayPanelRef,
         private controls: EditorControlsService,
-        private canvasState: CanvasStateService,
+        private state: CanvasStateService,
         private store: Store,
         private http: HttpClient,
     ) {
-
-       this.http.get("https://theaamgroup.com/image-editor/test", {
-           headers: {'Access-Control-Allow-Origin': "*"}
-       }).subscribe(data => {
-           console.log(data);
-       }, err => {
-           console.log(err);
-       });
+        this.library = this.state.library;
     }
+    public library = [];
 
     public getIcon(object: Object): string {
         // if (typeof ObjectNames[object.name] === "undefined") {
@@ -73,7 +67,7 @@ export class LibraryPanelComponent {
         //     .slice().reverse().findIndex(obj => obj.data.id === e.item.data);
 
         // this.library.getById(e.item.data).moveTo(index);
-        this.canvasState.fabric.requestRenderAll();
+        this.state.fabric.requestRenderAll();
     }
 
     public shouldDisableObject(object: Object): boolean {
