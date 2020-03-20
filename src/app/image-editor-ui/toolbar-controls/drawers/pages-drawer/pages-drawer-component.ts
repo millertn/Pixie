@@ -34,7 +34,7 @@ export class PagesDrawerComponent {
 
 
     //might need to move this into state so I can also dynamically upload the view?
-
+    // force clsoe the panel instead you imbecile
     switchPage (projectId) {
         console.log(projectId);
         let state = null;
