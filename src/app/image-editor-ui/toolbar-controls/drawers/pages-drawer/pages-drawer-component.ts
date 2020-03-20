@@ -33,6 +33,8 @@ export class PagesDrawerComponent {
     }
 
 
+    //might need to move this into state so I can also dynamically upload the view?
+
     switchPage (projectId) {
         console.log(projectId);
         let state = null;
@@ -40,7 +42,7 @@ export class PagesDrawerComponent {
         this.pages.map(page => {
             if (page.RowID == projectId) {
                 id = page.RowID;
-                state = page.ProjectsState
+                state = page.ProjectState
             }
         });
 
