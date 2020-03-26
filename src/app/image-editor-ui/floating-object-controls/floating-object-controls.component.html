@@ -4,6 +4,11 @@
             <mat-icon svgIcon="copy-custom"></mat-icon>
         </button>
 
+        <button mat-icon-button (click)="cropImage()" [matTooltip]="'Crop Image COMING SOON' | trans">
+            <mat-icon svgIcon="crop-custom"></mat-icon>
+        </button>
+
+
         <button mat-icon-button (click)="activeObject.flipHorizontal()" [matTooltip]="'Flip' | trans">
             <mat-icon svgIcon="flip"></mat-icon>
         </button>
@@ -13,11 +18,11 @@
         </button>
 
         <button mat-icon-button (click)="bringActiveObjectFoward()" [disabled]="dirty$ | async" [matTooltip]="'Bring foward' | trans">
-            <mat-icon svgIcon="settings-custom"></mat-icon>
+            <mat-icon svgIcon="forward-custom"></mat-icon>
         </button>
 
         <button mat-icon-button (click)="sendActiveObjectBackward()" [disabled]="dirty$ | async" [matTooltip]="'Send Backward' | trans">
-            <mat-icon svgIcon="settings-custom"></mat-icon>
+            <mat-icon svgIcon="back-custom"></mat-icon>
         </button>
 
         <button mat-icon-button (click)="deleteObject()" [matTooltip]="'Delete' | trans">

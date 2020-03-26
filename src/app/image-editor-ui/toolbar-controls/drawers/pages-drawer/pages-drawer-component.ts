@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { ImportToolService } from 'app/image-editor/tools/import/import-tool.service';
 import { CanvasStateService } from '../../../../image-editor/canvas/canvas-state.service';
 import { ImageEditorService } from '../../../../image-editor/image-editor.service';
+import {ActiveFrameService} from '../../../../image-editor/tools/frame/active-frame.service';
 
 
 
@@ -25,6 +26,7 @@ export class PagesDrawerComponent {
         private http:HttpClient,
         private state:CanvasStateService,
         private imageEditor:ImageEditorService,
+        private activeFrams:ActiveFrameService
     ) {
         this.state.pages.map (page => {
             this.pages.push(page);
@@ -36,7 +38,6 @@ export class PagesDrawerComponent {
     //might need to move this into state so I can also dynamically upload the view?
     // force clsoe the panel instead you imbecile
     switchPage (projectId) {
-        console.log(projectId);
         let state = null;
         let id = null;
         this.pages.map(page => {
@@ -45,12 +46,7 @@ export class PagesDrawerComponent {
                 state = page.ProjectState
             }
         });
-
-        console.log(id);
-        console.log(projectId);
-        console.log(state);
-
-
         this.imageEditor.loadState(state, id, this.state.userId );
+        this.imageEditor.applyChanges();
     }
 }
