@@ -92,10 +92,12 @@ export class ImageEditorService {
         });
         const currentObject = this.activeObject.get();
         if (currentObject == null && hasPlaceholder == false) {
+            let phWidth = this.canvas.fabric().width *.20;
+            let phHeight = this.canvas.fabric().height *.20;
 
            let placeholder = new fabric.Rect({
-                width: 100,
-                height: 100,
+                width: phWidth,
+                height: phHeight,
                 objectCaching: true,
                 fill: 'transparent',
                 name: 'Placeholder Div',
