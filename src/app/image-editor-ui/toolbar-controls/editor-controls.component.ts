@@ -38,4 +38,12 @@ export class EditorControlsComponent {
         public breakpoints: BreakpointsService,
         public imageEditor: ImageEditorService,
     ) {}
+
+    public showFloatingPanel() {
+        if (this.activeObject.get() == null || this.activeObject.get().name == 'Placeholder Div') {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

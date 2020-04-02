@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/co
 // import {LibraryListService} from '../../../image-editor/objects/library-list.service';
 import {OverlayPanelRef} from 'common/core/ui/overlay-panel/overlay-panel-ref';
 import {Object} from 'fabric/fabric-impl';
-import {LibraryObject} from 'fabric/fabric-impl';
 import {EditorControlsService} from '../../toolbar-controls/editor-controls.service';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {CanvasStateService} from '../../../image-editor/canvas/canvas-state.service';
@@ -13,6 +12,9 @@ import {DrawerName} from '../../toolbar-controls/drawers/drawer-name.enum';
 import {ObjectNames} from '../../../image-editor/objects/object-names.enum';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import { CanvasService } from 'app/image-editor/canvas/canvas.service';
+import { TextToolService } from 'app/image-editor/tools/text/text-tool.service';
+import {openUploadWindow} from '@common/uploads/utils/open-upload-window';
 
 @Component({
     selector: 'library-panel',
@@ -22,6 +24,9 @@ import {HttpClient} from '@angular/common/http';
     encapsulation: ViewEncapsulation.None,
 })
 export class LibraryPanelComponent {
+    public library = [];
+    public showList = true;
+    public showInput = false;
     // @Select(EditorState.activeObjId) activeObjId$: Observable<string>;
 
     constructor(
@@ -29,48 +34,54 @@ export class LibraryPanelComponent {
         public panelRef: OverlayPanelRef,
         private controls: EditorControlsService,
         private state: CanvasStateService,
+        private canvas:CanvasService,
         private store: Store,
         private http: HttpClient,
+        private textTool: TextToolService
     ) {
-        this.library = this.state.library;
-    }
-    public library = [];
-
-    public getIcon(object: Object): string {
-        // if (typeof ObjectNames[object.name] === "undefined") {
-        //     return 'photo-library';
-        // } else {
-        //     return ObjectNames[object.name].icon;
-        // }
-        return 'photo-library';
-            
+        this.state.library.map (object => {
+            this.library.push(object);
+            console.log(object);
+        });
+        console.log(this.state.library)
+        console.log(this.library);
     }
 
-    public selectObject(object: LibraryObject) {
-        // this.library.select(object);
-        // if ( ! this.store.selectSnapshot(EditorState.dirty)) {
-        //     this.store.dispatch(new OpenPanel(DrawerName.OBJECT_SETTINGS));
-        // }
+    public getIcon(string): string {
+        if (string == 'image') {
+            return 'photo-library';
+        } else {
+            return 'text-box-custom';
+        }   
     }
 
-    public getObjectDisplayName(object: Object): string {
-        const name = object.name;
-        return name ? name.replace(/([A-Z])/g, ' $1') : '';
-    }
+    // public newImage() {
+    //     openUploadWindow({extensions: accept}).then(files => {
+    //         this.http.post('https://theaamgroup.com/image-editor/addCustomImageToLibrary', {
+    //             image:files[0]
+    //         })
+    //         // this.loadFile(files[0]);
+    //     });
+    // }
 
-    public reorderObjects(e: CdkDragDrop<string>) {
-        // moveItemInArray(this.library.getAll(), e.previousIndex, e.currentIndex);
+    // public showTextPanel() {
+    //     this.showList = false;
+    //     this.showInput = true;
+    // }
 
-        // pixie and canvas object orders are reversed, need to
-        // reverse newIndex given by cdk drag and drop
-        // const index = this.library.getAll()
-        //     .slice().reverse().findIndex(obj => obj.data.id === e.item.data);
+    //possibly use this, otherwise just use add Image to access custom images
+    // public showImagePanel() {
+    // }
 
-        // this.library.getById(e.item.data).moveTo(index);
-        this.state.fabric.requestRenderAll();
-    }
+    // public newText() {
 
-    public shouldDisableObject(object: Object): boolean {
-        return !object.selectable && object.name !== ObjectNames.drawing.name;
+    // }
+
+    public addObject(object) {
+        if (object.Type == 'image') {
+           this.canvas.openImage(object.Value, false, object.Name);
+        } else {
+            this.textTool.add(object.Value);
+        }
     }
 }

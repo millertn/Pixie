@@ -27,6 +27,8 @@ export class CanvasStateService {
 
     public fabric: fabric.Canvas;
 
+    public canvasObjects:Object[];
+
     public pages:Object[];
 
     public library:Object[];
@@ -34,6 +36,8 @@ export class CanvasStateService {
     public userId:number;
 
     public canvasId:number;
+
+    public groupId:number;
 
     constructor(private config: Settings) {}
 

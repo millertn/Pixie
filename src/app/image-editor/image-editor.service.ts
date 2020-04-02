@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {fabric} from 'fabric';
 import {ImportToolService} from './tools/import/import-tool.service';
 import {SerializedCanvas} from './history/serialized-canvas';
 import {DEFAULT_CONFIG, PixieConfig} from './default-settings';
@@ -21,6 +22,9 @@ import {lowerFirst} from '@common/core/utils/lower-first';
 import {ToolsService} from './tools/tools.service';
 import {ThemeService} from '@common/core/theme.service';
 import { CanvasStateService } from './canvas/canvas-state.service';
+import { ActiveObjectService } from './canvas/active-object/active-object.service';
+import { TextToolService } from './tools/text/text-tool.service';
+import { FloatingPanelsService } from 'app/image-editor-ui/toolbar-controls/floating-panels.service';
 
 /**
  * This class should not be imported into any other tools or services.
@@ -42,6 +46,9 @@ export class ImageEditorService {
         protected httpClient: HttpClient,
         protected tools: ToolsService,
         protected themes: ThemeService,
+        protected activeObject: ActiveObjectService,
+        protected textTool: TextToolService,
+        protected panels: FloatingPanelsService
     ) {}
 
     /**
@@ -72,10 +79,96 @@ export class ImageEditorService {
         return this.canvas.openNew(width, height);
     }
 
+    //TODO: on addPart, allow user to click through part stuff, load in div automatically once they're done, allow the user to resize and position
+    //TODO: make a panel that contains "Add Part" and "Cancel"
+    public loadPlaceholder() {
+        this.panels.openAddPartPanel();
+        let objects = this.canvas.fabric().getObjects();
+        let hasPlaceholder = false;
+        objects.map(object => {
+            if (object.name == "Placeholder Div") {
+                hasPlaceholder = true;
+            }
+        });
+        const currentObject = this.activeObject.get();
+        if (currentObject == null && hasPlaceholder == false) {
+
+           let placeholder = new fabric.Rect({
+                width: 100,
+                height: 100,
+                objectCaching: true,
+                fill: 'transparent',
+                name: 'Placeholder Div',
+                stroke: '#bf202f',
+                strokeWidth: 1,
+                strokeDashArray: [2,2],
+                selectable: true,
+                evented: true,
+                lockUniScaling:false
+            });
+    
+            this.state.fabric.add(placeholder);
+            placeholder.viewportCenter();
+            this.canvas.fabric().setActiveObject(placeholder);
+            placeholder.setCoords();
+            this.canvas.render();
+        }
+    }
+
+
+    public addPart(part) {
+        let objects = this.canvas.fabric().getObjects();
+        let placeholderObj = null;
+        let maxWidth  = this.state.original.width;
+        let maxHeight = this.state.original.height;
+
+        objects.map(object => {
+            if (object.name == "Placeholder Div") {
+                placeholderObj = object;
+            }
+        });
+
+        if (placeholderObj != null) {
+            maxWidth  = placeholderObj.width * placeholderObj.scaleX,
+            maxHeight = placeholderObj.height * placeholderObj.scaleY;
+
+            console.log(maxWidth);
+            console.log(maxHeight);
+
+            let halfWidth = maxWidth / 2 
+            let placeholderX = placeholderObj.left;
+            let placeholderY = placeholderObj.top;
+            let name = "Part " + part.PartNumber;
+
+            let quadrants = [
+                {position:"topL", width:halfWidth, height:(.20 * maxHeight), positionX:placeholderX, positionY:placeholderY, data:[part.BrandImage], name:name + " - Brand Image", type:'image'}, 
+                {position:"topR", width:halfWidth, height:(.20 * maxHeight), positionX:(placeholderX + halfWidth), positionY:placeholderY, data:[part.Name], name:name + " - Part Name", type:'text'},
+                {position:"midL", width:halfWidth, height:(.60 * maxHeight), positionX:placeholderX, positionY:(placeholderY + (.20 * maxHeight)), data:part.Images, name:name + " - Part Image", type:"image"}, 
+                {position:"midR", width:halfWidth, height:(.60 * maxHeight), positionX:(placeholderX + halfWidth), positionY:(placeholderY + (.20 * maxHeight)), data:part.Descriptions, name:name + " - Part Description", type:"text"},
+                {position:"botL", width:halfWidth, height:(.20 * maxHeight), positionX:placeholderX, positionY:(placeholderY + (.60 * maxHeight)), data:[part.PartNumber], name:name + " - Part Number", type:"text"}, 
+                {position:"botR", width:halfWidth, height:(.20 * maxHeight), positionX:(placeholderX + halfWidth), positionY:(placeholderY + (.60 * maxHeight)), data:[part.Price], name:name + " - Price", type:"text"},
+            ]
+
+            quadrants.map(quadrant => {
+                if (quadrant.type == "image") {
+                    this.canvas.openPartImages(quadrant);
+                } else if (quadrant.type == "text") {
+                    this.textTool.addPartText(quadrant);
+                }
+            });
+        } else {
+            //add as normal, might just... leave this out lol
+        }
+        this.panels.closePanel('add-part');
+        this.canvas.fabric().setActiveObject(placeholderObj);
+        this.activeObject.delete();
+    }
+
     /**
      * Load canvas state from specified json data or url.
      */
-    public loadState(stateOrUrl: string|SerializedCanvas, projectId:number, userId:number) {
+    public loadState(stateOrUrl: string|SerializedCanvas, projectGroupId:number, projectId:number, userId:number) {
+        this.state.groupId = projectGroupId;
         this.state.canvasId = projectId;
         this.state.userId = userId;
         this.state.pages = this.canvas.loadPages();
@@ -258,12 +351,12 @@ export class ImageEditorService {
             state = this.settings.get('pixie.state');
         if (image) {
             if (image.endsWith('.json')) {
-                return this.loadState(image, 0, 0);
+                return this.loadState(image, 0, 0, 0);
             } else {
                 return this.canvas.loadMainImage(image);
             }
         } else if (state) {
-            return this.loadState(state, 0, 0);
+            return this.loadState(state, 0, 0, 0);
         } else if (size) {
             return this.canvas.openNew(size.width, size.height);
         }

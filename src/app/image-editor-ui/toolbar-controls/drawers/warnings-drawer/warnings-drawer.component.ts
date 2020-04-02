@@ -5,6 +5,7 @@ import {WarningsState} from '../../../state/warnings/warnings.state';
 import {Observable} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ImportToolService } from 'app/image-editor/tools/import/import-tool.service';
+import { EditorControlsService } from '../../editor-controls.service';
 
 @Component({
     selector: 'warnings-drawer',
@@ -17,7 +18,11 @@ import { ImportToolService } from 'app/image-editor/tools/import/import-tool.ser
 export class WarningsDrawerComponent {
     // @Select(ProjectsState.dirty) dirty$: Observable<boolean>;
     constructor(
-        private importTool:ImportToolService
+        private editor:EditorControlsService
     ) {
+    }
+
+    closePanel() {
+        this.editor.closeCurrentPanel();
     }
 }

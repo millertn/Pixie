@@ -71,6 +71,8 @@ export class ActiveObjectService {
     /**
      * Get currently active object.
      */
+
+    //  TODO: use this method to access all the individual paned options for SF paned setup
     public get() {
         const obj = this.canvasState.fabric && this.canvasState.fabric.getActiveObject();
         if ( ! obj || ! obj.name) return null;

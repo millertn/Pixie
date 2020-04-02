@@ -11,6 +11,7 @@ import {Store} from '@ngxs/store';
 import {ContentLoaded} from '../state/editor-state-actions';
 import {ObjectNames} from '../objects/object-names.enum';
 import { HttpClient } from '@angular/common/http';
+import { max } from 'rxjs/operators';
 
 @Injectable()
 export class CanvasService {
@@ -109,8 +110,41 @@ export class CanvasService {
                 object.name = name;
 
                 // use either main image or canvas dimensions as outer boundaries for scaling new image
+                // let placeholderObj = null;
+                // let objects = this.fabric().getObjects();
+                // objects.map(object => {
+                //     if (object.name == "Placeholder Div") {
+                //         placeholderObj = object;
+                //     }
+                // });
+                // console.log(placeholderObj);
+
+                // if (placeholderObj != null) {
+                //     const maxWidth  = placeholderObj.width,
+                //     maxHeight = placeholderObj.height;
+
+                //     if ((object.width >= maxWidth || object.height >= maxHeight)) {
+
+                //         // calc new image dimensions (main image height - 10% and width - 10%)
+                //         const newWidth  = maxWidth - (0.1 * maxWidth),
+                //             newHeight = maxHeight - (0.1 * maxHeight),
+                //             scale     = 1 / (Math.min(newHeight / object.getScaledHeight(), newWidth / object.getScaledWidth()));
+    
+                //         // scale newly uploaded image to the above dimensions
+                //         object.scaleX = object.scaleX * (1 / scale);
+                //         object.scaleY = object.scaleY * (1 / scale);
+                //     }
+
+                //     object.top = placeholderObj.top;
+                //     object.left = placeholderObj.left;
+                //     this.state.fabric.add(object);
+                //     this.render();
+                //     this.zoom.fitToScreen();
+                //     resolve(object);
+
+                // } else {
                 const maxWidth  = this.state.original.width,
-                    maxHeight = this.state.original.height;
+                maxHeight = this.state.original.height;
 
                 // if image is wider or higher then the current canvas, we'll scale it down
                 if (fitToScreen && (object.width >= maxWidth || object.height >= maxHeight)) {
@@ -132,6 +166,7 @@ export class CanvasService {
                 this.render();
                 this.zoom.fitToScreen();
                 resolve(object);
+                // }
             });
         });
     }
@@ -167,8 +202,7 @@ export class CanvasService {
     }
 
     public loadPages() {
-        let url = "https://theaamgroup.com/image-editor/getGroupProjects?userId=" + this.state.userId + "&projectId=" + this.state.canvasId;
-        // let url = "https://theaamgroup.com/image-editor/getGroupProjects?userId=" + 3355 + "&projectId=" + 9;
+        let url = "https://theaamgroup.com/image-editor/getGroupProjects?userId=" + this.state.userId + "&projectId=" + this.state.groupId;
         let temp = [];
         this.http.get(url, {
             headers: {'Access-Control-Allow-Origin': "*"}
@@ -180,5 +214,35 @@ export class CanvasService {
             throw new Error('Something went wrong =(');
         });
         return temp;
+    }
+
+    //TODO missingNewlineOffset for newlines?
+    public openPartImages(quadrant) {
+        // let totalCount = partImages.length + partText.length;
+        // let totalCount = quadrant.data.length;
+        quadrant.data.map( (image, index) => {
+            fabric.util.loadImage(image, returnImage => {
+
+                const object = new fabric.Image(returnImage);
+                object.name = quadrant.name +" - "+ index;
+
+                if ((object.width >= quadrant.width || object.height >= quadrant.height)) {
+                    // calc new image dimensions (main image height and width)
+                    const newWidth  = quadrant.width,
+                        newHeight = quadrant.height,
+                        scale     = 1 / (Math.min(newHeight / object.getScaledHeight(), newWidth / object.getScaledWidth()));
+
+                    // scale newly uploaded image to the above dimensions
+                    object.scaleX = object.scaleX * (1 / scale);
+                    object.scaleY = object.scaleY * (1 / scale);
+                }
+
+                object.top = quadrant.positionY;
+                object.left = quadrant.positionX;
+                this.state.fabric.add(object);
+                this.render();
+                this.zoom.fitToScreen();
+            });
+        });
     }
 }

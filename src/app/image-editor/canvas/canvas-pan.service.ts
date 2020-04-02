@@ -85,7 +85,7 @@ export class CanvasPanService {
     /**
      * Get client coordinates from touch or mouse event.
      */
-    private getClientCoords(e: MouseEvent|TouchEvent) {
+    public getClientCoords(e: MouseEvent|TouchEvent) {
         let clientX = 0,
             clientY = 0;
 

@@ -31,5 +31,5 @@
         <button class="apply-button" [class.hidden]="activePanel === 'projects' || activePanel === 'tools' || activePanel === 'warnings' || activePanel === 'pages'" mat-raised-button color="accent" (click)="imageEditor.applyChanges()" [disabled]="!(dirty$ | async)" trans>Apply</button>
     </div>
 
-    <floating-object-controls *ngIf="(activeObjId$ | async) || (breakpoints.isMobile$ | async)"></floating-object-controls>
+    <floating-object-controls *ngIf=" (showFloatingPanel()) && (activeObjId$ | async) || (breakpoints.isMobile$ | async)"></floating-object-controls>
 </ng-container>

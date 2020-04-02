@@ -53,6 +53,9 @@
                 //set up the initial sweetalert garbo here
                 // Pixie.newCanvas(600, 800, 12, 3355);
             },
+            onClick: () => {
+                console.log("hit");
+            },
             objectDefaults: {
                 basicShape: {
                     fill: 'transparent',
@@ -132,26 +135,34 @@
         clearInterval(i);
     }, 50);
 
-    function loadCanvas() {
-        // window['Pixie'].newCanvas(600, 800, 12, 3355);
-    }
-
     function execute() {
         window['Pixie'].openFile('https://aam5.imgix.net/3/logos/manufacturer/BGPQ.png?fit=max&w=192&auto=compress%2Cformat', 'png', false, 'Test Image');
     }
 
     function execute2() {
-        window['Pixie'].openFile('https://aam5.imgix.net/3/logos/manufacturer/BBCG.png?fit=max&w=192&auto=compress%2Cformat', 'png', false, 'Another Test Image');
+        window['Pixie'].loadPlaceholder();
     }
+
+    // function execute3() {
+    //     window['Pixie'].openFile('https://aam5.imgix.net/3/logos/manufacturer/BBFF.png?fit=max&w=192&auto=compress%2Cformat', 'png', false, "It's an Image");
+    // }
 
     function execute3() {
-        window['Pixie'].openFile('https://aam5.imgix.net/3/logos/manufacturer/BBFF.png?fit=max&w=192&auto=compress%2Cformat', 'png', false, "It's an Image");
+        part = {
+            PartNumber: "Test Part Number",
+            Name:"Test Part Name",
+            Images: ['https://aam5.imgix.net/3/logos/manufacturer/BBCG.png?fit=max&w=192&auto=compress%2Cformat', 'https://aam5.imgix.net/3/logos/manufacturer/BGPQ.png?fit=max&w=192&auto=compress%2Cformat'],
+            Price:"100.00$",
+            BrandImage:'https://aam5.imgix.net/3/logos/manufacturer/BBCG.png?fit=max&w=192&auto=compress%2Cformat',
+            Descriptions:["test desc 1", "test desc 2"]
+        }
+        window['Pixie'].addPart(part);
     }
 
-    document.addEventListener('DOMContentLoaded', function(){ 
-        window['Pixie'].newCanvas(600, 800, 12, 3355);
-    // your code goes here
-    }, false);
+    // document.addEventListener('DOMContentLoaded', function(){ 
+    //     // window['Pixie'].newCanvas(600, 800, 12, 3355);
+    // // your code goes here
+    // }, false);
 
     // document.ready(function() {
        

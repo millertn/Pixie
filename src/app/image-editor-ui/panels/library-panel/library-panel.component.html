@@ -4,29 +4,22 @@
         <mat-icon svgIcon="close"></mat-icon>
     </button>
 </div>
-<div class="items-list" customScrollbar cdkDropList (cdkDropListDropped)="reorderObjects($event)">
-    <button class="addImage">
-        Add Image
-    </button>
-    <!-- <div
-            class="reorder-item-wrapper drag-item"
-            *ngFor="let object of library.getAll()"
-            cdkDrag
-            cdkDragBoundary=".items-list"
-            cdkDragLockAxis="y"
-            [cdkDragDisabled]="shouldDisableObject(object)"
-    >
+<button class="addLibraryImage">
+    Add Custom Image
+</button>
+<!-- 
+<button class="addLibraryText">
+    Add Text
+</button> -->
+<div class="items-list" customScrollbar>
+    <div *ngFor="let object of this.library">
         <div class="floating-panel-item"
-             (click)="selectObject(object)"
-             [class.disabled]="shouldDisableObject(object)"
-             [attr.data-id]="object.data.id"
-        >
-            <mat-icon [svgIcon]="getIcon(object)" class="list-icon"></mat-icon>
-            <div class="name" trans>{{getObjectDisplayName(object)}}</div>
-            <div class="drag-preview" *cdkDragPreview></div>
-            <div class="drag-placeholder" *cdkDragPlaceholder>
-                <div class="placeholder-inner"></div>
-            </div>
+        (click)="addObject(object)">
+            <mat-icon [svgIcon]="getIcon(object.Type)" class="list-icon"></mat-icon>
+            <div class="name" trans>{{object.Name}}</div>
         </div>
-    </div> -->
+    </div>
+</div>
+<div class="text-input" [class.hidden]>
+
 </div>

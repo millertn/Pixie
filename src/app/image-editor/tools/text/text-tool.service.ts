@@ -9,6 +9,7 @@ import {ObjectNames} from '../../objects/object-names.enum';
 import {normalizeObjectProps, PixieObjOptions} from '../../utils/normalize-object-props';
 import {FontsPaginatorService} from '../../../image-editor-ui/toolbar-controls/widgets/google-fonts-panel/fonts-paginator.service';
 import {Settings} from '@common/core/config/settings.service';
+import { CanvasStateService } from 'app/image-editor/canvas/canvas-state.service';
 
 @Injectable()
 export class TextToolService {
@@ -16,6 +17,7 @@ export class TextToolService {
 
     constructor(
         private canvas: CanvasService,
+        private state:CanvasStateService,
         private activeObject: ActiveObjectService,
         private objects: ObjectListService,
         private config: Settings,
@@ -41,6 +43,36 @@ export class TextToolService {
 
         itext.enterEditing();
         itext.selectAll();
+    }
+
+    public addPartText(quadrant) {
+        quadrant.data.map( (text, index) => {
+            const options = normalizeObjectProps({
+                ...this.config.get('pixie.objectDefaults.text'),
+                name: quadrant.name + " - " + index,
+            });
+
+            const itext = new fabric.IText(text, options);
+            itext.top = quadrant.positionY;
+            itext.left = quadrant.positionX;
+
+            if ((itext.width >= quadrant.width || itext.height >= quadrant.height)) {
+                // calc new image dimensions (main image height - 10% and width - 10%)
+                const newWidth  = quadrant.width,
+                    newHeight = quadrant.height,
+                    scale     = 1 / (Math.min(newHeight / itext.getScaledHeight(), newWidth / itext.getScaledWidth()));
+
+                // scale newly uploaded image to the above dimensions
+                itext.scaleX = itext.scaleX * (1 / scale);
+                itext.scaleY = itext.scaleY * (1 / scale);
+            }
+            this.canvas.fabric().add(itext);
+            // this.autoPositionText(itext);
+
+            this.canvas.fabric().setActiveObject(itext);
+            this.canvas.render();
+        });
+        
     }
 
     private autoPositionText(text: IText) {

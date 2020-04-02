@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnInit, ViewChild, ViewEncapsulation, Sanitizer} from '@angular/core';
 import {CanvasService} from '../image-editor/canvas/canvas.service';
 import {HistoryToolService} from '../image-editor/history/history-tool.service';
 import {fromEvent, Observable} from 'rxjs';
@@ -28,6 +28,8 @@ import {CanvasZoomService} from '../image-editor/canvas/canvas-zoom.service';
 import {CanvasPanService} from '../image-editor/canvas/canvas-pan.service';
 import {ImageEditorService} from '../image-editor/image-editor.service';
 import { HttpClient } from '@angular/common/http';
+import {DomSanitizer} from '@angular/platform-browser';
+import { ShapesToolService } from 'app/image-editor/tools/shapes/shapes-tool.service';
 
 @Component({
     selector: 'image-editor',
@@ -36,7 +38,8 @@ import { HttpClient } from '@angular/common/http';
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
-export class ImageEditorComponent implements OnInit {
+
+export class ImageEditorComponent implements OnInit{
     @Select(EditorState.navPosition) navPosition$: Observable<NavPosition>;
     @Select(EditorState.toolbarHidden) toolbarHidden$: Observable<boolean>;
     @Select(EditorState.contentLoaded) contentLoaded$: Observable<boolean>;
@@ -66,7 +69,9 @@ export class ImageEditorComponent implements OnInit {
         private zoom: CanvasZoomService,
         private pan: CanvasPanService,
         private imageEditor: ImageEditorService,
-        public http:HttpClient
+        public http:HttpClient,
+        public sanitizer:DomSanitizer,
+        public shape:ShapesToolService
     ) {}
 
     ngOnInit() {
@@ -142,34 +147,6 @@ export class ImageEditorComponent implements OnInit {
             this.store.dispatch(new OpenPanel(DrawerName.OBJECT_SETTINGS));
         });
     }
-
-    // public loadLibrary() {
-    //     let url = "https://theaamgroup.com/image-editor/getLibrary?userId=" + this.state.userId;
-    //     let temp = [];
-    //     this.http.get(url, {
-    //         headers: {'Access-Control-Allow-Origin': "*"}
-    //     }).subscribe(data => {
-    //         for (let page in data) {
-    //             this.state.library.push(data[page]);
-    //         }
-    //     }, err => {
-    //         throw new Error('Something went wrong =(');
-    //     });
-    // }
-
-    // public loadPages() {
-        
-    //     let temp = [];
-    //    this.http.get("https://theaamgroup.com/image-editor/test", {
-    //         headers: {'Access-Control-Allow-Origin': "*"}
-    //     }).subscribe(data => {
-    //         for (let page in data) {
-    //             this.state.library.push(data[page]);
-    //         }
-    //     }, err => {
-    //         throw new Error('Something went wrong =(');
-    //     });
-    // }
 
     /**
      * Replace current history item, so object position is

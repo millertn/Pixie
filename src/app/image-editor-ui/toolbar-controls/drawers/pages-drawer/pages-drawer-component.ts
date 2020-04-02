@@ -8,8 +8,8 @@ import { ImportToolService } from 'app/image-editor/tools/import/import-tool.ser
 import { CanvasStateService } from '../../../../image-editor/canvas/canvas-state.service';
 import { ImageEditorService } from '../../../../image-editor/image-editor.service';
 import {ActiveFrameService} from '../../../../image-editor/tools/frame/active-frame.service';
-
-
+import { EditorControlsService } from '../../editor-controls.service';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'pages-drawer',
@@ -26,12 +26,29 @@ export class PagesDrawerComponent {
         private http:HttpClient,
         private state:CanvasStateService,
         private imageEditor:ImageEditorService,
-        private activeFrams:ActiveFrameService
+        private activeFrams:ActiveFrameService,
+        private editor:EditorControlsService
     ) {
-        this.state.pages.map (page => {
+        this.state.pages.map(page => {
             this.pages.push(page);
         });
         // this.pages = [... this.pages];
+    }
+
+    
+    public reorderObjects(e: CdkDragDrop<string>) {
+        console.log(e);
+        moveItemInArray(this.pages, e.previousIndex, e.currentIndex);
+
+        // //pixie and canvas object orders are reversed, need to
+        // //reverse newIndex given by cdk drag and drop
+        // const index = this.pages
+        //     .slice().reverse().findIndex(obj => obj.RowId === e.item.data);
+
+        // this.pages[e.item.data].moveTo(index);
+        
+        //need to use http to update sort order and dynamically pull it down.
+        this.state.fabric.requestRenderAll();
     }
 
 
@@ -40,13 +57,21 @@ export class PagesDrawerComponent {
     switchPage (projectId) {
         let state = null;
         let id = null;
+        let groupId = null;
         this.pages.map(page => {
             if (page.RowID == projectId) {
                 id = page.RowID;
                 state = page.ProjectState
+                groupId = page.ProjectGroupID
             }
         });
-        this.imageEditor.loadState(state, id, this.state.userId );
+        this.imageEditor.loadState(state, groupId, id, this.state.userId );
         this.imageEditor.applyChanges();
+        this.editor.closeCurrentPanel();
+    }
+
+    addPage() {
+        this.imageEditor.applyChanges();
+        this.editor.closeCurrentPanel();
     }
 }

@@ -100,7 +100,7 @@ export class ImportToolService {
         return new Promise(resolve => setTimeout(() => resolve()));
     }
 
-    public openFile(data: string|HTMLImageElement, extension: string = 'png',  fitToScreen = this.config.get('pixie.tools.import.fitOverlayToScreen'), name : string = ""): Promise<Image|void> {
+    public openFile(data: string|HTMLImageElement, extension: string = 'png',  fitToScreen = this.config.get('pixie.tools.import.fitOverlayToScreen'), name : string = "Custom Image"): Promise<Image|void> {
         if (data instanceof HTMLImageElement) data = data.src;
         if (extension === 'json') {
             return this.loadState(data);

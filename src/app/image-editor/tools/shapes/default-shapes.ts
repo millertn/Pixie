@@ -18,6 +18,13 @@ export const defaultShapes: BasicShape[] = [
         }
     },
     {
+        name: 'Placeholder Div',
+        type: 'PlaceholderDiv',
+        options: {
+            lockUniScaling: false,
+        }
+    },
+    {
         name: 'triangle',
         type: 'Triangle',
     },
