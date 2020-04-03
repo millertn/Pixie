@@ -31,6 +31,7 @@ import {DEFAULT_DARK_COLORS, DEFAULT_LIGHT_COLORS, DEFAULT_THEMES} from './defau
 import {CssTheme} from '@common/core/types/models/CssTheme';
 import {UploadsModule} from '@common/uploads/uploads.module';
 import cssVars from 'css-vars-ponyfill';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 export function init_icons(config: Settings, icons: MatIconRegistry, sanitizer: DomSanitizer, themes: ThemeService) {
     return () => {
@@ -84,6 +85,7 @@ export function init_icons(config: Settings, icons: MatIconRegistry, sanitizer: 
         MatDialogModule,
         MatRadioModule,
         UploadsModule,
+        FontAwesomeModule,
     ],
     declarations: [
         ImageEditorComponent,

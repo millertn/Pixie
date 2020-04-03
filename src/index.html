@@ -141,6 +141,9 @@
 
     function execute2() {
         window['Pixie'].loadPlaceholder();
+        window['Pixie'].get('canvas').on('object:added', function(e) {
+            console.log(e.target);
+        });
     }
 
     // function execute3() {
@@ -157,6 +160,7 @@
             Descriptions:["test desc 1", "test desc 2"]
         }
         window['Pixie'].addPart(part);
+
     }
 
     // document.addEventListener('DOMContentLoaded', function(){ 

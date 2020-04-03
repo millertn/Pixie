@@ -9,36 +9,42 @@
         <div class="bottom-label" trans>Color</div>
     </div>
 
-    <div class="button-with-image" (click)="openPanel('shadow')">
+    <div class="button-with-image" [class.active]="currentObjectInfo.shadow == true" (click)="openPanel('shadow')">
         <mat-icon svgIcon="shadow-custom"></mat-icon>
         <div class="bottom-label" trans>Shadow</div>
+        <div class="bottom-label appliedBottomText" [class.hidden]="currentObjectInfo.shadow != true" trans>Applied</div>
     </div>
 
     <ng-container *ngIf="!(activeObjIsSvg$ | async)">
-        <div class="button-with-image" (click)="openPanel('outline')">
+        <div class="button-with-image" [class.active]="currentObjectInfo.outline == true" (click)="openPanel('outline')">
             <mat-icon svgIcon="outline-custom"></mat-icon>
             <div class="bottom-label" trans>Outline</div>
+            <div class="bottom-label appliedBottomText" [class.hidden]="currentObjectInfo.outline != true" trans>Applied</div>
         </div>
 
-        <div class="button-with-image" (click)="openPanel('background')" >
+        <div class="button-with-image" [class.active]="currentObjectInfo.background == true" (click)="openPanel('background')" >
             <mat-icon svgIcon="background-custom"></mat-icon>
             <div class="bottom-label" trans>Background</div>
+            <div class="bottom-label appliedBottomText" [class.hidden]="currentObjectInfo.background != true" trans>Applied</div>
         </div>
     </ng-container>
 
-    <div class="button-with-image" (click)="openPanel('texture')" *ngIf="activeObjIsText$ | async">
+    <div class="button-with-image" [class.active]="currentObjectInfo.texture == true" (click)="openPanel('texture')" *ngIf="activeObjIsText$ | async">
         <mat-icon svgIcon="texture-custom"></mat-icon>
         <div class="bottom-label" trans>Texture</div>
+        <div class="bottom-label appliedBottomText" [class.hidden]="currentObjectInfo.texture != true" trans>Applied</div>
     </div>
 
-    <div class="button-with-image" (click)="openPanel('gradient')" *ngIf="(activeObjIsText$ | async)">
+    <div class="button-with-image" [class.active]="currentObjectInfo.gradient == true" (click)="openPanel('gradient')" *ngIf="(activeObjIsText$ | async)">
         <mat-icon svgIcon="gradient-custom"></mat-icon>
         <div class="bottom-label" trans>Gradient</div>
+        <div class="bottom-label appliedBottomText" [class.hidden]="currentObjectInfo.gradient != true" trans>Applied</div>
     </div>
 
-    <div class="button-with-image" (click)="openPanel('opacity')">
+    <div class="button-with-image" [class.active]="currentObjectInfo.opacity == true" (click)="openPanel('opacity')">
         <mat-icon svgIcon="opacity-custom"></mat-icon>
         <div class="bottom-label" trans>Opacity</div>
+        <div class="bottom-label appliedBottomText" [class.hidden]="currentObjectInfo.opacity != true" trans>Applied</div>
     </div>
 
     <div class="button-with-image" (click)="replaceImage()" *ngIf="(activeObjIsImage$ | async) || (activeObjIsSvg$ | async)">

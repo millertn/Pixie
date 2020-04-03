@@ -7,7 +7,8 @@ import {
     ObjectSelected,
     OpenEditor,
     OpenPanel,
-    SetZoom
+    SetZoom,
+    ApplyChanges
 } from './editor-state-actions';
 import {ObjectsState, ObjectsStateModel} from '../../image-editor-ui/state/objects/objects.state';
 import {DrawerName} from '../../image-editor-ui/toolbar-controls/drawers/drawer-name.enum';
@@ -180,7 +181,7 @@ export class EditorState implements NgxsAfterBootstrap {
     @Action(OpenPanel)
     openPanel(ctx: StateContext<EditorStateModel>, action: OpenPanel) {
         ctx.patchState({
-            activePanel: action.panel,
+            activePanel: action.panel
         });
     }
 

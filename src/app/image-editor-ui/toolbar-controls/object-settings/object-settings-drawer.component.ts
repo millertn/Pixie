@@ -10,6 +10,8 @@ import {EditorState} from '../../../image-editor/state/editor-state';
 import {ImportToolService} from '../../../image-editor/tools/import/import-tool.service';
 import {Image} from 'fabric/fabric-impl';
 import {CanvasService} from '../../../image-editor/canvas/canvas.service';
+import { CanvasStateService } from 'app/image-editor/canvas/canvas-state.service';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'object-settings-drawer',
@@ -20,11 +22,13 @@ import {CanvasService} from '../../../image-editor/canvas/canvas.service';
     host: {'class': 'controls-drawer'},
 })
 export class ObjectSettingsDrawerComponent implements OnInit, OnDestroy {
+    faTimes = faTimes;
     @Select(ObjectsState.activePanel) activePanel$: Observable<string>;
     @Select(EditorState.activeObjIsText) activeObjIsText$: Observable<boolean>;
     @Select(EditorState.activeObjIsSvg) activeObjIsSvg$: Observable<boolean>;
     @Select(EditorState.activeObjIsImage) activeObjIsImage$: Observable<boolean>;
     private subscription: Subscription;
+    public currentObjectInfo: any; 
 
     constructor(
         public activeObject: ActiveObjectService,
@@ -32,6 +36,7 @@ export class ObjectSettingsDrawerComponent implements OnInit, OnDestroy {
         protected store: Store,
         protected importTool: ImportToolService,
         protected canvas: CanvasService,
+        protected state: CanvasStateService,
     ) {}
 
     ngOnInit() {
@@ -40,6 +45,11 @@ export class ObjectSettingsDrawerComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.store.dispatch(new MarkAsDirty());
             });
+        this.state.canvasObjects.map(object => {
+            if (object.id == this.activeObject.getId()) {
+                this.currentObjectInfo = object;
+            }
+        })
     }
 
     ngOnDestroy() {
@@ -48,6 +58,7 @@ export class ObjectSettingsDrawerComponent implements OnInit, OnDestroy {
 
     public openPanel(name: string) {
         this.store.dispatch(new OpenObjectSettingsPanel(name));
+        this.state.activeTool = name;
     }
 
     public replaceImage() {

@@ -25,6 +25,7 @@ import { CanvasStateService } from './canvas/canvas-state.service';
 import { ActiveObjectService } from './canvas/active-object/active-object.service';
 import { TextToolService } from './tools/text/text-tool.service';
 import { FloatingPanelsService } from 'app/image-editor-ui/toolbar-controls/floating-panels.service';
+import { objectToArray } from '@common/core/utils/object-to-array';
 
 /**
  * This class should not be imported into any other tools or services.
@@ -76,6 +77,8 @@ export class ImageEditorService {
         this.state.userId = userId;
         this.state.pages = this.canvas.loadPages();
         this.state.library = this.canvas.loadLibrary();
+        this.state.canvasObjects = [];
+        this.state.activeTool = "";
         return this.canvas.openNew(width, height);
     }
 
@@ -175,6 +178,9 @@ export class ImageEditorService {
         this.state.userId = userId;
         this.state.pages = this.canvas.loadPages();
         this.state.library = this.canvas.loadLibrary();
+        this.state.canvasObjects = [];
+        this.state.activeTool = "";
+        this.state.action = "setting";
 
         if (typeof stateOrUrl === 'string' && (stateOrUrl.endsWith('.json') || stateOrUrl.startsWith('http'))) {
             return this.importTool.loadStateFromUrl(stateOrUrl);
@@ -217,8 +223,37 @@ export class ImageEditorService {
      * This is identical to clicking "apply" button in the editor.
      */
     public applyChanges(panel?: DrawerName) {
+        let action = true;
+        if (this.state.action == 'removing') {
+            action = false;
+        }
+        this.state.canvasObjects.map(object => {
+            if (object.id == this.activeObject.getId()) {
+                switch(this.state.activeTool) {
+                    case 'outline':
+                        object.outline = action;
+                        break;
+                    case 'shadow':
+                        object.shadow = action;
+                        break;
+                    case 'background':
+                        object.background = action;
+                        break;
+                    case 'opacity':
+                        object.opacity = action;
+                        break;
+                    case 'texture':
+                        object.texture = action;
+                        break;
+                    case 'gradient':
+                        object.gradient = action;
+                        break;      
+                }
+            }
+        });
         panel = panel || this.store.selectSnapshot(EditorState.activePanel) || DrawerName.OBJECT_SETTINGS;
         this.store.dispatch(new ApplyChanges(panel));
+        // console.log(this.state.canvasObjects);
     }
 
     /**
@@ -244,6 +279,7 @@ export class ImageEditorService {
      */
     public on(event: string, callback: (e: IEvent) => void) {
         return this.canvas.fabric().on(event, callback);
+        // console.log(event);
     }
 
     /**
@@ -363,6 +399,10 @@ export class ImageEditorService {
             return this.canvas.openNew(size.width, size.height);
         }
         return new Promise(resolve => resolve());
+    }
+
+    public getTracked() {
+        return this.state.canvasObjects;
     }
 
     /**

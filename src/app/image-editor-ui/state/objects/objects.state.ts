@@ -6,10 +6,11 @@ import {HistoryToolService} from '../../../image-editor/history/history-tool.ser
 import {HistoryNames} from '../../../image-editor/history/history-names.enum';
 import {BaseToolState} from '../base-tool.state';
 import {DrawerName} from '../../toolbar-controls/drawers/drawer-name.enum';
-
+import { CanvasStateService } from 'app/image-editor/canvas/canvas-state.service';
 export interface ObjectsStateModel {
     dirty: boolean;
     activePanel: string;
+    activeTool:string;
 }
 
 @State<ObjectsStateModel>({
@@ -17,6 +18,7 @@ export interface ObjectsStateModel {
     defaults: {
         dirty: false,
         activePanel: null,
+        activeTool:""
     }
 })
 export class ObjectsState extends BaseToolState<ObjectsStateModel> implements NgxsOnInit {
@@ -32,18 +34,24 @@ export class ObjectsState extends BaseToolState<ObjectsStateModel> implements Ng
         return state.activePanel;
     }
 
+    @Selector()
+    static activeTool(state: ObjectsStateModel) {
+        return state.activeTool;
+    }
+
     constructor(
         protected store: Store,
         protected history: HistoryToolService,
         protected activeObject: ActiveObjectService,
         protected actions$: Actions,
+        private state: CanvasStateService
     ) {
         super();
     }
 
     @Action(OpenObjectSettingsPanel)
     openObjectSettingsPanel(ctx: StateContext<ObjectsStateModel>, action: OpenObjectSettingsPanel) {
-        ctx.patchState({activePanel: action.panel});
+        ctx.patchState({activePanel: action.panel, activeTool:action.panel});
     }
 
     @Action(MarkAsDirty)
@@ -53,7 +61,7 @@ export class ObjectsState extends BaseToolState<ObjectsStateModel> implements Ng
 
     cancelChanges(ctx: StateContext<ObjectsStateModel>) {
         if (ctx.getState().activePanel) {
-            ctx.patchState({activePanel: null});
+            ctx.patchState({activePanel: null, activeTool:""});
         } else {
             this.store.dispatch(new CloseForePanel());
             this.activeObject.deselect();
@@ -62,7 +70,6 @@ export class ObjectsState extends BaseToolState<ObjectsStateModel> implements Ng
         if (ctx.getState().dirty) {
             this.history.reload();
         }
-
         ctx.patchState({dirty: false});
     }
 
@@ -70,15 +77,24 @@ export class ObjectsState extends BaseToolState<ObjectsStateModel> implements Ng
         this.store.dispatch(new CloseForePanel());
         if (ctx.getState().dirty) {
             this.history.add(HistoryNames.OBJECT_STYLE);
+            this.state.canvasObjects.map(object => {
+                if(this.activeObject.getId() == object.id) {
+                    let prop = ctx.getState().activeTool;
+                    object.prop = true;
+                }
+            })
         }
         ctx.patchState({dirty: false, activePanel: null});
         this.activeObject.deselect();
+
+        console.log(this.state.canvasObjects);
     }
 
     resetState(ctx: StateContext<ObjectsStateModel>) {
         ctx.setState({
             dirty: false,
             activePanel: null,
+            activeTool:""
         });
     }
 }

@@ -15,6 +15,7 @@ import {HttpClient} from '@angular/common/http';
 import { CanvasService } from 'app/image-editor/canvas/canvas.service';
 import { TextToolService } from 'app/image-editor/tools/text/text-tool.service';
 import { ActiveObjectService } from 'app/image-editor/canvas/active-object/active-object.service';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'add-part-panel',
@@ -24,6 +25,7 @@ import { ActiveObjectService } from 'app/image-editor/canvas/active-object/activ
     encapsulation: ViewEncapsulation.None,
 })
 export class AddPartPanelComponent {
+    faQuestionCircle = faQuestionCircle;
     constructor(
         // public library: LibraryListService,
         public panelRef: OverlayPanelRef,

@@ -1,3 +1,4 @@
+<button [class.hidden]="currentObjectInfo.gradient == false" (click)='removeEffect()'> Remove Effect</button>
 <div class="gradient button-with-image no-label"
      *ngFor="let gradient of defaultGradients; index as index;"
      (click)="fillWithGradient(index)">

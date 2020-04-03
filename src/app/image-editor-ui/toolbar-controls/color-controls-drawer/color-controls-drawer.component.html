@@ -1,3 +1,4 @@
 <color-widget [formControl]="activeObject.form.get(controlName)">
     <ng-content></ng-content>
 </color-widget>
+<button [class.hidden]="currentObjectInfo.background == false" (click)='removeEffect()'> Remove Effect</button>

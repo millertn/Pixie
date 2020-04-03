@@ -15,4 +15,5 @@
         <mat-slider min="1" max="20" formControlName="offsetY"></mat-slider>
     </div>
 </ng-container>
+<button [class.hidden]="currentObjectInfo.shadow == false" (click)='removeEffect()'> Remove Effect</button>
 <span [matTooltip]="'Having issues with shadow not showing? Try adding a background color!' | trans"><fa-icon [icon]="faQuestionCircle" [styles]="{'stroke': 'red', 'color': 'red'}"></fa-icon></span>

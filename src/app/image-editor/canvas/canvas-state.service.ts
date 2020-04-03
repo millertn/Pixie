@@ -27,7 +27,11 @@ export class CanvasStateService {
 
     public fabric: fabric.Canvas;
 
-    public canvasObjects:Object[];
+    public canvasObjects:any[];
+
+    public activeTool:any
+    
+    public action:string;
 
     public pages:Object[];
 
@@ -57,4 +61,5 @@ export class CanvasStateService {
         const rect = this.wrapperEl.getBoundingClientRect();
         return {width: rect.width, height: rect.height};
     }
+
 }

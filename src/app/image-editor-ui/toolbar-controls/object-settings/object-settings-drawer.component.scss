@@ -7,4 +7,22 @@ object-settings-drawer {
       vertical-align: middle;
     }
   }
+
+  .appliedBottomText {
+    font-size:10px !important;
+    margin-top: 0px;
+  }
+
+  .active {
+    border:1px solid #1bc31b !important;
+    background-color: #d8ffd8;
+  }
+
+  .remove {
+    position: relative;
+    /* position: absolute; */
+    top: -25px;
+    left: 60px;
+    cursor:pointer;
+  }
 }

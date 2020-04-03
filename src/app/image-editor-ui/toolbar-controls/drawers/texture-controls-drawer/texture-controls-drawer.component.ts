@@ -4,6 +4,9 @@ import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
 import {ActiveObjectService} from '../../../../image-editor/canvas/active-object/active-object.service';
 import {FillToolService} from '../../../../image-editor/tools/fill/fill-tool.service';
 import {ImportToolService} from '../../../../image-editor/tools/import/import-tool.service';
+import { CanvasStateService } from 'app/image-editor/canvas/canvas-state.service';
+import { EditorControlsService } from '../../editor-controls.service';
+import { ImageEditorService } from 'app/image-editor/image-editor.service';
 
 @Component({
     selector: 'texture-controls-drawer',
@@ -14,6 +17,7 @@ import {ImportToolService} from '../../../../image-editor/tools/import/import-to
 })
 export class TextureControlsDrawerComponent {
     public defaultTextures = Array.from(Array(28).keys());
+    public currentObjectInfo: any; 
 
     constructor(
         public activeObject: ActiveObjectService,
@@ -21,7 +25,16 @@ export class TextureControlsDrawerComponent {
         private sanitizer: DomSanitizer,
         private fillTool: FillToolService,
         private importTool: ImportToolService,
-    ) {}
+        public state: CanvasStateService,
+        public editor: EditorControlsService,
+        public imageEditor: ImageEditorService,
+    ) {
+        this.state.canvasObjects.map(object => {
+            if(object.id == this.activeObject.getId()) {
+                this.currentObjectInfo = object;
+            }
+        });
+    }
 
     public getTextureBgStyle(index: number): SafeStyle {
         return this.sanitizer.bypassSecurityTrustStyle(
@@ -41,5 +54,14 @@ export class TextureControlsDrawerComponent {
         this.importTool.importAndGetData().then(data => {
             this.fillTool.withPattern(data);
         });
+    }
+
+    public removeEffect() {
+        this.activeObject.setValues({
+            fill:'#000'
+        });
+        this.state.action = 'removing';
+        this.imageEditor.applyChanges();
+        this.editor.closeCurrentPanel();
     }
 }

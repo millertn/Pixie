@@ -6,12 +6,14 @@ import {StickerCategory} from './default-stickers';
 import {Settings} from '@common/core/config/settings.service';
 import {Object as FObject} from 'fabric/fabric-impl';
 import {ObjectNames} from '../../objects/object-names.enum';
+import { CanvasStateService } from 'app/image-editor/canvas/canvas-state.service';
 
 @Injectable()
 export class ShapesToolService {
     constructor(
         private canvas: CanvasService,
-        private config: Settings
+        private config: Settings,
+        private state: CanvasStateService,
     ) {}
 
     public getShapeByName(name: string): BasicShape|null {
@@ -94,6 +96,8 @@ export class ShapesToolService {
         sticker.viewportCenter();
         sticker.setCoords();
         this.canvas.render();
+
+        // this.canvas.addObjectToTracked(sticker.data.id);
     }
 
     public getStickerUrl(category: StickerCategory, stickerName: number|string): string {

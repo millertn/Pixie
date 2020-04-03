@@ -43,6 +43,10 @@ export class TextToolService {
 
         itext.enterEditing();
         itext.selectAll();
+
+        this.canvas.addObjectToTracked(itext.data.id);
+        
+        // this.canvas.addObjectToTracked(itext.data.id);
     }
 
     public addPartText(quadrant) {
@@ -71,6 +75,7 @@ export class TextToolService {
 
             this.canvas.fabric().setActiveObject(itext);
             this.canvas.render();
+            this.canvas.addObjectToTracked(itext.data.id);
         });
         
     }

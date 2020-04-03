@@ -17,6 +17,7 @@ import { max } from 'rxjs/operators';
 export class CanvasService {
     private readonly minWidth: number = 50;
     private readonly minHeight: number = 50;
+    public activeObjects = new Array;
 
     constructor(
         public pan: CanvasPanService,
@@ -61,6 +62,7 @@ export class CanvasService {
                 img.set(staticObjectConfig);
                 img.name = ObjectNames.mainImage.name;
                 this.state.fabric.add(img);
+                // this.addObjectToTracked(img.data.id);
                 this.resize(img.width, img.height);
                 this.zoom.fitToScreen();
                 this.store.dispatch(new ContentLoaded());
@@ -87,6 +89,9 @@ export class CanvasService {
         height = height < this.minHeight ? this.minHeight : height;
 
         this.state.fabric.clear();
+        this.state.canvasObjects = new Array;
+        this.state.activeTool = "";
+        this.state.action = "setting";
         this.resize(width, height);
 
         return new Promise(resolve => {
@@ -166,6 +171,10 @@ export class CanvasService {
                 this.render();
                 this.zoom.fitToScreen();
                 resolve(object);
+                console.log(object.data.id);
+
+                this.addObjectToTracked(object.data.id);
+                console.log(this.state.canvasObjects);
                 // }
             });
         });
@@ -218,8 +227,6 @@ export class CanvasService {
 
     //TODO missingNewlineOffset for newlines?
     public openPartImages(quadrant) {
-        // let totalCount = partImages.length + partText.length;
-        // let totalCount = quadrant.data.length;
         quadrant.data.map( (image, index) => {
             fabric.util.loadImage(image, returnImage => {
 
@@ -240,9 +247,42 @@ export class CanvasService {
                 object.top = quadrant.positionY;
                 object.left = quadrant.positionX;
                 this.state.fabric.add(object);
+
+
+                
+                this.addObjectToTracked(object.data.id);
+                console.log(this.state.canvasObjects);
                 this.render();
                 this.zoom.fitToScreen();
             });
         });
     }
+
+    public addObjectToTracked(id) {
+        this.state.canvasObjects.push({
+            id:id,
+            shadow:false,
+            outline:false,
+            background:false,
+            opacity:false,
+            texture:false,
+            gradient:false
+        });
+    }
+
+    // public editTrackedObject(id, data) {
+    //     this.state.canvasObjects.map(object => {
+    //         if (object.id == id) {
+    //             object.data.prop = data.value;
+    //         }
+    //     });
+    // }
+
+    // public removeObjectFromTracked(id) {
+    //     this.state.canvasObjects.map((object, index) => {
+    //         if (object.id == id) {
+    //             this.state.canvasObjects.splice(index, 1);
+    //         }
+    //     });
+    // }
 }
