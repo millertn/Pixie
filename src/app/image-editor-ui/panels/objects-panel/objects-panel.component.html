@@ -7,7 +7,7 @@
 <div class="items-list" customScrollbar cdkDropList (cdkDropListDropped)="reorderObjects($event)">
     <div
             class="reorder-item-wrapper drag-item"
-            *ngFor="let object of objects.getAll()"
+            *ngFor="let object of this.allObjects"
             cdkDrag
             [cdkDragData]="object.data.id"
             cdkDragBoundary=".items-list"

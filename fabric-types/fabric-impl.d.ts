@@ -1,5 +1,6 @@
 // This module does not really exist.
 // This is just to get `export as namespace fabric;` to work and to be re-exportable from `index.d.ts`.
+//fuck you
 
 export as namespace fabric;
 
@@ -9,6 +10,8 @@ export const isTouchSupported: boolean;
 /////////////////////////////////////////////////////////////
 // farbic Functions
 /////////////////////////////////////////////////////////////
+
+export function _splitTextIntoLines(text:string):string[];
 
 export function createCanvasForNode(width: number, height: number): Canvas;
 
@@ -3319,10 +3322,12 @@ export class IText extends Object {
 	render(ctx: CanvasRenderingContext2D, noTransform: boolean): void;
 	/**
 	 * Returns object representation of an instance
-	 * @param [propertiesToInclude] Any properties that you might want to additionally include in the output
+	 * @param [propertiesToInclude] Any provperties that you might want to additionally include in the output
 	 * @return object representation of an instance
 	 */
 	toObject(propertiesToInclude?: string[]): any;
+
+	setFontSize(value:number): Text;
 
 	setText(value: string): Text;
 	/**
@@ -3551,6 +3556,113 @@ export class IText extends Object {
 	 * @param object Object to create an instance from
 	 */
 	static fromObject(object: any): IText;
+}
+
+export interface Textbox extends IText, IITextOptions {}
+export class Textbox extends IText {
+	constructor(text: string, options?: IITextOptions);
+	initialize(text: string, options?: IITextOptions): IText;
+		/**
+	 * Enters editing state
+	 */
+	enterEditing(): IText;
+	/**
+	 * Initializes "mousemove" event handler
+	 */
+	initMouseMoveHandler(): void;
+	/**
+	 * Exits from editing state
+	 * @return thisArg
+	 * @chainable
+	 */
+	exitEditing(): IText;
+	/**
+	 * Returns true if object has no styling
+	 */
+	isEmptyStyles(): boolean;
+	render(ctx: CanvasRenderingContext2D, noTransform: boolean): void;
+
+	setFontSize(value:number): Text;
+	/**
+	 * Returns object representation of an instance
+	 * @param [propertiesToInclude] Any provperties that you might want to additionally include in the output
+	 * @return object representation of an instance
+	 */
+	toObject(propertiesToInclude?: string[]): any;
+
+	setText(value: string): Text;
+	/**
+	 * Sets selection start (left boundary of a selection)
+	 * @param index Index to set selection start to
+	 */
+	setSelectionStart(index: number): void;
+	/**
+	 * Sets selection end (right boundary of a selection)
+	 * @param index Index to set selection end to
+	 */
+	setSelectionEnd(index: number): void;
+	/**
+	 * Gets style of a current selection/cursor (at the start position)
+	 * @param [startIndex] Start index to get styles at
+	 * @param [endIndex] End index to get styles at
+	 * @return styles Style object at a specified (or current) index
+	 */
+	getSelectionStyles(startIndex: number, endIndex: number): any;
+	/**
+	 * Sets style of a current selection
+	 * @param [styles] Styles object
+	 * @return thisArg
+	 * @chainable
+	 */
+	setSelectionStyles(styles: any): Text;
+
+	/**
+	 * Renders cursor or selection (depending on what exists)
+	 */
+	renderCursorOrSelection(): void;
+
+	/**
+	 * Returns 2d representation (lineIndex and charIndex) of cursor (or selection start)
+	 * @param [selectionStart] Optional index. When not given, current selectionStart is used.
+	 */
+	get2DCursorLocation(selectionStart?: number): void;
+	/**
+	 * Returns complete style of char at the current cursor
+	 * @param lineIndex Line index
+	 * @param charIndex Char index
+	 * @return Character style
+	 */
+	getCurrentCharStyle(lineIndex: number, charIndex: number): any;
+
+	/**
+	 * Returns fontSize of char at the current cursor
+	 * @param lineIndex Line index
+	 * @param charIndex Char index
+	 * @return Character font size
+	 */
+	getCurrentCharFontSize(lineIndex: number, charIndex: number): number;
+
+	/**
+	 * Returns color (fill) of char at the current cursor
+	 * @param lineIndex Line index
+	 * @param charIndex Char index
+	 * @return Character color (fill)
+	 */
+	getCurrentCharColor(lineIndex: number, charIndex: number): string;
+	/**
+	 * Renders cursor
+	 */
+	renderCursor(boundaries: any): void;
+
+	/**
+	 * Renders text selection
+	 * @param chars Array of characters
+	 * @param boundaries Object with left/top/leftOffset/topOffset
+	 */
+	renderSelection(chars: string[], boundaries: any): void;
+
+	static fromObject(object: any): IText;
+
 }
 
 interface ITriangleOptions extends IObjectOptions { }

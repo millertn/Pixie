@@ -26,18 +26,25 @@ import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 })
 export class AddPartPanelComponent {
     faQuestionCircle = faQuestionCircle;
+    popupText = "";
     constructor(
         // public library: LibraryListService,
         public panelRef: OverlayPanelRef,
         private controls: EditorControlsService,
-        private state: CanvasStateService,
+        public state: CanvasStateService,
         private canvas:CanvasService,
         private store: Store,
         private http: HttpClient,
         private textTool: TextToolService,
         private activeObject:ActiveObjectService,
-    ) {}
+    ) {
 
+        if (this.state.paned == true) {
+            this.popupText = 'click Cancel to cancel adding a part.'
+        } else {
+            this.popupText = 'Move and Resize the placeholder to where you want your part to be. Click Add Part and your part will be dynamically added into the placeholder, click Cancel to cancel and remove the placeholder.'
+        }
+    }
 
     public cancelAdding() {
         this.panelRef.close();

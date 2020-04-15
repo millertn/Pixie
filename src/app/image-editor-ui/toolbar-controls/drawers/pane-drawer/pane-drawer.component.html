@@ -1,0 +1,27 @@
+
+   <div class="content"> 
+    <button class="button-with-image tool-button" (click)="openPanel('projects')">
+        <mat-icon [svgIcon]="'image-custom'"></mat-icon>
+        <span class="name bottom-label" trans>Images</span>
+    </button>
+
+    <button class="button-with-image tool-button partButton">
+        <mat-icon [svgIcon]="'parts-custom'"></mat-icon>
+        <span class="name bottom-label" trans>Products</span>
+    </button>
+
+    <button class="button-with-image tool-button toolboxButton">
+        <mat-icon [svgIcon]="'toolbox-custom'"></mat-icon>
+        <span class="name bottom-label" trans>Toolbox</span>
+    </button>
+
+    <button class="button-with-image tool-button" (click)="openPanel('text')">
+        <mat-icon [svgIcon]="'text-box-custom'"></mat-icon>
+        <span class="name bottom-label" trans>Text</span>
+    </button>
+
+    <button class="button-with-image tool-button" (click)="openPanel('warnings')">
+        <mat-icon [svgIcon]="'warning-custom'"></mat-icon>
+        <span class="name bottom-label" trans>Warnings</span>
+    </button>
+</div>

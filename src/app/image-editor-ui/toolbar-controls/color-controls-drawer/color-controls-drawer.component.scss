@@ -1,7 +1,7 @@
 color-controls-drawer {
   display: block;
 
-  button {
+  .remove-effect {
     font-size: 10px !important;
     border: 0;
     border-radius: .25em;
@@ -15,10 +15,10 @@ color-controls-drawer {
     box-shadow: none;
     font-weight: 700;
     cursor: pointer;
-  }
 
-  button:hover {
-    background-color: #a9101d;
+    &:hover {
+      background-color: #a9101d;
+    }
   }
 
   color-widget {

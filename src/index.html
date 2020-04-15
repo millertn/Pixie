@@ -136,14 +136,22 @@
     }, 50);
 
     function execute() {
-        window['Pixie'].openFile('https://aam5.imgix.net/3/logos/manufacturer/BGPQ.png?fit=max&w=192&auto=compress%2Cformat', 'png', false, 'Test Image');
+        // window['Pixie'].openFile('https://aam5.imgix.net/3/logos/manufacturer/BGPQ.png?fit=max&w=192&auto=compress%2Cformat', 'png', false, 'Test Image');
+        // console.log(window['Pixie'].getStateObjects());
+        // // console.log(window['Pixie'].getState());
+
+        // let dummyStateObj = [
+        //     {id:"LjARMdhrDc", shadow:false, outline:false, background:false, opacity:false, texture:false, gradient:false},
+        //     {id:"skhfaHskRD", shadow:false, outline:false, background:false, opacity:false, texture:false, gradient:false}
+        // ]
+        window['Pixie'].loadPanes(1 , 'PP');
+        // window['Pixie'].testBullshit();
+        // console.log(window['Pixie'].getStateObjects());
+
     }
 
     function execute2() {
-        window['Pixie'].loadPlaceholder();
-        window['Pixie'].get('canvas').on('object:added', function(e) {
-            console.log(e.target);
-        });
+        window['Pixie'].openFile('https://aam5.imgix.net/3/logos/manufacturer/BBFF.png?fit=max&w=192&auto=compress%2Cformat', 'png', false, "It's an Image");
     }
 
     // function execute3() {

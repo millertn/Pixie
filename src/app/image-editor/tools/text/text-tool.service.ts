@@ -10,6 +10,8 @@ import {normalizeObjectProps, PixieObjOptions} from '../../utils/normalize-objec
 import {FontsPaginatorService} from '../../../image-editor-ui/toolbar-controls/widgets/google-fonts-panel/fonts-paginator.service';
 import {Settings} from '@common/core/config/settings.service';
 import { CanvasStateService } from 'app/image-editor/canvas/canvas-state.service';
+import {Textbox} from 'fabric/fabric-impl';
+import { ObjectSelected } from 'app/image-editor/state/editor-state-actions';
 
 @Injectable()
 export class TextToolService {
@@ -26,57 +28,74 @@ export class TextToolService {
 
     public add(text = null, providedConfig: ITextOptions = {}) {
         text = text || this.config.get('pixie.tools.text.defaultText');
-
-        const options = normalizeObjectProps({
-            ...this.activeObject.form.value,
-            ...this.config.get('pixie.objectDefaults.text'),
-            ...providedConfig,
-            name: ObjectNames.text.name,
-        });
-
-        const itext = new fabric.IText(text, options);
-        this.canvas.fabric().add(itext);
-        this.autoPositionText(itext);
-
-        this.canvas.fabric().setActiveObject(itext);
-        this.canvas.render();
-
-        itext.enterEditing();
-        itext.selectAll();
-
-        this.canvas.addObjectToTracked(itext.data.id);
-        
-        // this.canvas.addObjectToTracked(itext.data.id);
-    }
-
-    public addPartText(quadrant) {
-        quadrant.data.map( (text, index) => {
+        if (this.state.activePane != "") {
             const options = normalizeObjectProps({
                 ...this.config.get('pixie.objectDefaults.text'),
-                name: quadrant.name + " - " + index,
+                name: ObjectNames.text.name,
             });
+            let objects = this.objects.getAll();
+            objects.map(object => {
+                if (object.data.id == this.state.activePane) {
+                    const textBox = new fabric.IText(text, options);
+                    textBox.top = object.top;
+                    textBox.left = object.left;
+                    textBox.width = object.width;
+                    textBox.fontSize = 32;
 
+                    this.canvas.fabric().add(textBox);
+                    this.canvas.fabric().setActiveObject(textBox);
+                    this.canvas.render();
+                    this.canvas.addObjectToTracked(textBox.data.id);
+
+                    textBox.enterEditing();
+                    textBox.selectAll();
+                }
+            });
+        } else {
+
+            const options = normalizeObjectProps({
+                ...this.activeObject.form.value,
+                ...this.config.get('pixie.objectDefaults.text'),
+                ...providedConfig,
+                name: ObjectNames.text.name,
+            });
             const itext = new fabric.IText(text, options);
-            itext.top = quadrant.positionY;
-            itext.left = quadrant.positionX;
-
-            if ((itext.width >= quadrant.width || itext.height >= quadrant.height)) {
-                // calc new image dimensions (main image height - 10% and width - 10%)
-                const newWidth  = quadrant.width,
-                    newHeight = quadrant.height,
-                    scale     = 1 / (Math.min(newHeight / itext.getScaledHeight(), newWidth / itext.getScaledWidth()));
-
-                // scale newly uploaded image to the above dimensions
-                itext.scaleX = itext.scaleX * (1 / scale);
-                itext.scaleY = itext.scaleY * (1 / scale);
-            }
             this.canvas.fabric().add(itext);
-            // this.autoPositionText(itext);
+            this.autoPositionText(itext);
 
             this.canvas.fabric().setActiveObject(itext);
             this.canvas.render();
+
+            itext.enterEditing();
+            itext.selectAll();
+
             this.canvas.addObjectToTracked(itext.data.id);
+            
+        }
+    }
+
+    public addPartText(quadrant) {
+        let combinedText = "";
+        quadrant.data.map( (text, index) => {
+            combinedText += text + "\n";
         });
+
+        const options = normalizeObjectProps({
+            ...this.config.get('pixie.objectDefaults.text'),
+            name: quadrant.name,
+            selectable:true,
+            evented:true
+        });
+
+        const itext = new fabric.Textbox(combinedText, options);
+        itext.top = quadrant.positionY;
+        itext.left = quadrant.positionX;
+        itext.width = quadrant.width;
+        itext.fontSize = 24;
+        this.canvas.fabric().add(itext);
+        // this.canvas.fabric().setActiveObject(itext);
+        this.canvas.render();
+        this.canvas.addObjectToTracked(itext.data.id);
         
     }
 

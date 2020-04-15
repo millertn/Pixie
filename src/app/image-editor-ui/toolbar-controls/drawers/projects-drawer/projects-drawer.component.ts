@@ -1,11 +1,10 @@
 import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
-import {Settings} from 'common/core/config/settings.service';
 import {Select, Store} from '@ngxs/store';
 import {ProjectsState} from '../../../state/projects/projects.state';
 import {Observable} from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { ImportToolService } from 'app/image-editor/tools/import/import-tool.service';
 import {FloatingPanelsService} from '../../floating-panels.service';
+import { EditorControlsService } from '../../editor-controls.service';
 
 @Component({
     selector: 'projects-drawer',
@@ -19,12 +18,14 @@ export class ProjectsDrawerComponent {
     @Select(ProjectsState.dirty) dirty$: Observable<boolean>;
     constructor(
         public panels: FloatingPanelsService,
-        private importTool:ImportToolService
+        private importTool:ImportToolService,
+        public editor: EditorControlsService
 
     ) {
     }
-
+    
     public triggerUpload() {
         this.importTool.openUploadDialog();
+        this.editor.closeCurrentPanel();
     }
 }

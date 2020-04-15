@@ -1,12 +1,8 @@
 <div class="header">
-    <span [matTooltip]="'Move and Resize the placeholder to where you want your part to be. Click Add Part and your part will be dynamically added into the placeholder, click Cancel to cancel and remove the placeholder.' | trans"><fa-icon [icon]="faQuestionCircle"></fa-icon></span>
-    <!-- <div class="name" trans>Choose where you want your part to go by moving and resizing the placeholder!The part will be dynamically added in once you click Add Part.</div> -->
-    <!-- <button class="close-button" mat-icon-button (click)="panelRef.close()">
-        <mat-icon svgIcon="close"></mat-icon>
-    </button> -->
+    <span [matTooltip]="'this.popupText' | trans"><fa-icon [icon]="faQuestionCircle"></fa-icon></span>
 </div>
-<!-- <p>Position and resize the placeholder wherever you want! when you're happy with it, click Add Part to dynamically load in the part or Cancel to cancel</p> -->
-<button class="addPartToPlaceholder" (click)="panelRef.close()">
+
+<button class="addPartToPlaceholder" (click)="panelRef.close()" [class.hidden] = "this.state.paned == true" >
     Add Part
 </button>
 

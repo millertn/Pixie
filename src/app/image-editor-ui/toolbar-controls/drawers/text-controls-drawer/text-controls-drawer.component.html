@@ -11,5 +11,7 @@
         <mat-button-toggle [checked]="activeObject.form.get('fontStyle').value === 'italic'" value="italic"><mat-icon svgIcon="format-italic"></mat-icon></mat-button-toggle>
     </mat-button-toggle-group>
 
+    <input class="size-selector" type="number" (change)="setFontSize($event)" (input)="setFontSize($event)" (paste)="setFontSize($event)" [value]="currentObject.fontSize">
+
     <text-font-selector formControlName="fontFamily"></text-font-selector>
 </ng-container>

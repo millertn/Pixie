@@ -32,25 +32,7 @@ export class PagesDrawerComponent {
         this.state.pages.map(page => {
             this.pages.push(page);
         });
-        // this.pages = [... this.pages];
     }
-
-    
-    public reorderObjects(e: CdkDragDrop<string>) {
-        console.log(e);
-        moveItemInArray(this.pages, e.previousIndex, e.currentIndex);
-
-        // //pixie and canvas object orders are reversed, need to
-        // //reverse newIndex given by cdk drag and drop
-        // const index = this.pages
-        //     .slice().reverse().findIndex(obj => obj.RowId === e.item.data);
-
-        // this.pages[e.item.data].moveTo(index);
-        
-        //need to use http to update sort order and dynamically pull it down.
-        this.state.fabric.requestRenderAll();
-    }
-
 
     //might need to move this into state so I can also dynamically upload the view?
     // force clsoe the panel instead you imbecile
@@ -58,14 +40,23 @@ export class PagesDrawerComponent {
         let state = null;
         let id = null;
         let groupId = null;
+        let stateObjs = null
+        let paned = false;
+        let version = 0;
         this.pages.map(page => {
             if (page.RowID == projectId) {
                 id = page.RowID;
-                state = page.ProjectState
-                groupId = page.ProjectGroupID
+                state = page.ProjectState;
+                groupId = page.ProjectGroupID;
+                stateObjs = page.CanvasStateObjects;
+                version = page.Paned
             }
         });
-        this.imageEditor.loadState(state, groupId, id, this.state.userId );
+        this.imageEditor.loadState(state);
+        if (version > 0) {
+            paned = true;
+        }
+        this.imageEditor.setStateObjects(id, groupId, this.state.userId, stateObjs, paned, version, '', false);
         this.imageEditor.applyChanges();
         this.editor.closeCurrentPanel();
     }

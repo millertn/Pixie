@@ -20,8 +20,7 @@ export class ToolsDrawerComponent {
     constructor(
         private config: Settings,
         private store: Store,
-    ) {
-    }
+    ) {}
 
     public openPanel(name) {
         this.store.dispatch(new OpenPanel(name));

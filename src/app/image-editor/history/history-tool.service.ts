@@ -10,6 +10,7 @@ import {TextToolService} from '../tools/text/text-tool.service';
 import {GoogleFontsPanelService} from '../../image-editor-ui/toolbar-controls/widgets/google-fonts-panel/google-fonts-panel.service';
 import {Actions, ofActionSuccessful, Store} from '@ngxs/store';
 import {HistoryState} from '../../image-editor-ui/state/history/history.state';
+import {CanvasStateService} from '../canvas/canvas-state.service';
 import {
     AddHistoryItem,
     HistoryChanged,
@@ -36,6 +37,7 @@ export class HistoryToolService {
         private store: Store,
         private actions$: Actions,
         private settings: Settings,
+        private state:CanvasStateService
     ) {
         this.actions$.pipe(ofActionSuccessful(ContentLoaded), take(1))
             .subscribe(() => {
@@ -132,7 +134,6 @@ export class HistoryToolService {
                    this.canvas.fabric().calcOffset();
                    this.canvas.state.loading = false;
                    this.canvas.zoom.fitToScreen();
-
                    this.objects.syncObjects();
                    this.store.dispatch(new HistoryChanged());
                    resolve();

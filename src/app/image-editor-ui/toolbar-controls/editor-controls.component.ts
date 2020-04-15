@@ -37,10 +37,16 @@ export class EditorControlsComponent {
         public activeObject: ActiveObjectService,
         public breakpoints: BreakpointsService,
         public imageEditor: ImageEditorService,
-    ) {}
+    ) {
+        if (activeObject.get() != null) {
+            if (activeObject.get().name == 'Pane') {
+                controls.openPanel(DrawerName.NAVIGATION);
+            }
+        }
+    }
 
     public showFloatingPanel() {
-        if (this.activeObject.get() == null || this.activeObject.get().name == 'Placeholder Div') {
+        if (this.activeObject.get() == null || this.activeObject.get().name == 'Placeholder Div' || this.activeObject.get().name == 'Pane') {
             return false;
         } else {
             return true;

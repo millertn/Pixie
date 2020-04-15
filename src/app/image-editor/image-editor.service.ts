@@ -26,6 +26,9 @@ import { ActiveObjectService } from './canvas/active-object/active-object.servic
 import { TextToolService } from './tools/text/text-tool.service';
 import { FloatingPanelsService } from 'app/image-editor-ui/toolbar-controls/floating-panels.service';
 import { objectToArray } from '@common/core/utils/object-to-array';
+import {Textbox} from 'fabric/fabric-impl';
+import {normalizeObjectProps, PixieObjOptions} from './utils/normalize-object-props';
+import { ObjectListService } from './objects/object-list.service';
 
 /**
  * This class should not be imported into any other tools or services.
@@ -49,7 +52,8 @@ export class ImageEditorService {
         protected themes: ThemeService,
         protected activeObject: ActiveObjectService,
         protected textTool: TextToolService,
-        protected panels: FloatingPanelsService
+        protected panels: FloatingPanelsService,
+        protected objects: ObjectListService,
     ) {}
 
     /**
@@ -72,18 +76,37 @@ export class ImageEditorService {
             this.importTool.openFile(data, extension, false, name);
     }
 
-    public newCanvas(width: number, height: number, projectId:number, userId:number) {
+    public newCanvas(width: number, height: number) {
+        this.state.canvasObjects = new Array;
+        this.state.activeTool = "";
+        console.log(this.state.canvasObjects);   
+        return this.canvas.openNew(width, height);
+
+    }
+
+    public setStateObjects(projectId:number, groupId:number, userId:number, canvasObjects, paned:boolean, type:number, program:string, firstLoad:boolean) {
+        this.state.groupId = groupId;
         this.state.canvasId = projectId;
         this.state.userId = userId;
         this.state.pages = this.canvas.loadPages();
         this.state.library = this.canvas.loadLibrary();
-        this.state.canvasObjects = [];
+        this.state.canvasObjects = canvasObjects;
         this.state.activeTool = "";
-        return this.canvas.openNew(width, height);
+        this.state.activePane = "";
+        this.state.paned = paned;
+
+        if (paned && firstLoad) {
+            this.loadPanes(type, program);
+        } 
     }
 
     //TODO: on addPart, allow user to click through part stuff, load in div automatically once they're done, allow the user to resize and position
     //TODO: make a panel that contains "Add Part" and "Cancel"
+
+    public toggleAddPart() {
+        this.panels.openAddPartPanel();
+    }
+
     public loadPlaceholder() {
         this.panels.openAddPartPanel();
         let objects = this.canvas.fabric().getObjects();
@@ -121,14 +144,338 @@ export class ImageEditorService {
     }
 
 
+    public loadPanes(type:number, program:string) {
+        let programImage = null;
+        switch(program) {
+            case 'PP': programImage = 'https://aam5.imgix.net/3/logos/aam/parts-pro.png?w=900';
+                break;
+            case 'PC': programImage = 'https://aam5.imgix.net/3/logos/aam/performance-corner.png';
+                break
+            case 'TT': programImage = 'https://aam5.imgix.net/3/logos/aam/total-truck-centers.png';
+                break;
+        }
+        let objects = [];
+            let defaultOptions = {
+                stroke: '#bf202f',
+                strokeWidth: 5,
+                strokeDashArray: [5,5],
+                selectable: true,
+                evented: true,
+                name:'Pane',
+                fill: 'transparent',
+                lockMovementX:true,
+                lockMovementY:true,
+                lockRotation:true,
+                lockScalingFlip:true,
+                lockScalingX:true,
+                lockScalingY:true,
+                lockSkewingX:true,
+                lockSkewingY:true,
+                lockUniScaling:true
+            }
+
+            //types
+            //1: first page
+            //2: 8 paned second/last page
+            //3: 6 paned second/last page
+            switch(type) {
+                case 1: 
+
+                fabric.util.loadImage(programImage, returnImage => {
+                    const object = new fabric.Image(returnImage);
+                    object.name = 'Program Image';
+                    // object.width = 500;
+                    object.top = 0;
+                    object.left = 100;
+                    object.lockMovementX = true;
+                    object.lockMovementY = true;
+                    object.lockRotation = true;
+                    object.lockScalingFlip = true;
+                    object.lockScalingX = true;
+                    object.lockScalingY = true;
+                    object.lockUniScaling = true;
+                    object.selectable = false;
+                    object.evented = false;
+
+                    this.state.fabric.add(object);
+                    this.canvas.addObjectToTracked(object.data.id);
+                    this.canvas.render();
+                });
+                    objects = [
+                        // new fabric.Rect({
+                        //     width: 900,
+                        //     height: 500,
+                        //     top: 70,
+                        //     left:100,
+            
+                        //     ...defaultOptions
+                        // }),
+                        new fabric.Rect({
+                            width: 900,
+                            height: 500,
+                            top: 70,
+                            left:1175,
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 900,
+                            height: 500,
+                            top: 70,
+                            left:2250,
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 3295,
+                            height: 1200,
+                            top: 650,
+                            left:0,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1450,
+                            height: 900,
+                            top: 1950,
+                            left:100,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 900,
+                            top: 1950,
+                            left:1675,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1450,
+                            height: 900,
+                            top: 2950,
+                            left:100,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 900,
+                            top: 2950,
+                            left:1675,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 2200,
+                            height: 350,
+                            top: 3950,
+                            left:100,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 850,
+                            height: 350,
+                            top: 3950,
+                            left:2300,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        })
+                    ];
+                break;
+                case 2:
+                    objects = [
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 850,
+                            top: 100,
+                            left:100,
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 850,
+                            top: 100,
+                            left:1700,
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 850,
+                            top: 1050,
+                            left:100,
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 850,
+                            top: 1050,
+                            left:1700,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 850,
+                            top: 2000,
+                            left:100,
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 850,
+                            top: 2000,
+                            left:1700,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 850,
+                            top: 2950,
+                            left:100,
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 850,
+                            top: 2950,
+                            left:1700,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 2200,
+                            height: 350,
+                            top: 3950,
+                            left:100,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 900,
+                            height: 350,
+                            top: 3950,
+                            left:2300,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        })
+                    ];
+                break;
+                case 3:
+                    objects = [
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 1150,
+                            top: 100,
+                            left:100,
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 1150,
+                            top: 100,
+                            left:1700,
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 1250,
+                            top: 1350,
+                            left:100,
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 1250,
+                            top: 1350,
+                            left:1700,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 1150,
+                            top: 2700,
+                            left:100,
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 1500,
+                            height: 1150,
+                            top: 2700,
+                            left:1700,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        }),
+
+
+                        new fabric.Rect({
+                            width: 2200,
+                            height: 350,
+                            top: 3950,
+                            left:100,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        }),
+                        new fabric.Rect({
+                            width: 900,
+                            height: 350,
+                            top: 3950,
+                            left:2300,
+                            name: 'Pane',
+            
+                            ...defaultOptions
+                        })
+                    ];
+                break;
+
+            }
+            objects.map(object => {
+                this.state.fabric.add(object);
+                this.canvas.addObjectToTracked(object.data.id);
+            });
+
+            this.canvas.render();
+    }
+
+
     public addPart(part) {
+
         let objects = this.canvas.fabric().getObjects();
         let placeholderObj = null;
         let maxWidth  = this.state.original.width;
         let maxHeight = this.state.original.height;
 
         objects.map(object => {
-            if (object.name == "Placeholder Div") {
+            if (this.state.activePane != "" && object.data.id == this.state.activePane) {
+                placeholderObj = object;
+            } else if (object.name == "Placeholder Div") {
                 placeholderObj = object;
             }
         });
@@ -148,10 +495,10 @@ export class ImageEditorService {
             let quadrants = [
                 {position:"topL", width:halfWidth, height:(.20 * maxHeight), positionX:placeholderX, positionY:placeholderY, data:[part.BrandImage], name:name + " - Brand Image", type:'image'}, 
                 {position:"topR", width:halfWidth, height:(.20 * maxHeight), positionX:(placeholderX + halfWidth), positionY:placeholderY, data:[part.Name], name:name + " - Part Name", type:'text'},
-                {position:"midL", width:halfWidth, height:(.60 * maxHeight), positionX:placeholderX, positionY:(placeholderY + (.20 * maxHeight)), data:part.Images, name:name + " - Part Image", type:"image"}, 
-                {position:"midR", width:halfWidth, height:(.60 * maxHeight), positionX:(placeholderX + halfWidth), positionY:(placeholderY + (.20 * maxHeight)), data:part.Descriptions, name:name + " - Part Description", type:"text"},
-                {position:"botL", width:halfWidth, height:(.20 * maxHeight), positionX:placeholderX, positionY:(placeholderY + (.60 * maxHeight)), data:[part.PartNumber], name:name + " - Part Number", type:"text"}, 
-                {position:"botR", width:halfWidth, height:(.20 * maxHeight), positionX:(placeholderX + halfWidth), positionY:(placeholderY + (.60 * maxHeight)), data:[part.Price], name:name + " - Price", type:"text"},
+                {position:"midL", width:halfWidth, height:(.70 * maxHeight), positionX:placeholderX, positionY:(placeholderY + (.20 * maxHeight)), data:part.Images, name:name + " - Part Image", type:"image"}, 
+                {position:"midR", width:halfWidth, height:(.70 * maxHeight), positionX:(placeholderX + halfWidth), positionY:(placeholderY + (.20 * maxHeight)), data:part.Descriptions, name:name + " - Part Description", type:"text"},
+                {position:"botL", width:halfWidth, height:(.10 * maxHeight), positionX:placeholderX, positionY:(placeholderY + (.70 * maxHeight)), data:[part.PartNumber], name:name + " - Part Number", type:"text"}, 
+                {position:"botR", width:halfWidth, height:(.10 * maxHeight), positionX:(placeholderX + halfWidth), positionY:(placeholderY + (.70 * maxHeight)), data:[part.Price], name:name + " - Price", type:"text"},
             ]
 
             quadrants.map(quadrant => {
@@ -164,24 +511,20 @@ export class ImageEditorService {
         } else {
             //add as normal, might just... leave this out lol
         }
-        this.panels.closePanel('add-part');
-        this.canvas.fabric().setActiveObject(placeholderObj);
-        this.activeObject.delete();
+        placeholderObj.sendToBack();
+        if (this.state.activePane == "") {
+            this.panels.closePanel('add-part');
+            this.canvas.fabric().setActiveObject(placeholderObj);
+            this.activeObject.delete();
+        } else {
+            placeholderObj.deselect();
+        }
     }
 
     /**
      * Load canvas state from specified json data or url.
      */
-    public loadState(stateOrUrl: string|SerializedCanvas, projectGroupId:number, projectId:number, userId:number) {
-        this.state.groupId = projectGroupId;
-        this.state.canvasId = projectId;
-        this.state.userId = userId;
-        this.state.pages = this.canvas.loadPages();
-        this.state.library = this.canvas.loadLibrary();
-        this.state.canvasObjects = [];
-        this.state.activeTool = "";
-        this.state.action = "setting";
-
+    public loadState(stateOrUrl: string|SerializedCanvas) {
         if (typeof stateOrUrl === 'string' && (stateOrUrl.endsWith('.json') || stateOrUrl.startsWith('http'))) {
             return this.importTool.loadStateFromUrl(stateOrUrl);
         } else {
@@ -194,6 +537,25 @@ export class ImageEditorService {
      */
     public getState(customProps?: string[]) {
         return JSON.stringify(this.history.getCurrentCanvasState(customProps));
+    }
+
+    public getStateWithoutPanes(customProps?: string[]) {
+        this.objects.getAll().map( object =>{
+            if (object.name == 'Pane') {
+                this.canvas.fabric().setActiveObject(object);
+                this.activeObject.delete();
+            }
+        });
+
+        return JSON.stringify(this.history.getCurrentCanvasState(customProps));
+    }
+
+    public getStateObjects() {
+        return this.state.canvasObjects;   
+    }
+
+    public getPaned() {
+        return this.state.paned;
     }
 
     /**
@@ -227,30 +589,33 @@ export class ImageEditorService {
         if (this.state.action == 'removing') {
             action = false;
         }
-        this.state.canvasObjects.map(object => {
-            if (object.id == this.activeObject.getId()) {
-                switch(this.state.activeTool) {
-                    case 'outline':
-                        object.outline = action;
-                        break;
-                    case 'shadow':
-                        object.shadow = action;
-                        break;
-                    case 'background':
-                        object.background = action;
-                        break;
-                    case 'opacity':
-                        object.opacity = action;
-                        break;
-                    case 'texture':
-                        object.texture = action;
-                        break;
-                    case 'gradient':
-                        object.gradient = action;
-                        break;      
+
+        if (typeof this.state.canvasObjects != undefined) {
+            this.state.canvasObjects.map(object => {
+                if (object.id == this.activeObject.getId()) {
+                    switch(this.state.activeTool) {
+                        case 'outline':
+                            object.outline = action;
+                            break;
+                        case 'shadow':
+                            object.shadow = action;
+                            break;
+                        case 'background':
+                            object.background = action;
+                            break;
+                        case 'opacity':
+                            object.opacity = action;
+                            break;
+                        case 'texture':
+                            object.texture = action;
+                            break;
+                        case 'gradient':
+                            object.gradient = action;
+                            break;      
+                    }
                 }
-            }
-        });
+            });
+        }
         panel = panel || this.store.selectSnapshot(EditorState.activePanel) || DrawerName.OBJECT_SETTINGS;
         this.store.dispatch(new ApplyChanges(panel));
         // console.log(this.state.canvasObjects);
@@ -389,12 +754,12 @@ export class ImageEditorService {
             state = this.settings.get('pixie.state');
         if (image) {
             if (image.endsWith('.json')) {
-                return this.loadState(image, 0, 0, 0);
+                return this.loadState(image);
             } else {
                 return this.canvas.loadMainImage(image);
             }
         } else if (state) {
-            return this.loadState(state, 0, 0, 0);
+            return this.loadState(state);
         } else if (size) {
             return this.canvas.openNew(size.width, size.height);
         }

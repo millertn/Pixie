@@ -21,6 +21,7 @@ import {Observable} from 'rxjs';
 })
 export class ObjectsPanelComponent {
     @Select(EditorState.activeObjId) activeObjId$: Observable<string>;
+    public allObjects;
 
     constructor(
         public objects: ObjectListService,
@@ -28,7 +29,14 @@ export class ObjectsPanelComponent {
         private controls: EditorControlsService,
         private canvasState: CanvasStateService,
         private store: Store,
-    ) {}
+    ) {
+        this.allObjects = [];
+        this.objects.getAll().map(object => {
+            if (object.name != 'Pane') {
+                this.allObjects.push(object);
+            }
+        });
+    }
 
     public getIcon(object: Object): string {
         if (typeof ObjectNames[object.name] === "undefined") {

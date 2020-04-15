@@ -25,10 +25,11 @@
             <canvas-background-drawer *ngSwitchCase="'background'" @controlsAnimation></canvas-background-drawer>
             <warnings-drawer *ngSwitchCase="'warnings'" @controlsAnimation></warnings-drawer>
             <object-settings-drawer *ngSwitchCase="'objectSettings'" @controlsAnimation></object-settings-drawer>
+            <pane-drawer *ngSwitchCase="'pane'" @controlsAnimation></pane-drawer>
             <custom-drawer *ngSwitchDefault @controlsAnimation></custom-drawer>
         </div>
 
-        <button class="apply-button" [class.hidden]="activePanel === 'projects' || activePanel === 'tools' || activePanel === 'warnings' || activePanel === 'pages'" mat-raised-button color="accent" (click)="imageEditor.applyChanges()" [disabled]="!(dirty$ | async)" trans>Apply</button>
+        <button class="apply-button" [class.hidden]="activePanel === 'projects' || activePanel === 'tools' || activePanel === 'warnings' || activePanel === 'pages' || activePanel === 'pane'" mat-raised-button color="accent" (click)="imageEditor.applyChanges()" [disabled]="!(dirty$ | async)" trans>Apply</button>
     </div>
 
     <floating-object-controls *ngIf=" (showFloatingPanel()) && (activeObjId$ | async) || (breakpoints.isMobile$ | async)"></floating-object-controls>

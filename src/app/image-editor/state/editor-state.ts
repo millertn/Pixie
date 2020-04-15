@@ -32,6 +32,7 @@ import {TextState} from '../../image-editor-ui/state/text/text.state';
 import {ActiveObjectService} from '../canvas/active-object/active-object.service';
 import {Settings} from '@common/core/config/settings.service';
 import {BreakpointsService} from '@common/core/ui/breakpoints.service';
+import { CanvasStateService } from '../canvas/canvas-state.service';
 
 interface EditorStateModel {
     visible: boolean;
@@ -154,6 +155,7 @@ export class EditorState implements NgxsAfterBootstrap {
         private config: Settings,
         private breakpoints: BreakpointsService,
         private activeObject: ActiveObjectService,
+        private state:CanvasStateService,
     ) {}
 
     ngxsAfterBootstrap(ctx: StateContext<EditorStateModel>) {
@@ -194,11 +196,17 @@ export class EditorState implements NgxsAfterBootstrap {
     @Action(ObjectSelected)
     objectSelected(ctx: StateContext<EditorStateModel>, action: ObjectSelected) {
         const state = this.getActiveObjState();
+        console.log(this.getActiveObjState());
+        console.log(ctx.getState());
+        console.log(this.activeObject.get());
 
         // only open settings panel if selection event originated from
         // user clicking or tapping object on the canvas and not from
         // selecting object programmatically in the app
-        if (action.fromUserAction && ctx.getState().activePanel === DrawerName.NAVIGATION) {
+        if (this.activeObject.get().name == 'Pane') {
+            state.activePanel = DrawerName.PANE;
+            this.state.activePane = this.activeObject.get().data.id;
+        } else if (action.fromUserAction && ctx.getState().activePanel === DrawerName.NAVIGATION) {
             state.activePanel = DrawerName.OBJECT_SETTINGS;
         }
 
@@ -211,8 +219,9 @@ export class EditorState implements NgxsAfterBootstrap {
     @Action(ObjectDeselected)
     objectDeselected(ctx: StateContext<EditorStateModel>) {
         const state = this.getActiveObjState();
+        this.state.activePane = "";
 
-        if (ctx.getState().activePanel === DrawerName.OBJECT_SETTINGS && !ctx.getState().objectSettings.dirty) {
+        if ((ctx.getState().activePanel === DrawerName.OBJECT_SETTINGS || ctx.getState().activePanel === DrawerName.PANE) && !ctx.getState().objectSettings.dirty) {
             state.activePanel = DrawerName.NAVIGATION;
         }
 
@@ -261,6 +270,8 @@ export class EditorState implements NgxsAfterBootstrap {
 
     private getActiveObjState() {
         const obj = this.activeObject.get();
+
+        // console.log(this.activeObject.get());
 
         const state = {
             activeObjId: null,

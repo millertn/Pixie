@@ -1,6 +1,6 @@
 texture-controls-drawer {
 
-  button {
+  .remove-effect {
     font-size: 10px !important;
     border: 0;
     border-radius: .25em;
@@ -16,11 +16,12 @@ texture-controls-drawer {
     cursor: pointer;
     position: relative;
     top: 4px;
+
+    &:hover {
+      background-color: #a9101d;
+    }
   }
 
-  button:hover {
-    background-color: #a9101d;
-  }
   .texture {
     margin: 0 5px;
 

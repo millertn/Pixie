@@ -29,6 +29,10 @@ export class CanvasStateService {
 
     public canvasObjects:any[];
 
+    public paned:boolean;
+
+    public activePane:string;
+
     public activeTool:any
     
     public action:string;

@@ -45,6 +45,7 @@ import {ShapesState} from '../image-editor-ui/state/shapes/shapes.state';
 import {StickersState} from '../image-editor-ui/state/stickers/stickers.state';
 import {ProjectsState} from '../image-editor-ui/state/projects/projects.state';
 import {PagesState} from '../image-editor-ui/state/pages/pages.state';
+import {PaneState} from '../image-editor-ui/state/pane/pane.state';
 import {WarningsState} from '../image-editor-ui/state/warnings/warnings.state';
 import {ToolsState} from '../image-editor-ui/state/tools/tools.state';
 import {ObjectsState} from '../image-editor-ui/state/objects/objects.state';
@@ -91,6 +92,7 @@ export function init_app(settings, mergedConfig) {
             StickersState,
             ProjectsState,
             PagesState,
+            PaneState,
             WarningsState,
             ToolsState,
             ObjectsState,

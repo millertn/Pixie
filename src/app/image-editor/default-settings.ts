@@ -153,6 +153,9 @@ export interface PixieConfig {
         pages?: {
             replaceDefault?: boolean,
         },
+        pane?: {
+            replaceDefault?: boolean,
+        },
         warnings?: {
             replaceDefault?: boolean,
         },
@@ -184,6 +187,7 @@ export interface PixieConfig {
         pages?: ObjectDefaults;
         warnings?: ObjectDefaults;
         tools?: ObjectDefaults;
+        pane?:ObjectDefaults;
     };
 }
 
@@ -342,6 +346,9 @@ export const DEFAULT_CONFIG: PixieConfig  = {
         },
         pages:{
             replaceDefault: false,
+        },
+        pane:{
+            replaceDefault:false
         },
         warnings:{
             replaceDefault: false,

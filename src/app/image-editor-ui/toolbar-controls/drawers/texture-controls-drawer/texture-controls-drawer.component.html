@@ -1,4 +1,4 @@
-<button [class.hidden]="currentObjectInfo.texture == false" (click)='removeEffect()'> Remove Effect</button>
+<button class="remove-effect" [class.hidden]="currentObjectInfo.texture == false" (click)='removeEffect()'> Remove Effect</button>
     <div class="button-with-image" (click)="openUploadDialog()">
         <mat-icon svgIcon="add-image-custom"></mat-icon>
         <div class="bottom-label" trans>Upload</div>

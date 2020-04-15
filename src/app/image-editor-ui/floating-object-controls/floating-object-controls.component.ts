@@ -44,6 +44,7 @@ export class FloatingObjectControlsComponent {
      * Open drawer for adding more of current active object.
      */
     public openObjectDrawer() {
+        console.log(this.activeObject.get().name);
         switch (this.activeObject.get().name) {
             case ObjectNames.shape.name:
                 this.controls.openPanel(DrawerName.SHAPES);
@@ -62,6 +63,9 @@ export class FloatingObjectControlsComponent {
                 break;
             case ObjectNames.tools.name:
                 this.controls.openPanel(DrawerName.TOOLS);
+                break;
+            case ObjectNames.pane.name:
+                this.controls.openPanel(DrawerName.NAVIGATION);
                 break;
         }
     }

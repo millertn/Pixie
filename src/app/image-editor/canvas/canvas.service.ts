@@ -89,9 +89,10 @@ export class CanvasService {
         height = height < this.minHeight ? this.minHeight : height;
 
         this.state.fabric.clear();
-        this.state.canvasObjects = new Array;
-        this.state.activeTool = "";
         this.state.action = "setting";
+        this.state.canvasObjects = [];
+        this.state.paned = false;
+        this.state.activePane = "";
         this.resize(width, height);
 
         return new Promise(resolve => {
@@ -115,67 +116,65 @@ export class CanvasService {
                 object.name = name;
 
                 // use either main image or canvas dimensions as outer boundaries for scaling new image
-                // let placeholderObj = null;
-                // let objects = this.fabric().getObjects();
-                // objects.map(object => {
-                //     if (object.name == "Placeholder Div") {
-                //         placeholderObj = object;
-                //     }
-                // });
-                // console.log(placeholderObj);
+                if (this.state.activePane != "") {
+                    let placeholderObj = null;
+                    let objects = this.fabric().getObjects();
+                    objects.map(object => {
+                        if (object.data.id == this.state.activePane) {
+                            placeholderObj = object;
+                        }
+                    });
 
-                // if (placeholderObj != null) {
-                //     const maxWidth  = placeholderObj.width,
-                //     maxHeight = placeholderObj.height;
+                    const maxWidth  = placeholderObj.width,
+                    maxHeight = placeholderObj.height;
 
-                //     if ((object.width >= maxWidth || object.height >= maxHeight)) {
+                    if ((object.width >= maxWidth || object.height >= maxHeight)) {
 
-                //         // calc new image dimensions (main image height - 10% and width - 10%)
-                //         const newWidth  = maxWidth - (0.1 * maxWidth),
-                //             newHeight = maxHeight - (0.1 * maxHeight),
-                //             scale     = 1 / (Math.min(newHeight / object.getScaledHeight(), newWidth / object.getScaledWidth()));
+                        // calc new image dimensions (main image height - 10% and width - 10%)
+                        const newWidth  = maxWidth - (0.1 * maxWidth),
+                            newHeight = maxHeight - (0.1 * maxHeight),
+                            scale     = 1 / (Math.min(newHeight / object.getScaledHeight(), newWidth / object.getScaledWidth()));
     
-                //         // scale newly uploaded image to the above dimensions
-                //         object.scaleX = object.scaleX * (1 / scale);
-                //         object.scaleY = object.scaleY * (1 / scale);
-                //     }
+                        // scale newly uploaded image to the above dimensions
+                        object.scaleX = object.scaleX * (1 / scale);
+                        object.scaleY = object.scaleY * (1 / scale);
+                    }
 
-                //     object.top = placeholderObj.top;
-                //     object.left = placeholderObj.left;
-                //     this.state.fabric.add(object);
-                //     this.render();
-                //     this.zoom.fitToScreen();
-                //     resolve(object);
+                    object.top = placeholderObj.top;
+                    object.left = placeholderObj.left;
+                    this.state.fabric.add(object);
+                    this.render();
+                    this.zoom.fitToScreen();
+                    resolve(object);
+                    this.addObjectToTracked(object.data.id);
+                } else {
+                    const maxWidth  = this.state.original.width,
+                    maxHeight = this.state.original.height;
 
-                // } else {
-                const maxWidth  = this.state.original.width,
-                maxHeight = this.state.original.height;
+                    // if image is wider or higher then the current canvas, we'll scale it down
+                    if (fitToScreen && (object.width >= maxWidth || object.height >= maxHeight)) {
 
-                // if image is wider or higher then the current canvas, we'll scale it down
-                if (fitToScreen && (object.width >= maxWidth || object.height >= maxHeight)) {
+                        // calc new image dimensions (main image height - 10% and width - 10%)
+                        const newWidth  = maxWidth - (0.1 * maxWidth),
+                            newHeight = maxHeight - (0.1 * maxHeight),
+                            scale     = 1 / (Math.min(newHeight / object.getScaledHeight(), newWidth / object.getScaledWidth()));
 
-                    // calc new image dimensions (main image height - 10% and width - 10%)
-                    const newWidth  = maxWidth - (0.1 * maxWidth),
-                        newHeight = maxHeight - (0.1 * maxHeight),
-                        scale     = 1 / (Math.min(newHeight / object.getScaledHeight(), newWidth / object.getScaledWidth()));
+                        // scale newly uploaded image to the above dimensions
+                        object.scaleX = object.scaleX * (1 / scale);
+                        object.scaleY = object.scaleY * (1 / scale);
+                    }
 
-                    // scale newly uploaded image to the above dimensions
-                    object.scaleX = object.scaleX * (1 / scale);
-                    object.scaleY = object.scaleY * (1 / scale);
+                    // center and render newly uploaded image on the canvas
+                    this.state.fabric.add(object);
+                    object.viewportCenter();
+                    object.setCoords();
+                    this.render();
+                    this.zoom.fitToScreen();
+                    resolve(object);
+                    console.log(object.data.id);
+                    this.addObjectToTracked(object.data.id);
+                    
                 }
-
-                // center and render newly uploaded image on the canvas
-                this.state.fabric.add(object);
-                object.viewportCenter();
-                object.setCoords();
-                this.render();
-                this.zoom.fitToScreen();
-                resolve(object);
-                console.log(object.data.id);
-
-                this.addObjectToTracked(object.data.id);
-                console.log(this.state.canvasObjects);
-                // }
             });
         });
     }
@@ -231,7 +230,7 @@ export class CanvasService {
             fabric.util.loadImage(image, returnImage => {
 
                 const object = new fabric.Image(returnImage);
-                object.name = quadrant.name +" - "+ index;
+                object.name = quadrant.name +" - "+ (index + 1);
 
                 if ((object.width >= quadrant.width || object.height >= quadrant.height)) {
                     // calc new image dimensions (main image height and width)
@@ -269,20 +268,4 @@ export class CanvasService {
             gradient:false
         });
     }
-
-    // public editTrackedObject(id, data) {
-    //     this.state.canvasObjects.map(object => {
-    //         if (object.id == id) {
-    //             object.data.prop = data.value;
-    //         }
-    //     });
-    // }
-
-    // public removeObjectFromTracked(id) {
-    //     this.state.canvasObjects.map((object, index) => {
-    //         if (object.id == id) {
-    //             this.state.canvasObjects.splice(index, 1);
-    //         }
-    //     });
-    // }
 }

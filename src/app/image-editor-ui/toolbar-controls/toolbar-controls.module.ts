@@ -16,6 +16,7 @@ import {TextDrawerComponent} from './drawers/text-drawer/text-drawer.component';
 import {ColorWidgetComponent} from './widgets/color-widget/color-widget.component';
 import {ShapesDrawerComponent} from './drawers/shapes-drawer/shapes-drawer.component';
 import {ProjectsDrawerComponent} from './drawers/projects-drawer/projects-drawer.component';
+import {PaneDrawerComponent} from './drawers/pane-drawer/pane-drawer.component';
 import {ToolsDrawerComponent} from './drawers/tools-drawer/tools-drawer.component';
 import {WarningsDrawerComponent} from './drawers/warnings-drawer/warnings-drawer.component';
 import {TextControlsDrawerComponent} from './drawers/text-controls-drawer/text-controls-drawer.component';
@@ -92,6 +93,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         ShapesDrawerComponent,
         ProjectsDrawerComponent,
         PagesDrawerComponent,
+        PaneDrawerComponent,
         ToolsDrawerComponent,
         WarningsDrawerComponent,
         StickersDrawerComponent,
@@ -125,6 +127,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         ShapesDrawerComponent,
         ProjectsDrawerComponent,
         PagesDrawerComponent,
+        PaneDrawerComponent,
         WarningsDrawerComponent,
         ToolsDrawerComponent,
         StickersDrawerComponent,

@@ -1,6 +1,7 @@
 export class ObjectNames {
     static text = {name: 'text', icon: 'text-box-custom'};
     static shape = {name: 'shape', icon: 'polygon-custom'};
+    static pane = {name: 'pane', icon: 'polygon-custom'};
     static sticker = {name: 'sticker', icon: 'sticker-custom'};
     static projects = {name: 'projects', icon: 'image-custom'};
     static warnings = {name: 'warnings', icon: 'image-custom'};
