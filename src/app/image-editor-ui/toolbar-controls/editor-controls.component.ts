@@ -41,6 +41,8 @@ export class EditorControlsComponent {
         if (activeObject.get() != null) {
             if (activeObject.get().name == 'Pane') {
                 controls.openPanel(DrawerName.NAVIGATION);
+            } else if (activeObject.get().name == 'Placeholder Div') {
+                controls.openPanel(DrawerName.ADDPART);
             }
         }
     }

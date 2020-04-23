@@ -171,7 +171,6 @@ export class CanvasService {
                     this.render();
                     this.zoom.fitToScreen();
                     resolve(object);
-                    console.log(object.data.id);
                     this.addObjectToTracked(object.data.id);
                     
                 }
@@ -250,7 +249,6 @@ export class CanvasService {
 
                 
                 this.addObjectToTracked(object.data.id);
-                console.log(this.state.canvasObjects);
                 this.render();
                 this.zoom.fitToScreen();
             });

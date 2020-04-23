@@ -32,6 +32,8 @@ export class TextToolService {
             const options = normalizeObjectProps({
                 ...this.config.get('pixie.objectDefaults.text'),
                 name: ObjectNames.text.name,
+                lockScalingX: false,
+                lockScalingY: false,
             });
             let objects = this.objects.getAll();
             objects.map(object => {
@@ -41,6 +43,7 @@ export class TextToolService {
                     textBox.left = object.left;
                     textBox.width = object.width;
                     textBox.fontSize = 32;
+                    textBox.fill = '#000';
 
                     this.canvas.fabric().add(textBox);
                     this.canvas.fabric().setActiveObject(textBox);
@@ -52,12 +55,14 @@ export class TextToolService {
                 }
             });
         } else {
-
             const options = normalizeObjectProps({
                 ...this.activeObject.form.value,
                 ...this.config.get('pixie.objectDefaults.text'),
                 ...providedConfig,
                 name: ObjectNames.text.name,
+                fill:'#000',
+                lockScalingX: false,
+                lockScalingY: false,
             });
             const itext = new fabric.IText(text, options);
             this.canvas.fabric().add(itext);
@@ -84,7 +89,9 @@ export class TextToolService {
             ...this.config.get('pixie.objectDefaults.text'),
             name: quadrant.name,
             selectable:true,
-            evented:true
+            evented:true,
+            lockScalingX: false,
+            lockScalingY: false,
         });
 
         const itext = new fabric.Textbox(combinedText, options);
@@ -92,8 +99,8 @@ export class TextToolService {
         itext.left = quadrant.positionX;
         itext.width = quadrant.width;
         itext.fontSize = 24;
+        itext.fill = '#000';
         this.canvas.fabric().add(itext);
-        // this.canvas.fabric().setActiveObject(itext);
         this.canvas.render();
         this.canvas.addObjectToTracked(itext.data.id);
         

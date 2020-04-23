@@ -85,7 +85,7 @@ export class ExportToolService {
      */
     public getDataUrl(format: ValidFormats = this.getDefault('format'), quality: number = this.getDefault('quality')): string {
         this.prepareCanvas();
-        try {
+        // try {
             if (format === 'svg') {
                 return this.canvas.fabric().toSVG();
             } else {
@@ -95,10 +95,10 @@ export class ExportToolService {
                     multiplier: this.canvas.state.original.width / this.canvas.fabric().getWidth(),
                 });
             }
-        } catch (e) {
-            if (e.message.toLowerCase().indexOf('tainted') === -1) return null;
-            this.toast.open('Could not export canvas with external image.');
-        }
+        // } catch (e) {
+        //     if (e.message.toLowerCase().indexOf('tainted') === -1) return null;
+        //     this.toast.open('Could not export canvas with external image.');
+        // }
     }
 
     private getJsonState(): string {

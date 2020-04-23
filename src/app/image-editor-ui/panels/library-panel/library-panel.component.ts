@@ -39,12 +39,10 @@ export class LibraryPanelComponent {
         private http: HttpClient,
         private textTool: TextToolService
     ) {
+        this.state.library = this.canvas.loadLibrary();
         this.state.library.map (object => {
             this.library.push(object);
-            console.log(object);
         });
-        console.log(this.state.library)
-        console.log(this.library);
     }
 
     public getIcon(string): string {

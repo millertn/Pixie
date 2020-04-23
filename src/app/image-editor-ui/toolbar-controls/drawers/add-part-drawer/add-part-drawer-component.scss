@@ -1,0 +1,22 @@
+add-part-drawer {
+    display: block;
+  
+    button {
+      border: 0;
+      border-radius: .25em;
+      background: initial;
+      background-color: #bd1e2c;
+      color: #fff;
+      font-size: 1.0625em;
+      margin: .3125em;
+      padding: .625em 2em;
+      box-shadow: none;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  
+    button:hover {
+      background-color: #a9101d;
+    }
+
+}

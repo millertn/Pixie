@@ -3,7 +3,6 @@ import {OverlayPanel} from 'common/core/ui/overlay-panel/overlay-panel.service';
 import {OverlayPanelRef} from 'common/core/ui/overlay-panel/overlay-panel-ref';
 import {ObjectsPanelComponent} from '../panels/objects-panel/objects-panel.component';
 import {LibraryPanelComponent} from '../panels/library-panel/library-panel.component';
-import {AddPartPanelComponent} from '../panels/add-part-panel/add-part-panel.component';
 import {CanvasStateService} from '../../image-editor/canvas/canvas-state.service';
 import {OpenSampleImagePanelService} from '../panels/open-sample-image-panel/open-sample-image-panel.service';
 import {HistoryPanelComponent} from '../panels/history-panel/history-panel.component';
@@ -89,14 +88,14 @@ export class FloatingPanelsService {
         );
     }
 
-    public openAddPartPanel() {
-        this.addPartPanelRef = this.overlayPanel.open(
-            AddPartPanelComponent,
-            this.getPanelConfig(),
-        );
-    }
+    // public openAddPartPanel() {
+    //     this.addPartPanelRef = this.overlayPanel.open(
+    //         AddPartPanelComponent,
+    //         this.getPanelConfig(),
+    //     );
+    // }
 
-    public closePanel(name: 'history' | 'objects' | 'objectOptions' | 'library' | 'add-part') {
+    public closePanel(name: 'history' | 'objects' | 'objectOptions' | 'library') {
         switch (name) {
             case 'history':
                 this.historyPanelRef && this.historyPanelRef.close();
@@ -107,13 +106,10 @@ export class FloatingPanelsService {
             case 'library':
                 this.libraryPanelRef && this.libraryPanelRef.close();
                 break;
-            case 'library':
-                this.addPartPanelRef && this.addPartPanelRef.close();
-                break;
         }
     }
 
-    public panelIsOpen(name : 'history' | 'objects' | 'library' | 'add-part'): boolean {
+    public panelIsOpen(name : 'history' | 'objects' | 'library'): boolean {
         let ref = null;
         switch (name) {
             case 'history' : ref = this.historyPanelRef;
@@ -121,8 +117,6 @@ export class FloatingPanelsService {
             case 'objects': ref = this.objectsPanelRef;
                 break;
             case 'library': ref = this.libraryPanelRef;
-                break;
-            case 'add-part': ref = this.addPartPanelRef;
                 break;
         }
         return ref && ref.isOpen();

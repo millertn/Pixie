@@ -117,7 +117,6 @@ export class ToolbarComponent implements AfterViewInit {
 
     public cancelChanges() {
         const panel = this.store.selectSnapshot(EditorState.activePanel);
-        console.log(panel);
         this.store.dispatch(new CancelChanges(panel));
     }
 

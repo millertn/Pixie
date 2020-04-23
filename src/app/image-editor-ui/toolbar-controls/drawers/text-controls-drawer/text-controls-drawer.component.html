@@ -9,6 +9,7 @@
         <mat-button-toggle [checked]="activeObject.form.get('underline').value" value="underline"><mat-icon svgIcon="format-underlined"></mat-icon></mat-button-toggle>
         <mat-button-toggle [checked]="activeObject.form.get('linethrough').value" value="linethrough"><mat-icon svgIcon="format-strikethrough"></mat-icon></mat-button-toggle>
         <mat-button-toggle [checked]="activeObject.form.get('fontStyle').value === 'italic'" value="italic"><mat-icon svgIcon="format-italic"></mat-icon></mat-button-toggle>
+        <mat-button-toggle [checked]="activeObject.form.get('fontWeight').value === 700" value="bold"><fa-icon [icon]="faBold"></fa-icon></mat-button-toggle>
     </mat-button-toggle-group>
 
     <input class="size-selector" type="number" (change)="setFontSize($event)" (input)="setFontSize($event)" (paste)="setFontSize($event)" [value]="currentObject.fontSize">

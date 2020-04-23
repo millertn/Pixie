@@ -4,7 +4,7 @@ import {ImportToolService} from './tools/import/import-tool.service';
 import {SerializedCanvas} from './history/serialized-canvas';
 import {DEFAULT_CONFIG, PixieConfig} from './default-settings';
 import {Store} from '@ngxs/store';
-import {ApplyChanges, CancelChanges, CloseEditor, OpenEditor, OpenPanel, ResetToolState} from './state/editor-state-actions';
+import {ApplyChanges, CancelChanges, CloseEditor, OpenEditor, OpenPanel, ResetToolState, CloseForePanel} from './state/editor-state-actions';
 import {delay, startWith} from 'rxjs/operators';
 import {OpenSampleImagePanelService} from '../image-editor-ui/panels/open-sample-image-panel/open-sample-image-panel.service';
 import {HistoryToolService} from './history/history-tool.service';
@@ -29,6 +29,7 @@ import { objectToArray } from '@common/core/utils/object-to-array';
 import {Textbox} from 'fabric/fabric-impl';
 import {normalizeObjectProps, PixieObjOptions} from './utils/normalize-object-props';
 import { ObjectListService } from './objects/object-list.service';
+import { CanvasZoomService } from './canvas/canvas-zoom.service';
 
 /**
  * This class should not be imported into any other tools or services.
@@ -54,6 +55,7 @@ export class ImageEditorService {
         protected textTool: TextToolService,
         protected panels: FloatingPanelsService,
         protected objects: ObjectListService,
+        protected zoom: CanvasZoomService
     ) {}
 
     /**
@@ -61,6 +63,10 @@ export class ImageEditorService {
      */
     public openEditorWithImage(data: string|HTMLImageElement, asMainImage: boolean = true) {
         this.openFile(data, 'png', asMainImage).then(() => this.open());
+    }
+
+    public fitToScreen() {
+        this.zoom.fitToScreen();
     }
 
     /**
@@ -79,7 +85,6 @@ export class ImageEditorService {
     public newCanvas(width: number, height: number) {
         this.state.canvasObjects = new Array;
         this.state.activeTool = "";
-        console.log(this.state.canvasObjects);   
         return this.canvas.openNew(width, height);
 
     }
@@ -103,12 +108,13 @@ export class ImageEditorService {
     //TODO: on addPart, allow user to click through part stuff, load in div automatically once they're done, allow the user to resize and position
     //TODO: make a panel that contains "Add Part" and "Cancel"
 
-    public toggleAddPart() {
-        this.panels.openAddPartPanel();
-    }
+    // public toggleAddPart() {
+    //     this.panels.openAddPartPanel();
+    // }
 
     public loadPlaceholder() {
-        this.panels.openAddPartPanel();
+        // this.panels.openAddPartPanel();
+        this.store.dispatch(new OpenPanel(DrawerName.ADDPART));
         let objects = this.canvas.fabric().getObjects();
         let hasPlaceholder = false;
         objects.map(object => {
@@ -118,8 +124,21 @@ export class ImageEditorService {
         });
         const currentObject = this.activeObject.get();
         if (currentObject == null && hasPlaceholder == false) {
-            let phWidth = this.canvas.fabric().width *.20;
-            let phHeight = this.canvas.fabric().height *.20;
+            let phWidth = this.state.original.width * .25; 
+            let phHeight = this.state.original.height * .25;
+            let size = 1;
+
+            if (this.state.original.width < 500) {
+                size = 1;
+            } else if (this.state.original.width < 1000) {
+                size = 2;
+            } else if (this.state.original.width < 2000) {
+                size = 3;
+            } else if (this.state.original.width < 3000) {
+                size = 4;
+            } else {
+                size = 5;
+            }
 
            let placeholder = new fabric.Rect({
                 width: phWidth,
@@ -128,8 +147,8 @@ export class ImageEditorService {
                 fill: 'transparent',
                 name: 'Placeholder Div',
                 stroke: '#bf202f',
-                strokeWidth: 1,
-                strokeDashArray: [2,2],
+                strokeWidth: size,
+                strokeDashArray: [size,size],
                 selectable: true,
                 evented: true,
                 lockUniScaling:false
@@ -137,9 +156,10 @@ export class ImageEditorService {
     
             this.state.fabric.add(placeholder);
             placeholder.viewportCenter();
-            this.canvas.fabric().setActiveObject(placeholder);
             placeholder.setCoords();
+            this.canvas.fabric().setActiveObject(placeholder);
             this.canvas.render();
+            this.canvas.addObjectToTracked(placeholder);
         }
     }
 
@@ -149,9 +169,9 @@ export class ImageEditorService {
         switch(program) {
             case 'PP': programImage = 'https://aam5.imgix.net/3/logos/aam/parts-pro.png?w=900';
                 break;
-            case 'PC': programImage = 'https://aam5.imgix.net/3/logos/aam/performance-corner.png';
+            case 'PC': programImage = 'https://aam5.imgix.net/3/logos/aam/performance-corner.png?w=900';
                 break
-            case 'TT': programImage = 'https://aam5.imgix.net/3/logos/aam/total-truck-centers.png';
+            case 'TT': programImage = 'https://aam5.imgix.net/3/logos/aam/total-truck-centers.png?w=900';
                 break;
         }
         let objects = [];
@@ -484,9 +504,6 @@ export class ImageEditorService {
             maxWidth  = placeholderObj.width * placeholderObj.scaleX,
             maxHeight = placeholderObj.height * placeholderObj.scaleY;
 
-            console.log(maxWidth);
-            console.log(maxHeight);
-
             let halfWidth = maxWidth / 2 
             let placeholderX = placeholderObj.left;
             let placeholderY = placeholderObj.top;
@@ -494,11 +511,12 @@ export class ImageEditorService {
 
             let quadrants = [
                 {position:"topL", width:halfWidth, height:(.20 * maxHeight), positionX:placeholderX, positionY:placeholderY, data:[part.BrandImage], name:name + " - Brand Image", type:'image'}, 
-                {position:"topR", width:halfWidth, height:(.20 * maxHeight), positionX:(placeholderX + halfWidth), positionY:placeholderY, data:[part.Name], name:name + " - Part Name", type:'text'},
+                {position:"topR", width:halfWidth, height:(.10 * maxHeight), positionX:(placeholderX + halfWidth), positionY:placeholderY, data:[part.Name], name:name + " - Part Name", type:'text'},
                 {position:"midL", width:halfWidth, height:(.70 * maxHeight), positionX:placeholderX, positionY:(placeholderY + (.20 * maxHeight)), data:part.Images, name:name + " - Part Image", type:"image"}, 
-                {position:"midR", width:halfWidth, height:(.70 * maxHeight), positionX:(placeholderX + halfWidth), positionY:(placeholderY + (.20 * maxHeight)), data:part.Descriptions, name:name + " - Part Description", type:"text"},
-                {position:"botL", width:halfWidth, height:(.10 * maxHeight), positionX:placeholderX, positionY:(placeholderY + (.70 * maxHeight)), data:[part.PartNumber], name:name + " - Part Number", type:"text"}, 
-                {position:"botR", width:halfWidth, height:(.10 * maxHeight), positionX:(placeholderX + halfWidth), positionY:(placeholderY + (.70 * maxHeight)), data:[part.Price], name:name + " - Price", type:"text"},
+                {position:"midR", width:halfWidth, height:(.90 * maxHeight), positionX:(placeholderX + halfWidth), positionY:(placeholderY + (.10 * maxHeight)), data:part.Descriptions, name:name + " - Part Description", type:"text"},
+                {position:"botL", width:halfWidth, height:(.5 * maxHeight), positionX:placeholderX, positionY:(placeholderY + (.90 * maxHeight)), data:[part.PartNumber], name:name + " - Part Number", type:"text"}, 
+                {position:"botL2", width:halfWidth, height:(.5 * maxHeight), positionX:placeholderX, positionY:(placeholderY + (.95 * maxHeight)), data:[part.Price], name:name + " - Price", type:"text"}, 
+                // {position:"botR", width:halfWidth, height:(.10 * maxHeight), positionX:(placeholderX + halfWidth), positionY:(placeholderY + (.70 * maxHeight)), data:[part.Price], name:name + " - Price", type:"text"},
             ]
 
             quadrants.map(quadrant => {
@@ -511,14 +529,11 @@ export class ImageEditorService {
         } else {
             //add as normal, might just... leave this out lol
         }
-        placeholderObj.sendToBack();
-        if (this.state.activePane == "") {
-            this.panels.closePanel('add-part');
-            this.canvas.fabric().setActiveObject(placeholderObj);
-            this.activeObject.delete();
-        } else {
-            placeholderObj.deselect();
-        }
+        // placeholderObj.sendToBack();
+            // this.panels.closeForePanel();
+        this.canvas.fabric().setActiveObject(placeholderObj);
+        this.activeObject.delete();
+        this.store.dispatch(new CloseForePanel());
     }
 
     /**
@@ -617,8 +632,7 @@ export class ImageEditorService {
             });
         }
         panel = panel || this.store.selectSnapshot(EditorState.activePanel) || DrawerName.OBJECT_SETTINGS;
-        this.store.dispatch(new ApplyChanges(panel));
-        // console.log(this.state.canvasObjects);
+        this.store.dispatch(new ApplyChanges(panel)); 
     }
 
     /**
@@ -644,7 +658,6 @@ export class ImageEditorService {
      */
     public on(event: string, callback: (e: IEvent) => void) {
         return this.canvas.fabric().on(event, callback);
-        // console.log(event);
     }
 
     /**

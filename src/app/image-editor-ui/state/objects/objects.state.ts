@@ -86,8 +86,6 @@ export class ObjectsState extends BaseToolState<ObjectsStateModel> implements Ng
         }
         ctx.patchState({dirty: false, activePanel: null});
         this.activeObject.deselect();
-
-        console.log(this.state.canvasObjects);
     }
 
     resetState(ctx: StateContext<ObjectsStateModel>) {

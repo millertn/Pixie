@@ -14,6 +14,7 @@
             <crop-drawer *ngSwitchCase="'crop'" @controlsAnimation></crop-drawer>
             <projects-drawer *ngSwitchCase="'projects'" @controlsAnimation></projects-drawer>
             <pages-drawer *ngSwitchCase="'pages'" @controlsAnimation></pages-drawer>
+            <add-part-drawer *ngSwitchCase="'addPart'" @controlsAnimation></add-part-drawer>
             <tools-drawer *ngSwitchCase="'tools'" @controlsAnimation></tools-drawer>
             <!-- <parts-drawer *ngSwitchCase="'projects'" @controlsAnimation></parts-drawer> -->
             <draw-drawer *ngSwitchCase="'draw'" @controlsAnimation></draw-drawer>
@@ -29,7 +30,7 @@
             <custom-drawer *ngSwitchDefault @controlsAnimation></custom-drawer>
         </div>
 
-        <button class="apply-button" [class.hidden]="activePanel === 'projects' || activePanel === 'tools' || activePanel === 'warnings' || activePanel === 'pages' || activePanel === 'pane'" mat-raised-button color="accent" (click)="imageEditor.applyChanges()" [disabled]="!(dirty$ | async)" trans>Apply</button>
+        <button class="apply-button" [class.hidden]="activePanel === 'projects' || activePanel === 'tools' || activePanel === 'warnings' || activePanel === 'pages' || activePanel === 'pane' || activePanel === 'addPart'" mat-raised-button color="accent" (click)="imageEditor.applyChanges()" [disabled]="!(dirty$ | async)" trans>Apply</button>
     </div>
 
     <floating-object-controls *ngIf=" (showFloatingPanel()) && (activeObjId$ | async) || (breakpoints.isMobile$ | async)"></floating-object-controls>

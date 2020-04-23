@@ -58,8 +58,6 @@ export class ObjectListService {
      * Select specified object.
      */
     public select(object: Object) {
-        console.log('hit');
-        // if (object.data.)
         this.canvas.state.fabric.setActiveObject(object);
         this.canvas.state.fabric.requestRenderAll();
     }
@@ -94,10 +92,6 @@ export class ObjectListService {
             this.canvas.fabric().on('object:removed', () => {
                 this.zone.run(() => this.syncObjects());
             });
-
-            // this.canvas.fabric().on('object:selected', () => {
-            //     console.log(this.activeObject.get());
-            // });
         });
     }
 }

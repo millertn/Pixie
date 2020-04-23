@@ -51,6 +51,7 @@ import { TextFontSelectorComponent } from './widgets/text-font-selector/text-fon
 import {ImageOrIconModule} from '@common/core/ui/image-or-icon/image-or-icon.module';
 import { CustomDrawerComponent } from './drawers/custom-drawer/custom-drawer.component';
 import { PagesDrawerComponent } from './drawers/pages-drawer/pages-drawer-component';
+import { AddPartDrawerComponent } from './drawers/add-part-drawer/add-part-drawer-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
@@ -93,6 +94,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         ShapesDrawerComponent,
         ProjectsDrawerComponent,
         PagesDrawerComponent,
+        AddPartDrawerComponent,
         PaneDrawerComponent,
         ToolsDrawerComponent,
         WarningsDrawerComponent,
@@ -127,6 +129,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         ShapesDrawerComponent,
         ProjectsDrawerComponent,
         PagesDrawerComponent,
+        AddPartDrawerComponent,
         PaneDrawerComponent,
         WarningsDrawerComponent,
         ToolsDrawerComponent,

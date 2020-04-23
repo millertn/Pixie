@@ -153,6 +153,9 @@ export interface PixieConfig {
         pages?: {
             replaceDefault?: boolean,
         },
+        addPart?: {
+            replaceDefault?: boolean,
+        },
         pane?: {
             replaceDefault?: boolean,
         },
@@ -185,6 +188,7 @@ export interface PixieConfig {
         text?: ObjectDefaults;
         projects?: ObjectDefaults;
         pages?: ObjectDefaults;
+        addPart?: ObjectDefaults;
         warnings?: ObjectDefaults;
         tools?: ObjectDefaults;
         pane?:ObjectDefaults;
@@ -216,6 +220,7 @@ export const DEFAULT_CONFIG: PixieConfig  = {
                 // {type: 'separator'},{name: 'settings', icon: 'image-custom', action: DrawerName.TOOLS},
                 {name: 'images', icon: 'image-custom', action: DrawerName.PROJECTS},
                 {name: 'pages', icon: 'image-custom', action: DrawerName.PAGES},
+                {name: 'addPart', icon: 'image-custom', action: DrawerName.ADDPART},
                 {name: 'draw', icon: 'pencil-custom', action: DrawerName.DRAW},
                 {name: 'text', icon: 'text-box-custom', action: DrawerName.TEXT},
                 {name: 'shapes', icon: 'polygon-custom', action: DrawerName.SHAPES},
@@ -345,6 +350,9 @@ export const DEFAULT_CONFIG: PixieConfig  = {
             replaceDefault: false,
         },
         pages:{
+            replaceDefault: false,
+        },
+        addPart:{
             replaceDefault: false,
         },
         pane:{

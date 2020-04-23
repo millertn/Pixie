@@ -10,6 +10,8 @@ import { ImageEditorService } from '../../../../image-editor/image-editor.servic
 import {ActiveFrameService} from '../../../../image-editor/tools/frame/active-frame.service';
 import { EditorControlsService } from '../../editor-controls.service';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { CanvasService } from 'app/image-editor/canvas/canvas.service';
+import { CloseForePanel } from 'app/image-editor/state/editor-state-actions';
 
 @Component({
     selector: 'pages-drawer',
@@ -27,42 +29,16 @@ export class PagesDrawerComponent {
         private state:CanvasStateService,
         private imageEditor:ImageEditorService,
         private activeFrams:ActiveFrameService,
-        private editor:EditorControlsService
+        private editor:EditorControlsService,
+        private canvas:CanvasService,
+        private store: Store
     ) {
+        this.state.pages = this.canvas.loadPages();
         this.state.pages.map(page => {
             this.pages.push(page);
         });
     }
-
-    //might need to move this into state so I can also dynamically upload the view?
-    // force clsoe the panel instead you imbecile
-    switchPage (projectId) {
-        let state = null;
-        let id = null;
-        let groupId = null;
-        let stateObjs = null
-        let paned = false;
-        let version = 0;
-        this.pages.map(page => {
-            if (page.RowID == projectId) {
-                id = page.RowID;
-                state = page.ProjectState;
-                groupId = page.ProjectGroupID;
-                stateObjs = page.CanvasStateObjects;
-                version = page.Paned
-            }
-        });
-        this.imageEditor.loadState(state);
-        if (version > 0) {
-            paned = true;
-        }
-        this.imageEditor.setStateObjects(id, groupId, this.state.userId, stateObjs, paned, version, '', false);
-        this.imageEditor.applyChanges();
-        this.editor.closeCurrentPanel();
-    }
-
-    addPage() {
-        this.imageEditor.applyChanges();
-        this.editor.closeCurrentPanel();
+    closePanel() {
+        this.store.dispatch(new CloseForePanel());
     }
 }

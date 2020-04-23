@@ -18,4 +18,5 @@ export enum DrawerName {
     WARNINGS = 'warnings',
     OBJECT_SETTINGS = 'objectSettings',
     PANE = 'pane',
+    ADDPART = 'addPart',
 }

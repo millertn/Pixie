@@ -24,6 +24,7 @@ import {FrameState} from '../../image-editor-ui/state/frame/frame.state';
 import {DrawState} from '../../image-editor-ui/state/draw/draw.state';
 import {StickersState} from '../../image-editor-ui/state/stickers/stickers.state';
 import {ProjectsState} from '../../image-editor-ui/state/projects/projects.state';
+import {AddPartState} from '../../image-editor-ui/state/add-part/add-part.state';
 import {WarningsState} from '../../image-editor-ui/state/warnings/warnings.state';
 import {ToolsState} from '../../image-editor-ui/state/tools/tools.state';
 import {CornersState} from '../../image-editor-ui/state/corners/corners.state';
@@ -76,6 +77,7 @@ interface EditorStateModel {
         ShapesState,
         StickersState,
         ProjectsState,
+        AddPartState,
         WarningsState,
         ToolsState,
         FrameState,
@@ -196,16 +198,12 @@ export class EditorState implements NgxsAfterBootstrap {
     @Action(ObjectSelected)
     objectSelected(ctx: StateContext<EditorStateModel>, action: ObjectSelected) {
         const state = this.getActiveObjState();
-        console.log(this.getActiveObjState());
-        console.log(ctx.getState());
-        console.log(this.activeObject.get());
-
-        // only open settings panel if selection event originated from
-        // user clicking or tapping object on the canvas and not from
-        // selecting object programmatically in the app
         if (this.activeObject.get().name == 'Pane') {
             state.activePanel = DrawerName.PANE;
             this.state.activePane = this.activeObject.get().data.id;
+        } else if (this.activeObject.get().name == 'Placeholder Div') {
+            state.activePanel = DrawerName.ADDPART;
+            // this.state.activePane = this.activeObject.get().data.id;
         } else if (action.fromUserAction && ctx.getState().activePanel === DrawerName.NAVIGATION) {
             state.activePanel = DrawerName.OBJECT_SETTINGS;
         }
@@ -221,7 +219,7 @@ export class EditorState implements NgxsAfterBootstrap {
         const state = this.getActiveObjState();
         this.state.activePane = "";
 
-        if ((ctx.getState().activePanel === DrawerName.OBJECT_SETTINGS || ctx.getState().activePanel === DrawerName.PANE) && !ctx.getState().objectSettings.dirty) {
+        if ((ctx.getState().activePanel === DrawerName.OBJECT_SETTINGS || ctx.getState().activePanel === DrawerName.PANE || ctx.getState().activePanel === DrawerName.ADDPART) && !ctx.getState().objectSettings.dirty) {
             state.activePanel = DrawerName.NAVIGATION;
         }
 
@@ -270,9 +268,6 @@ export class EditorState implements NgxsAfterBootstrap {
 
     private getActiveObjState() {
         const obj = this.activeObject.get();
-
-        // console.log(this.activeObject.get());
-
         const state = {
             activeObjId: null,
             activeObjIsText: false,
@@ -281,7 +276,7 @@ export class EditorState implements NgxsAfterBootstrap {
 
         if (obj) {
             state.activeObjId = obj.data.id;
-            state.activeObjIsText = obj.type === 'i-text';
+            state.activeObjIsText = obj.type === 'i-text' || obj.type === 'textbox';
             state.activeObjIsSvg = obj.type === 'group' && obj['svgUid'];
             state.activeObjIsImage = obj.type === 'image';
         }
