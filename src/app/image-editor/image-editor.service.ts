@@ -105,6 +105,14 @@ export class ImageEditorService {
         } 
     }
 
+    public updatePages() {
+        this.state.pages = this.canvas.loadPages();
+    }
+
+    public updateLibrary() {
+        this.state.library = this.canvas.loadLibrary();
+    }
+
     //TODO: on addPart, allow user to click through part stuff, load in div automatically once they're done, allow the user to resize and position
     //TODO: make a panel that contains "Add Part" and "Cancel"
 

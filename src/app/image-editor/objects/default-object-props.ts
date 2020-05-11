@@ -1,5 +1,5 @@
 export const defaultObjectProps = {
-    fill: 'rgb(30, 139, 195)',
+    fill: 'transparent',
     opacity: 1,
     backgroundColor: null,
     strokeWidth: 0.1,

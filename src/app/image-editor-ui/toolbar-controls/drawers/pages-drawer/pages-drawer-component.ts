@@ -26,17 +26,20 @@ export class PagesDrawerComponent {
     public currentPage = this.state.canvasId;
     constructor(
         private http:HttpClient,
-        private state:CanvasStateService,
+        public state:CanvasStateService,
         private imageEditor:ImageEditorService,
         private activeFrams:ActiveFrameService,
         private editor:EditorControlsService,
         private canvas:CanvasService,
         private store: Store
     ) {
-        this.state.pages = this.canvas.loadPages();
+        // this.state.pages = this.canvas.loadPages();
         this.state.pages.map(page => {
             this.pages.push(page);
         });
+        console.log(this.state.pages);
+        console.log(this.pages);
+
     }
     closePanel() {
         this.store.dispatch(new CloseForePanel());

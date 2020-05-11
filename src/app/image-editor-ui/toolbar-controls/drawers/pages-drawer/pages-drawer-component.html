@@ -1,11 +1,11 @@
 <div class="content">
-    <button class ="addPage" (click)="closePanel()">Add Page</button>
-    <div class="separator ng-star-inserted"></div>
     <div class='pageContainer' > 
-        <div *ngFor="let page of pages">
+        <div *ngFor="let page of state.pages">
             <div [class.currentProject]="page.RowID == currentPage" [class.projectPage]="page.RowID != currentPage" (click)="closePanel()" [attr.data-projectId]="page.RowID">
                 <img class ="page-image" [src]="page.ProjectImage">
             </div>
         </div>
     </div>
+    <div class="separator ng-star-inserted"></div>
+    <button class ="addPage" (click)="closePanel()">Add Page</button>
 </div>

@@ -34,6 +34,7 @@ export class TextToolService {
                 name: ObjectNames.text.name,
                 lockScalingX: false,
                 lockScalingY: false,
+                lockUniScaling: false,
             });
             let objects = this.objects.getAll();
             objects.map(object => {

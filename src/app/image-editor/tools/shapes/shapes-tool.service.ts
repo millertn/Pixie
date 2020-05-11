@@ -7,6 +7,7 @@ import {Settings} from '@common/core/config/settings.service';
 import {Object as FObject} from 'fabric/fabric-impl';
 import {ObjectNames} from '../../objects/object-names.enum';
 import { CanvasStateService } from 'app/image-editor/canvas/canvas-state.service';
+import { ObjectListService } from 'app/image-editor/objects/object-list.service';
 
 @Injectable()
 export class ShapesToolService {
@@ -14,6 +15,7 @@ export class ShapesToolService {
         private canvas: CanvasService,
         private config: Settings,
         private state: CanvasStateService,
+        private objects: ObjectListService,
     ) {}
 
     public getShapeByName(name: string): BasicShape|null {
@@ -42,6 +44,8 @@ export class ShapesToolService {
             options.width = size;
             options.height = size;
         }
+
+        // options.stroke = '#000';
 
         let fabricShape: FObject;
 
@@ -97,7 +101,7 @@ export class ShapesToolService {
         sticker.setCoords();
         this.canvas.render();
 
-        // this.canvas.addObjectToTracked(sticker.data.id);
+        this.canvas.addObjectToTracked(sticker.data.id);
     }
 
     public getStickerUrl(category: StickerCategory, stickerName: number|string): string {

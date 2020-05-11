@@ -114,6 +114,7 @@ export class CanvasService {
 
                 const object = new fabric.Image(image);
                 object.name = name;
+                object.lockUniScaling = false;
 
                 // use either main image or canvas dimensions as outer boundaries for scaling new image
                 if (this.state.activePane != "") {
@@ -230,6 +231,7 @@ export class CanvasService {
 
                 const object = new fabric.Image(returnImage);
                 object.name = quadrant.name +" - "+ (index + 1);
+                object.lockUniScaling = false;
 
                 if ((object.width >= quadrant.width || object.height >= quadrant.height)) {
                     // calc new image dimensions (main image height and width)

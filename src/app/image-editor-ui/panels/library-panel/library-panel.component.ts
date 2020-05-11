@@ -39,7 +39,7 @@ export class LibraryPanelComponent {
         private http: HttpClient,
         private textTool: TextToolService
     ) {
-        this.state.library = this.canvas.loadLibrary();
+        // this.state.library = this.canvas.loadLibrary();
         this.state.library.map (object => {
             this.library.push(object);
         });

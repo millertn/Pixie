@@ -3,6 +3,7 @@ import {ActiveObjectService} from '../../../image-editor/canvas/active-object/ac
 import { CanvasStateService } from 'app/image-editor/canvas/canvas-state.service';
 import { EditorControlsService } from '../editor-controls.service';
 import { ImageEditorService } from 'app/image-editor/image-editor.service';
+import { ObjectListService } from 'app/image-editor/objects/object-list.service';
 
 @Component({
     selector: 'color-controls-drawer',
@@ -19,15 +20,18 @@ export class ColorControlsDrawerComponent {
         public state: CanvasStateService,
         public editor: EditorControlsService,
         public imageEditor: ImageEditorService,
+        public objects: ObjectListService
         ) {
             this.state.canvasObjects.map(object => {
                 if(object.id == this.activeObject.getId()) {
                     this.currentObjectInfo = object;
                 }
             });
+            console.log(this.objects.getById(this.activeObject.getId()));
         }
 
         public removeEffect() {
+            // if ()
             this.activeObject.setValues({
                 backgroundColor:'rgba(0,0,0,0)'
             });

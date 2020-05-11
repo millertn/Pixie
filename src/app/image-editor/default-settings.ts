@@ -275,7 +275,7 @@ export const DEFAULT_CONFIG: PixieConfig  = {
             cornerStrokeColor: '#fff',
             cornerSize: 16,
             strokeWidth: 0.05,
-            lockUniScaling: true,
+            lockUniScaling: false,
             ...defaultObjectProps,
         },
         text: {
