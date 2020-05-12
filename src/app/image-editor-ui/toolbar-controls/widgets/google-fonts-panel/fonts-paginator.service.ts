@@ -72,13 +72,28 @@ export class FontsPaginatorService {
     }
 
     public filter(category: keyof FontCategories, query?: string) {
+        console.log(category);
+        console.log(query);
         const filtered = [];
         this.original.forEach(font => {
-            const matchesQuery = !query || font.family.toLowerCase().includes(query.toLowerCase()),
-                matchesCategory = font.category.toLowerCase() === (category as string).toLowerCase();
-            if (matchesCategory && matchesQuery) {
-                filtered.push(font);
+            if (!query) {
+                const matchesCategory = font.category.toLowerCase() === (category as string).toLowerCase();
+                if (matchesCategory) {
+                    filtered.push(font);
+                }
+            } else {
+                const matchesQuery = font.family.toLowerCase().includes(query.toLowerCase())
+                if (matchesQuery) {
+                    filtered.push(font);
+                }
             }
+            // const matchesQuery = font.family.toLowerCase().includes(query.toLowerCase()),
+                
+            // if (!query && matchesCategory) {
+            //     filtered.push(font);
+            // } else if (matchesQuery) {
+            //     filtered.push(font);
+            // }
         });
 
         this.filtered = this.chunkFonts(filtered);

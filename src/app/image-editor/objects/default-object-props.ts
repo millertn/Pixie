@@ -2,7 +2,7 @@ export const defaultObjectProps = {
     fill: 'transparent',
     opacity: 1,
     backgroundColor: null,
-    strokeWidth: 0.1,
+    strokeWidth: 1,
     stroke: '#000',
     shadow: {
         color: '#000',

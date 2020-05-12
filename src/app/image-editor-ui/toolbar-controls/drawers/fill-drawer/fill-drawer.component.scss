@@ -1,0 +1,27 @@
+fill-drawer {
+  display: block;
+
+  .remove-effect {
+    font-size: 10px !important;
+    border: 0;
+    border-radius: .25em;
+    background: initial;
+    background-color: #bd1e2c;
+    color: #fff;
+    // font-size: 1.0625em;
+    margin: .3125em;
+    margin-right: 25px !important;
+    padding: .625em 2em;
+    box-shadow: none;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #a9101d;
+    }
+  }
+
+  color-widget {
+    margin: 0 auto;
+  }
+}

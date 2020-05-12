@@ -26,6 +26,7 @@ import {ShadowControlsDrawer} from './shadow-controls-drawer/shadow-controls-dra
 import {NavigationBarComponent} from './navigation-bar/navigation-bar.component';
 import {ToolbarComponent} from './toolbar/toolbar.component';
 import {ColorControlsDrawerComponent} from './color-controls-drawer/color-controls-drawer.component';
+import {FillDrawerComponent} from './drawers/fill-drawer/fill-drawer.component';
 import {TextureControlsDrawerComponent} from './drawers/texture-controls-drawer/texture-controls-drawer.component';
 import {OutlineControlsDrawerComponent} from './outline-controls-drawer/outline-controls-drawer.component';
 import {GradientControlsDrawerComponent} from './drawers/gradient-controls-drawer/gradient-controls-drawer.component';
@@ -105,6 +106,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         NavigationBarComponent,
         ToolbarComponent,
         ColorControlsDrawerComponent,
+        FillDrawerComponent,
         OutlineControlsDrawerComponent,
         TextureControlsDrawerComponent,
         GradientControlsDrawerComponent,

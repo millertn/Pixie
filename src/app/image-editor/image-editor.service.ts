@@ -634,6 +634,9 @@ export class ImageEditorService {
                             break;
                         case 'gradient':
                             object.gradient = action;
+                            break; 
+                        case 'fill':
+                            object.fill = action;
                             break;      
                     }
                 }

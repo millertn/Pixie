@@ -107,11 +107,6 @@ export class ToolbarComponent implements AfterViewInit {
 
     public applyChanges() {
         const panel = this.store.selectSnapshot(EditorState.activePanel);
-        // this.state.canvasObjects.map(object => {
-        //     if (object.id == this.activeObject.getId()) {
-        //         object.shadow = true;
-        //     }
-        // });
         this.store.dispatch(new ApplyChanges(panel));
     }
 

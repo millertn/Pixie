@@ -27,6 +27,12 @@
             <div class="bottom-label" trans>Background</div>
             <div class="bottom-label appliedBottomText" [class.hidden]="currentObjectInfo.background != true" trans>Applied</div>
         </div>
+
+        <div class="button-with-image" [class.active]="currentObjectInfo.fill == true" (click)="openPanel('fill')" >
+            <mat-icon svgIcon="background-custom"></mat-icon>
+            <div class="bottom-label" trans>Fill</div>
+            <div class="bottom-label appliedBottomText" [class.hidden]="currentObjectInfo.fill != true" trans>Applied</div>
+        </div>
     </ng-container>
 
     <div class="button-with-image" [class.active]="currentObjectInfo.texture == true" (click)="openPanel('texture')" *ngIf="activeObjIsText$ | async">
@@ -62,4 +68,5 @@
     <texture-controls-drawer class="content" *ngSwitchCase="'texture'"></texture-controls-drawer>
     <gradient-controls-drawer class="content" *ngSwitchCase="'gradient'"></gradient-controls-drawer>
     <opacity-controls-drawer class="content" *ngSwitchCase="'opacity'"></opacity-controls-drawer>
+    <fill-drawer class="content" *ngSwitchCase="'fill'"></fill-drawer>
 </ng-container>

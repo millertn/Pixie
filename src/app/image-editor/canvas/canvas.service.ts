@@ -195,7 +195,7 @@ export class CanvasService {
     }
 
     public loadLibrary() {
-        let url = "https://theaamgroup.com/image-editor/getLibrary?userId=" + this.state.userId;
+        let url = "https://theaamgroup.com/marketing-studio/getLibrary?userId=" + this.state.userId;
         let temp = [];
         this.http.get(url, {
             headers: {'Access-Control-Allow-Origin': "*"}
@@ -210,7 +210,7 @@ export class CanvasService {
     }
 
     public loadPages() {
-        let url = "https://theaamgroup.com/image-editor/getGroupProjects?userId=" + this.state.userId + "&projectId=" + this.state.groupId;
+        let url = "https://theaamgroup.com/marketing-studio/getGroupProjects?userId=" + this.state.userId + "&projectId=" + this.state.groupId;
         let temp = [];
         this.http.get(url, {
             headers: {'Access-Control-Allow-Origin': "*"}
@@ -265,7 +265,8 @@ export class CanvasService {
             background:false,
             opacity:false,
             texture:false,
-            gradient:false
+            gradient:false,
+            fill:false,
         });
     }
 }

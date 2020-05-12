@@ -1,0 +1,4 @@
+<color-widget [formControl]="activeObject.form.get('fill')">
+    <ng-content></ng-content>
+</color-widget>
+<button class="remove-effect" [class.hidden]="currentObjectInfo.fill == false" (click)='removeEffect()'> Remove Effect</button>
